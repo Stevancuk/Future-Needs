@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Future Needs</title>
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
+	<link rel="stylesheet" href="css/cssVer1.css">
+</head>
+<body>
+	<div id="fn_wrapper">
+		<h4> Starting inputs ... </h4>
+
+		<form id="starting_form">
+			<fieldset>
+				<legend>Personalia:</legend>
+				Date of birth: <input id="birth" type="date" value="1982-12-14"><br>
+			</fieldset>
+
+			<fieldset>
+				<legend>Income - Employment</legend>
+				<label> What is the client’s current net (post-tax) income from employment? </label>
+				<input id="income" type="number" min="0" step="100" value="70000">
+				<label> What is the expected avg. increase per year? </label>
+				<input id="income_increase" type="number" min="0" max="100" value="4">
+				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
+				<select id="income_lump_number">
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="No"> No </option>
+				</select>
+				<label>Change #1 sum: </label>
+				<input id="income_lump_sum1" type="text" step="100" value="20000">
+				<label>Change #1 date: </label>
+				<input id="income_lump_date1" type="date" value="2020-01-01"><br>
+
+				<!-- <label>Change #2 sum: </label>
+				<input id="income_lump_sum2" type="text" step="100" value="20000">
+				<label>Change #2 date: </label>
+				<input id="income_lump_date2" type="date" value="2022-50-06"><br>
+
+				<label>Change #3 sum: </label>
+				<input id="income_lump_sum3" type="text" step="100" value="20000">
+				<label>Change #3 date: </label>
+				<input id="income_lump_date3" type="date" value="2022-50-06"><br> -->
+
+				<label>At what age- shoud we assume client will retire? </label>
+				<input id="retire_date" type="date" value="2043-01-01"><br>
+			</fieldset>
+
+			<fieldset>
+				<legend>Income - Self Employment</legend>
+				<label>What is the client’s current net (post-tax) income from self-employment? </label>
+				<input id="selfEmployIncome" type="number" min="0" step="100" value="6000">
+				<label>What is the expected average increase per year?</label>
+				<input id="selfEmployIncome_increase" type="number" min="0" max="100" value="4">
+				<label>Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
+				<select id="selfEmployIncome_lump_number">
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="No"> No </option>
+				</select>
+
+				<label>Change #1 sum: </label>
+				<input id="selfEmployIncome_lump_sum1" type="text" step="100" value="-6000">
+				<label>Change #1 date: </label>
+				<input id="selfEmployIncome_lump_date1" type="date" value="2020-50-06"><br>
+
+				<label>At what age- shoud we assume client will retire? </label>
+				<input id="retire_self_date" type="date" value="2043-01-01"><br>
+			</fieldset>
+
+			<fieldset>
+				<legend>Spousal Maintenance/Alimony</legend>
+				<label>What will client receive at the outset from Spousal Maintenance or Alimony?</label>
+
+				<!-- ##################
+				### LUMP SUMS OR ?
+				################## -->
+
+
+
+			</fieldset>
+
+			<fieldset>
+				<legend>Child Support</legend>
+
+				<!-- ##################
+				### LUMP SUMS OR ?
+				################## -->
+
+			</fieldset>
+
+			<fieldset>
+				<legend>Non-retirement financial assets</legend>
+
+				<label>What is the total value of the client’s non-retirement financial assets (i.e.: bank, brokerage, etc.)</label>
+				<input id="nonRetireFinanAssets_sum" type="number" min="0" step="100" value="6000">
+				<label>What is the average projected appreciation of these non-retirement financial assets?</label>
+				<input id="nonRetireFinanAssets_perc" type="number" min="0" max="100" value="5">
+				<label>What net income (post-tax), if any, will the client expect from their non-retirement assets, which will not be reinvested? </label>
+				<label></label>
+				<label></label>
+				<label></label>
+
+			</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="clear"></div>
+			<input id="submit" type="submit" value="Submit">
+		</form>
+
+		
+
+
+
+
+
+
+
+	</div>
+    
+
+
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+<script src="js/jsVer1.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+input, select {
+	display: block;
+	margin-bottom: 10px;
+}
+fieldset {
+	width: 500px;
+	float: left;
+}
+
+
+.clear {
+	clear: both;
+}
+
+#starting_form {
+	width: 90%;
+	margin: 0 auto;
+	padding: 10px;
+	background-color: #e3e3e3;
+}
+#submit {
+	margin-top: 20px;
+}
