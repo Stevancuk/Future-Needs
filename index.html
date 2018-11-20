@@ -102,10 +102,82 @@
 				<label>What is the average projected appreciation of these non-retirement financial assets?</label>
 				<input id="nonRetireFinanAssets_perc" type="number" min="0" max="100" value="5">
 				<label>What net income (post-tax), if any, will the client expect from their non-retirement assets, which will not be reinvested? </label>
-				<label></label>
-				<label></label>
-				<label></label>
+				<input id="netIncome_sum" type="number" min="0" max="100" value="5">
+				<label>Should we assume this income will appreciate proportionately with the asset, or another percentage? </label>
+				<select id="nonRetire_netIncome_yesNo">
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+				<label>By which percentage will it increase (if at all)?</label>
+				<input id="nonRetire_netIncome_perc" type="number" min="0" max="100" value="5">
+			</fieldset>
 
+			<fieldset>
+				<legend>NON-FINANCIAL ASSETS</legend>
+
+				<label>What is the total value of the client’s non-financial assets? (i.e.: real estate, mineral interests, etc.)</label>
+				<input id="nonFinanAssets_sum" type="number" min="0" step="100" value="6000">
+				<label>What is the average expected increase per year in value?</label>
+				<input id="nonFinanAssets_perc" type="number" min="0" max="100" value="5">
+				<label>What is the client’s expected monthly income from these assets?  </label>
+				<input id="nonFinanIncome_sum" type="number" min="0" value="1000">
+				<label>Should we assume this income will increase proportionately to the asset or do you wish to enter a figure?  </label>
+				<select id="nonFinanIncome_netIncome_yesNo">
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+				<label>By what average percentage with this income increase per year? </label>
+				<input id="nonFinanIncome_netIncome_perc" type="number" min="0" max="100" value="5">
+			</fieldset>
+
+			<fieldset>
+				<legend>SOCIAL SECURITY</legend>
+
+				<label>What is the amount the client expects from Social Security?</label>
+				<input id="socialSecurity_sum" type="number" min="0" step="100" value="6000">
+				<label>On what date will the client begin drawing Social Security? </label>
+				<input id="socialSecurity_startDate" type="date" >
+				<label>Do you want to include an average cost of living increase for SS?</label>
+				<input id="socialSecurity_costOfLivingIncrease" type="number" min="0" value="3000">
+			</fieldset>
+
+			<fieldset>
+				<legend>PENSION</legend>
+
+				<label>Does the client expect a stream of income from a pension, annuity or other such asset at any point in the future? </label>
+				<select id="pension1_yesNo">
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+				<label>When do they expect to begin receiving such benefits? </label>
+				<input id="pension1_startDate" type="date" >
+				<label>How much do they expect to receive in net after-tax dollars from such income stream?</label>
+				<input id="pension1_sum" type="number" min="0" value="3000">
+				<label>Will there be any cost of living increase in such benefits, and if so how much? </label>
+				<input id="pension1_CostOfLivingIncrease" type="number" min="0" value="1000">
+				<label>Will they receive any other stream of income at any point?</label>
+				<select id="pension2_yesNo">
+					<option value="No">No</option>
+					<option value="Yes">Yes</option>
+				</select>
+			</fieldset>
+
+			<fieldset>
+				<legend>Projected Expenses</legend>
+
+				<label>Projected Expenses</label>
+
+			</fieldset>
+
+			<fieldset>
+				<legend>POST-TAX RETIREMENT</legend>
+
+				<label>What is the total value of the client’s post-tax (i.e.: Roth) retirement assets? </label>
+				<input id="postTax_sum" type="number" min="0" value="30000">
+				<label>What is the average expected increase per year in value prior to retirement (to include contribtutions)?</label>
+				<input id="postTax_preRetirement_perc" type="number" min="0" max="100" value="7">
+				<label>What is the average expected increase per year in value after retirement? </label>
+				<input id="postTax_postRetirement_perc" type="number" min="0" max="100" value="3">				
 			</fieldset>
 
 
