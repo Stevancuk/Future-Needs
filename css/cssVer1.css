@@ -21,3 +21,43 @@ fieldset {
 #submit {
 	margin-top: 20px;
 }
+#absResults {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-color: white;
+	border: 1px solid black;
+}
+
+
+/*Temp results*/
+.resYandM {
+	display: inline-block;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+.resYears {
+	display: block;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	padding-left: 3px;
+}
+.resMonths {
+	display: block;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	width: 45px;
+	overflow: hidden;
+	padding: 5px 0px;
+	padding-left: 3px;
+
+}
+.resBold {
+	display: block;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	width: 90px;
+	overflow: hidden;
+	padding: 5px 0px;
+	padding-left: 3px;
+}

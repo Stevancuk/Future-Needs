@@ -6,11 +6,13 @@
 	<title>Future Needs</title>
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
-	<link rel="stylesheet" href="css/cssVer1.css">
+	<link rel="stylesheet" href="css/cssVer2.css">
 </head>
 <body>
+	<div id="absResults"></div>
 	<div id="fn_wrapper">
 		<h4> Starting inputs ... </h4>
+		<button id="showHideTable"> Show/Hide Table</button>
 
 		<form id="starting_form">
 			<fieldset>
@@ -21,9 +23,9 @@
 			<fieldset>
 				<legend>Income - Employment</legend>
 				<label> What is the client’s current net (post-tax) income from employment? </label>
-				<input id="income" type="number" min="0" step="100" value="70000">
+				<input id="income" type="number" min="0" step="100" value="60000">
 				<label> What is the expected avg. increase per year? </label>
-				<input id="income_increase" type="number" min="0" max="100" value="4">
+				<input id="income_increase" type="number" min="0" max="100" value="5">
 				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="income_lump_number">
 					<option value="1"> 1 </option>
@@ -32,7 +34,7 @@
 					<option value="No"> No </option>
 				</select>
 				<label>Change #1 sum: </label>
-				<input id="income_lump_sum1" type="text" step="100" value="20000">
+				<input id="income_lump_sum1" type="number" step="100" value="12000">
 				<label>Change #1 date: </label>
 				<input id="income_lump_date1" type="date" value="2020-01-01"><br>
 
@@ -47,7 +49,7 @@
 				<input id="income_lump_date3" type="date" value="2022-50-06"><br> -->
 
 				<label>At what age- shoud we assume client will retire? </label>
-				<input id="retire_date" type="date" value="2043-01-01"><br>
+				<input id="retire_date" type="date" value="2026-01-01"><br>
 			</fieldset>
 
 			<fieldset>
@@ -65,9 +67,9 @@
 				</select>
 
 				<label>Change #1 sum: </label>
-				<input id="selfEmployIncome_lump_sum1" type="text" step="100" value="-6000">
+				<input id="selfEmployIncome_lump_sum1" type="number" step="100" value="-6000">
 				<label>Change #1 date: </label>
-				<input id="selfEmployIncome_lump_date1" type="date" value="2020-50-06"><br>
+				<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06"><br>
 
 				<label>At what age- shoud we assume client will retire? </label>
 				<input id="retire_self_date" type="date" value="2043-01-01"><br>
@@ -217,6 +219,6 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
   <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-<script src="js/jsVer1.js"></script>
+<script src="js/jsVer2.js"></script>
 </body>
 </html>
