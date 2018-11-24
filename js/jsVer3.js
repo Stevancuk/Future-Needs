@@ -76,6 +76,27 @@ function calcSelfEmploy() {
   currentSelfEmployment = allResults[currentYear][currentMonth]['selfEmployment'];
 }
 
+//#####################
+//##### Expenses ######
+//#####################
+let currentExpenses;
+function calcExpenses() {
+  //for first year and first month take the user input
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    allResults[currentYear][currentMonth]['expenses'] = userInputs['expenses_sum'];
+  }else{
+    allResults[currentYear][currentMonth]['expenses'] = currentExpenses * ( 1 + userInputs['expenses_perc'] / 12 / 100 );
+  }
+  //add LUMP SUM(s)
+  if(userInputs['expensesLump1Year'] == currentYear && userInputs['expensesLump1Month'] == currentMonth) {
+    allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum1'];
+  }
+
+  currentExpenses = allResults[currentYear][currentMonth]['expenses'];
+}
+
+
+
 
 
 
@@ -93,10 +114,12 @@ function drawResultsTable() {
 
   htmlForOutput += `<div class="resYandM">`;
     htmlForOutput += `<div class="resYears"> Results  </div>`;   
+    htmlForOutput += `<div class="resYears"> Months  </div>`;   
     htmlForOutput += `<div class="resYears">`;   
       htmlForOutput += `<div class="resYandM">`;    
         htmlForOutput += `<div class="resBold"> Employmnet  </div> `;    
         htmlForOutput += `<div class="resBold"> Self Employ </div>`;    
+        htmlForOutput += `<div class="resBold"> Expenses </div>`;    
       htmlForOutput += `</div>`;
     htmlForOutput += `</div>`;
   htmlForOutput += `</div>`;
@@ -111,6 +134,7 @@ function drawResultsTable() {
             htmlForOutput += `<div class="resMonths"> ${monthNames[index2]}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.employment.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.selfEmployment.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
           htmlForOutput += `</div>`;
         });
         htmlForOutput += `</div>`;
@@ -141,6 +165,12 @@ function calculateMain() {
       allResults[currentYear][currentMonth] = {};
       calcEmployment();
       calcSelfEmploy();
+
+      calcExpenses();
+
+
+
+
 
 
 
@@ -191,9 +221,18 @@ function readAllUserInputs() {
   userInputs['selfRetirementMonth'] = retire_self_date.getMonth();
 
   //self employ lump sums
-  let selfIncomeLump1Year = new Date(userInputs['selfEmployIncome_lump_date1']);
-  userInputs['selfIncomeLump1Year'] = selfIncomeLump1Year.getFullYear();
-  userInputs['selfIncomeLump1Month'] = selfIncomeLump1Year.getMonth();
+  let selfIncomeLump1Date = new Date(userInputs['selfEmployIncome_lump_date1']);
+  userInputs['selfIncomeLump1Year'] = selfIncomeLump1Date.getFullYear();
+  userInputs['selfIncomeLump1Month'] = selfIncomeLump1Date.getMonth();
+
+  //expenses lump sums
+  let expensesLump1Date = new Date(userInputs['expenses_changeDate1']);
+  userInputs['expensesLump1Year'] = expensesLump1Date.getFullYear();
+  userInputs['expensesLump1Month'] = expensesLump1Date.getMonth();
+
+
+
+
   console.log(userInputs);
 }
 

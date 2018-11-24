@@ -6,7 +6,7 @@
 	<title>Future Needs</title>
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
-	<link rel="stylesheet" href="css/cssVer2.css">
+	<link rel="stylesheet" href="css/cssVer3.css">
 </head>
 <body>
 	<div id="absResults"></div>
@@ -17,7 +17,7 @@
 		<form id="starting_form">
 			<fieldset>
 				<legend>Personalia:</legend>
-				Date of birth: <input id="birth" type="date" value="1982-12-14"><br>
+				Date of birth: <input id="birth" type="date" value="1982-12-14">
 			</fieldset>
 
 			<fieldset>
@@ -36,20 +36,20 @@
 				<label>Change #1 sum: </label>
 				<input id="income_lump_sum1" type="number" step="100" value="12000">
 				<label>Change #1 date: </label>
-				<input id="income_lump_date1" type="date" value="2020-01-01"><br>
+				<input id="income_lump_date1" type="date" value="2020-01-01">
 
 				<!-- <label>Change #2 sum: </label>
 				<input id="income_lump_sum2" type="text" step="100" value="20000">
 				<label>Change #2 date: </label>
-				<input id="income_lump_date2" type="date" value="2022-50-06"><br>
+				<input id="income_lump_date2" type="date" value="2022-50-06">
 
 				<label>Change #3 sum: </label>
 				<input id="income_lump_sum3" type="text" step="100" value="20000">
 				<label>Change #3 date: </label>
-				<input id="income_lump_date3" type="date" value="2022-50-06"><br> -->
+				<input id="income_lump_date3" type="date" value="2022-50-06"> -->
 
 				<label>At what age- shoud we assume client will retire? </label>
-				<input id="retire_date" type="date" value="2026-01-01"><br>
+				<input id="retire_date" type="date" value="2026-01-01">
 			</fieldset>
 
 			<fieldset>
@@ -69,15 +69,28 @@
 				<label>Change #1 sum: </label>
 				<input id="selfEmployIncome_lump_sum1" type="number" step="100" value="-6000">
 				<label>Change #1 date: </label>
-				<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06"><br>
+				<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06">
 
 				<label>At what age- shoud we assume client will retire? </label>
-				<input id="retire_self_date" type="date" value="2043-01-01"><br>
+				<input id="retire_self_date" type="date" value="2043-01-01">
 			</fieldset>
 
 			<fieldset>
 				<legend>Spousal Maintenance/Alimony</legend>
 				<label>What will client receive at the outset from Spousal Maintenance or Alimony?</label>
+				<input id="alimony" type="number" min="0" step="100" value="1000">
+				<label>At what tax rate can the client reasonably expect to be taxed on Spousal Maintenance Alimony?</label>
+				<input id="alimony_taxPerc" type="number" min="0" max="100" value="4">
+				<label>On how many occasions will this number change (including termation/end)?</label>
+				<select id="alimony_timesChange">
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="0"> 0 </option>
+				</select>
+				<label>Change #1</label>
+				<input id="alimony_changeDate1" type="date" value="2026-01-01">
+				<input id="alimony_changeSum1" type="number" step="100" value="1000">
 
 				<!-- ##################
 				### LUMP SUMS OR ?
@@ -89,6 +102,18 @@
 
 			<fieldset>
 				<legend>Child Support</legend>
+				<label>What will client receive at the outset from Child Support?</label>
+				<input id="childSupp_value" type="number" min="0" step="100" value="1000">
+				<label>On how many occasions will this number change (including termination/end)?</label>
+				<select id="childSupp_timesChange">
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="0"> 0 </option>
+				</select>
+				<label>Change #1</label>
+				<input id="childSupp_changeDate1" type="date" value="2026-01-01">
+				<input id="childSupp_changeSum1" type="number" step="100" value="1000">
 
 				<!-- ##################
 				### LUMP SUMS OR ?
@@ -167,7 +192,22 @@
 			<fieldset>
 				<legend>Projected Expenses</legend>
 
-				<label>Projected Expenses</label>
+				<label>What is the total amount of client’s total monthly expenses?</label>
+				<input id="expenses_sum" type="number" min="0" value="2000">
+				<label>What is the expected average increase in these expenses per year (not to include lump sum increases/decreases)?</label>
+				<input id="expenses_perc" type="number" min="0" max="100" value="3">
+				<label>How many lump sum increases or decreases should we expect? This would include a child leaving the home, the payoff of a mortgage, or other one-time events.</label>
+				<select id="expenses_timesChange">
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+					<option value="5"> 5 </option>
+					<option value="0"> 0 </option>
+				</select>
+				<label>Change #1</label>
+				<input id="expenses_changeDate1" type="date" value="2019-03-01">
+				<input id="expenses_changeSum1" type="number" step="100" value="-300">
 
 			</fieldset>
 
@@ -177,9 +217,22 @@
 				<label>What is the total value of the client’s post-tax (i.e.: Roth) retirement assets? </label>
 				<input id="postTax_sum" type="number" min="0" value="30000">
 				<label>What is the average expected increase per year in value prior to retirement (to include contribtutions)?</label>
-				<input id="postTax_preRetirement_perc" type="number" min="0" max="100" value="7">
+				<input id="postTax_beforeRetirement_perc" type="number" min="0" max="100" value="7">
 				<label>What is the average expected increase per year in value after retirement? </label>
-				<input id="postTax_postRetirement_perc" type="number" min="0" max="100" value="3">				
+				<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="3">				
+			</fieldset>
+
+			<fieldset>
+				<legend>PRE-TAX RETIREMENT</legend>
+
+				<label>What is the total value of the client’s pre-tax (i.e. 401(k), Traditional IRA, etc.) retirement assets? </label>
+				<input id="preTax_sum" type="number" min="0" value="50000">
+				<label>What is the average expected increase per year in value prior to retirement (to include contribtutions)? </label>
+				<input id="preTax_beforeRetirement_perc" type="number" min="0" max="100" value="6">
+				<label>What is the average expected increase per year in value after retirement? </label>
+				<input id="preTax_afterRetirement_perc" type="number" min="0" max="100" value="2">	
+				<label>What % of withdrawals should we assume will go to income tax (usually estimated effective tax rate at retirement)? </label>
+				<input id="preTax_withdrawal_perc" type="number" min="0" max="100" value="3">				
 			</fieldset>
 
 
@@ -219,6 +272,6 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
   <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-<script src="js/jsVer2.js"></script>
+<script src="js/jsVer3.js"></script>
 </body>
 </html>
