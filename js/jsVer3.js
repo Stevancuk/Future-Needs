@@ -76,6 +76,146 @@ function calcSelfEmploy() {
   currentSelfEmployment = allResults[currentYear][currentMonth]['selfEmployment'];
 }
 
+//########################################
+//##### Spousal Maintenance/Alimony ######
+//########################################
+let currentSpousalMaintenance;
+function calcSpousalMaintenance() {
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    allResults[currentYear][currentMonth]['spousalMaintenance'] = userInputs['alimony'];
+  }else{
+    allResults[currentYear][currentMonth]['spousalMaintenance'] = currentSpousalMaintenance;
+  }
+  //NO TAXES FOR NOW
+
+  //Lump Sums
+  if (userInputs['alimony_timesChange'] != 0) {
+    if (userInputs['spousalMaintenanceLump1Year'] == currentYear && userInputs['spousalMaintenanceLump1Month'] == currentMonth) {
+      allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum1'];
+    }
+  }
+  currentSpousalMaintenance = allResults[currentYear][currentMonth]['spousalMaintenance'];
+}
+
+//##########################
+//##### Child Support ######
+//##########################
+let currentChildSupport;
+function calcChildSupport() {
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    allResults[currentYear][currentMonth]['childSupport'] = userInputs['childSupp_value'];
+  }else{
+    allResults[currentYear][currentMonth]['childSupport'] = currentChildSupport;
+  }
+
+  //Lump Sums
+  if (userInputs['childSupp_timesChange'] != 0) {
+    if (userInputs['childSupportLump1Year'] == currentYear && userInputs['childSupportLump1Month'] == currentMonth) {
+      allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum1'];
+    }
+  }
+  currentChildSupport = allResults[currentYear][currentMonth]['childSupport'];
+}
+
+//############################################
+//##### Non-retirement financial assets ######
+//############################################
+
+let currentNonRetireAssetsValue, currentNonRetireAssetsMonthly;
+function calcNonRetireAssets() {
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    //Value of the Asset
+    allResults[currentYear][currentMonth]['nonRetireAssetsValue'] = userInputs['nonRetireFinanAssets_sum'];
+    // Monthly income
+    allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] = userInputs['netIncome_sum'];
+  }else{
+    //Value increase/decrease monthly
+    allResults[currentYear][currentMonth]['nonRetireAssetsValue'] = currentNonRetireAssetsValue * ( 1 + userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
+    // if Monthly income increase/decrease same as Value of the Asset
+    if ( userInputs['nonRetire_netIncome_yesNo'] == 'Yes') {
+      allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] = currentNonRetireAssetsMonthly * ( 1 + userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
+    }else{
+      allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] = currentNonRetireAssetsMonthly * ( 1 + userInputs['nonRetire_netIncome_perc'] / 100 / 12 );
+    }      
+  }
+  currentNonRetireAssetsValue = allResults[currentYear][currentMonth]['nonRetireAssetsValue']
+  currentNonRetireAssetsMonthly = allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'];
+}
+
+//#################################
+//##### NON-FINANCIAL ASSETS ######
+//#################################
+
+let currentNonFinanAssetsValue, currentNonFinanAssetsMonthly;
+function calcNonFinanAssets() {
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    //Value of the Asset
+    allResults[currentYear][currentMonth]['nonFinanAssetsValue'] = userInputs['nonFinanAssets_sum'];
+    // Monthly income
+    allResults[currentYear][currentMonth]['nonFinanAssetsMonthly'] = userInputs['nonFinanIncome_sum'];
+  }else{
+    //Value increase/decrease monthly
+    allResults[currentYear][currentMonth]['nonFinanAssetsValue'] = currentNonFinanAssetsValue * ( 1 + userInputs['nonFinanAssets_perc'] / 100 / 12 );
+
+    // if Monthly income increase/decrease same as Value of the Asset
+    if ( userInputs['nonFinanIncome_netIncome_yesNo'] == 'Yes') {
+      allResults[currentYear][currentMonth]['nonFinanAssetsMonthly'] = currentNonFinanAssetsMonthly * ( 1 + userInputs['nonFinanAssets_perc'] / 100 / 12 );
+    }else{
+      allResults[currentYear][currentMonth]['nonFinanAssetsMonthly'] = currentNonFinanAssetsMonthly * ( 1 + userInputs['nonFinanIncome_netIncome_perc'] / 100 / 12 );
+    }
+  }
+
+  currentNonFinanAssetsValue = allResults[currentYear][currentMonth]['nonFinanAssetsValue']
+  currentNonFinanAssetsMonthly = allResults[currentYear][currentMonth]['nonFinanAssetsMonthly'];
+}
+
+//############################
+//##### SOCIAL SECURITY ######
+//############################
+
+let currentSocialSecurity;
+function calcSocialSecurity() {
+  //Make a default value of 0 for starting month
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    allResults[currentYear][currentMonth]['socialSecurity'] = 0;
+    currentSocialSecurity = allResults[currentYear][currentMonth]['socialSecurity'];
+  }
+  //At the user input date assign a value from user input
+  if (currentYear == userInputs['socialSecStartingYear'] && currentMonth == userInputs['socialSecStartingMonth']) {
+    allResults[currentYear][currentMonth]['socialSecurity'] = userInputs['socialSecurity_sum'];
+  //Add or don't add percentage
+  }else if( userInputs['socialSecurity_increasePerc_yesNo'] == 'Yes'){
+    allResults[currentYear][currentMonth]['socialSecurity'] = currentSocialSecurity * (1 + userInputs['socialSecurity_costOfLivingIncrease_perc'] / 12 / 100);
+  }else{
+    allResults[currentYear][currentMonth]['socialSecurity'] = currentSocialSecurity;
+  }
+  currentSocialSecurity = allResults[currentYear][currentMonth]['socialSecurity'];
+}
+
+//####################
+//##### PENSION ######
+//####################
+
+let currentPension;
+function calcPension() {
+  if ( userInputs['pension1_yesNo'] == 'Yes' ) {
+    //Make a default value of 0 for starting month
+    if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+      allResults[currentYear][currentMonth]['pension'] = 0;
+      currentPension = allResults[currentYear][currentMonth]['pension'];
+    }
+    //At the user input date assign a value from user input
+    if (currentYear == userInputs['pensionStartingYear'] && currentMonth == userInputs['pensionStartingMonth']) {
+      allResults[currentYear][currentMonth]['pension'] = userInputs['pension1_sum'];
+    }else{
+      allResults[currentYear][currentMonth]['pension'] = currentPension * (1 + userInputs['pension1_CostOfLivingIncrease'] / 12 / 100);
+    }
+  }else{
+    allResults[currentYear][currentMonth]['pension'] = 0;    
+  }
+  currentPension = allResults[currentYear][currentMonth]['pension'];
+}
+
 //#####################
 //##### Expenses ######
 //#####################
@@ -101,14 +241,6 @@ function calcExpenses() {
 
 
 
-
-
-
-
-
-
-
-
 function drawResultsTable() {
   let htmlForOutput = `<div id="resultsWrapper">`;
 
@@ -119,6 +251,14 @@ function drawResultsTable() {
       htmlForOutput += `<div class="resYandM">`;    
         htmlForOutput += `<div class="resBold"> Employmnet  </div> `;    
         htmlForOutput += `<div class="resBold"> Self Employ </div>`;    
+        htmlForOutput += `<div class="resBold"> Alimony </div>`;    
+        htmlForOutput += `<div class="resBold"> Child Supp </div>`;    
+        htmlForOutput += `<div class="resBold"> Fin-Ass Val </div>`;    
+        htmlForOutput += `<div class="resBold"> Fin-Ass Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Non-Fin-Ass Val </div>`;    
+        htmlForOutput += `<div class="resBold"> Non-Fin Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Soc. Security </div>`;    
+        htmlForOutput += `<div class="resBold"> Pension </div>`;    
         htmlForOutput += `<div class="resBold"> Expenses </div>`;    
       htmlForOutput += `</div>`;
     htmlForOutput += `</div>`;
@@ -134,6 +274,14 @@ function drawResultsTable() {
             htmlForOutput += `<div class="resMonths"> ${monthNames[index2]}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.employment.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.selfEmployment.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.spousalMaintenance.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.childSupport.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsValue.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsValue.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.socialSecurity.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.pension.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
           htmlForOutput += `</div>`;
         });
@@ -157,14 +305,22 @@ function calculateMain() {
   for (var i = 0; i < 3; i++) {
     currentYear = userInputs['startingYear'] + i;
     allResults[currentYear] = {};
+    //For each month
     for (var j = 0; j < 12; j++) {
       currentMonth = j;
+      //For starting year
       if (i == 0) {
         currentMonth = j + userInputs['startingMonth'];
       }
       allResults[currentYear][currentMonth] = {};
       calcEmployment();
       calcSelfEmploy();
+      calcSpousalMaintenance();
+      calcChildSupport();
+      calcNonRetireAssets();
+      calcNonFinanAssets();
+      calcSocialSecurity();
+      calcPension();
 
       calcExpenses();
 
@@ -196,39 +352,60 @@ function readAllUserInputs() {
   $.each($('input[type="number"]'), function(index, value){
     userInputs[ $(this)[0]['id'] ] = parseFloat( $(this).val() );
   })  
-  $.each($('input:not([type="number"])'), function(index, value){
+  $.each($('input:not([type="number"]), select'), function(index, value){
     userInputs[ $(this)[0]['id'] ] = $(this).val();
-  })  
+  })   
 
+  //Current Date
   userInputs['startingDate'] = new Date();
   userInputs['startingYear'] = userInputs['startingDate'].getFullYear();
   userInputs['startingMonth'] = userInputs['startingDate'].getMonth();
   userInputs['startingDay'] = userInputs['startingDate'].getDate();
 
   //Income lump sums
-  let incomeLump1Year = new Date(userInputs['income_lump_date1']);
+  const incomeLump1Year = new Date(userInputs['income_lump_date1']);
   userInputs['incomeLump1Year'] = incomeLump1Year.getFullYear();
   userInputs['incomeLump1Month'] = incomeLump1Year.getMonth();
 
+  //self employ lump sums
+  const selfIncomeLump1Date = new Date(userInputs['selfEmployIncome_lump_date1']);
+  userInputs['selfIncomeLump1Year'] = selfIncomeLump1Date.getFullYear();
+  userInputs['selfIncomeLump1Month'] = selfIncomeLump1Date.getMonth();
+
+  //Spousal Maintenance/Alimony lump sums
+  const spousalMaintenanceLump1Date = new Date(userInputs['alimony_changeDate1']);
+  userInputs['spousalMaintenanceLump1Year'] = spousalMaintenanceLump1Date.getFullYear();
+  userInputs['spousalMaintenanceLump1Month'] = spousalMaintenanceLump1Date.getMonth();
+
+  //Child Support
+  const childSupportLump1Date = new Date(userInputs['childSupp_changeDate1']);
+  userInputs['childSupportLump1Year'] = childSupportLump1Date.getFullYear();
+  userInputs['childSupportLump1Month'] = childSupportLump1Date.getMonth();
+
   //retirement
-  let retire_date = new Date(userInputs['retire_date']);
+  const retire_date = new Date(userInputs['retire_date']);
   userInputs['retirementYear'] = retire_date.getFullYear();
   userInputs['retirementMonth'] = retire_date.getMonth();
 
   //self Retirement
-  let retire_self_date = new Date(userInputs['retire_self_date']);
+  const retire_self_date = new Date(userInputs['retire_self_date']);
   userInputs['selfRetirementYear'] = retire_self_date.getFullYear();
   userInputs['selfRetirementMonth'] = retire_self_date.getMonth();
 
-  //self employ lump sums
-  let selfIncomeLump1Date = new Date(userInputs['selfEmployIncome_lump_date1']);
-  userInputs['selfIncomeLump1Year'] = selfIncomeLump1Date.getFullYear();
-  userInputs['selfIncomeLump1Month'] = selfIncomeLump1Date.getMonth();
-
   //expenses lump sums
-  let expensesLump1Date = new Date(userInputs['expenses_changeDate1']);
+  const expensesLump1Date = new Date(userInputs['expenses_changeDate1']);
   userInputs['expensesLump1Year'] = expensesLump1Date.getFullYear();
   userInputs['expensesLump1Month'] = expensesLump1Date.getMonth();
+
+  //Social Security Starting Date
+  const socialSecStartingDate = new Date(userInputs['socialSecurity_startDate']);
+  userInputs['socialSecStartingYear'] = socialSecStartingDate.getFullYear();
+  userInputs['socialSecStartingMonth'] = socialSecStartingDate.getMonth();
+
+  //Pension Starting Date
+  const pensionStartingDate = new Date(userInputs['pension1_startDate']);
+  userInputs['pensionStartingYear'] = pensionStartingDate.getFullYear();
+  userInputs['pensionStartingMonth'] = pensionStartingDate.getMonth();
 
 
 
@@ -241,13 +418,13 @@ function readAllUserInputs() {
 // ### Click Handlers ###
 // ######################
 
-$('input').on("change", function(){
+$('input, select').on("change", function(){
   readAllUserInputs();
   calculateMain();
 })
 
 $('#showHideTable').on("click", function(){
-  $('#resultsWrapper').toggle("display");
+  $('#absResults').toggle("display");
 })
 
 

@@ -6,7 +6,7 @@
 	<title>Future Needs</title>
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
-	<link rel="stylesheet" href="css/cssVer3.css">
+	<link rel="stylesheet" href="css/cssVer4.css">
 </head>
 <body>
 	<div id="absResults"></div>
@@ -89,21 +89,14 @@
 					<option value="0"> 0 </option>
 				</select>
 				<label>Change #1</label>
-				<input id="alimony_changeDate1" type="date" value="2026-01-01">
+				<input id="alimony_changeDate1" type="date" value="2019-10-21">
 				<input id="alimony_changeSum1" type="number" step="100" value="1000">
-
-				<!-- ##################
-				### LUMP SUMS OR ?
-				################## -->
-
-
-
 			</fieldset>
 
 			<fieldset>
 				<legend>Child Support</legend>
 				<label>What will client receive at the outset from Child Support?</label>
-				<input id="childSupp_value" type="number" min="0" step="100" value="1000">
+				<input id="childSupp_value" type="number" min="0" step="100" value="500">
 				<label>On how many occasions will this number change (including termination/end)?</label>
 				<select id="childSupp_timesChange">
 					<option value="1"> 1 </option>
@@ -112,13 +105,8 @@
 					<option value="0"> 0 </option>
 				</select>
 				<label>Change #1</label>
-				<input id="childSupp_changeDate1" type="date" value="2026-01-01">
-				<input id="childSupp_changeSum1" type="number" step="100" value="1000">
-
-				<!-- ##################
-				### LUMP SUMS OR ?
-				################## -->
-
+				<input id="childSupp_changeDate1" type="date" value="2020-03-04">
+				<input id="childSupp_changeSum1" type="number" step="100" value="300">
 			</fieldset>
 
 			<fieldset>
@@ -129,21 +117,21 @@
 				<label>What is the average projected appreciation of these non-retirement financial assets?</label>
 				<input id="nonRetireFinanAssets_perc" type="number" min="0" max="100" value="5">
 				<label>What net income (post-tax), if any, will the client expect from their non-retirement assets, which will not be reinvested? </label>
-				<input id="netIncome_sum" type="number" min="0" max="100" value="5">
+				<input id="netIncome_sum" type="number" min="0" max="100" value="100">
 				<label>Should we assume this income will appreciate proportionately with the asset, or another percentage? </label>
 				<select id="nonRetire_netIncome_yesNo">
-					<option value="Yes">Yes</option>
 					<option value="No">No</option>
+					<option value="Yes">Yes</option>
 				</select>
 				<label>By which percentage will it increase (if at all)?</label>
-				<input id="nonRetire_netIncome_perc" type="number" min="0" max="100" value="5">
+				<input id="nonRetire_netIncome_perc" type="number" min="0" max="100" value="8">
 			</fieldset>
 
 			<fieldset>
 				<legend>NON-FINANCIAL ASSETS</legend>
 
 				<label>What is the total value of the client’s non-financial assets? (i.e.: real estate, mineral interests, etc.)</label>
-				<input id="nonFinanAssets_sum" type="number" min="0" step="100" value="6000">
+				<input id="nonFinanAssets_sum" type="number" min="0" step="100" value="20000">
 				<label>What is the average expected increase per year in value?</label>
 				<input id="nonFinanAssets_perc" type="number" min="0" max="100" value="5">
 				<label>What is the client’s expected monthly income from these assets?  </label>
@@ -154,7 +142,7 @@
 					<option value="No">No</option>
 				</select>
 				<label>By what average percentage with this income increase per year? </label>
-				<input id="nonFinanIncome_netIncome_perc" type="number" min="0" max="100" value="5">
+				<input id="nonFinanIncome_netIncome_perc" type="number" min="0" max="100" value="10">
 			</fieldset>
 
 			<fieldset>
@@ -163,9 +151,14 @@
 				<label>What is the amount the client expects from Social Security?</label>
 				<input id="socialSecurity_sum" type="number" min="0" step="100" value="6000">
 				<label>On what date will the client begin drawing Social Security? </label>
-				<input id="socialSecurity_startDate" type="date" >
+				<input id="socialSecurity_startDate" type="date" value="2019-10-04">
 				<label>Do you want to include an average cost of living increase for SS?</label>
-				<input id="socialSecurity_costOfLivingIncrease" type="number" min="0" value="3000">
+				<select id="socialSecurity_increasePerc_yesNo">
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+				<label>Expected percentage?</label>
+				<input id="socialSecurity_costOfLivingIncrease_perc" type="number" min="0" max="100" value="3">
 			</fieldset>
 
 			<fieldset>
@@ -177,11 +170,11 @@
 					<option value="No">No</option>
 				</select>
 				<label>When do they expect to begin receiving such benefits? </label>
-				<input id="pension1_startDate" type="date" >
+				<input id="pension1_startDate" type="date" value="2019-06-04" >
 				<label>How much do they expect to receive in net after-tax dollars from such income stream?</label>
 				<input id="pension1_sum" type="number" min="0" value="3000">
 				<label>Will there be any cost of living increase in such benefits, and if so how much? </label>
-				<input id="pension1_CostOfLivingIncrease" type="number" min="0" value="1000">
+				<input id="pension1_CostOfLivingIncrease" type="number" min="0" max="100" value="2">
 				<label>Will they receive any other stream of income at any point?</label>
 				<select id="pension2_yesNo">
 					<option value="No">No</option>
@@ -272,6 +265,6 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
   <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-<script src="js/jsVer3.js"></script>
+<script src="js/jsVer4.js"></script>
 </body>
 </html>

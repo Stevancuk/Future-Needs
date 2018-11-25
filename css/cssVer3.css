@@ -21,18 +21,16 @@ fieldset {
 #submit {
 	margin-top: 20px;
 }
+
+/*Temp results*/
+
 #absResults {
-	position: absolute;
+	display: none;
+	position: fixed;
 	top: 0px;
 	right: 0px;
 	background-color: white;
 	border: 1px solid black;
-}
-
-
-/*Temp results*/
-#resultsWrapper {
-	display: none;
 }
 .resYandM {
 	display: inline-block;
@@ -59,7 +57,7 @@ fieldset {
 	display: block;
 	border-bottom: 1px solid black;
 	border-right: 1px solid black;
-	width: 90px;
+	width: 120px;
 	overflow: hidden;
 	padding: 5px 0px;
 	padding-left: 3px;
