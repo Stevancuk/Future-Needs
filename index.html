@@ -28,27 +28,34 @@
 				<input id="income_increase" type="number" min="0" max="100" value="5">
 				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="income_lump_number">
+					<option value="3"> 3 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
 					<option value="No"> No </option>
 				</select>
-				<label>Change #1 sum: </label>
-				<input id="income_lump_sum1" type="number" step="100" value="12000">
-				<label>Change #1 date: </label>
-				<input id="income_lump_date1" type="date" value="2020-01-01">
 
-				<!-- <label>Change #2 sum: </label>
-				<input id="income_lump_sum2" type="text" step="100" value="20000">
-				<label>Change #2 date: </label>
-				<input id="income_lump_date2" type="date" value="2022-50-06">
+				<div id="income_lump1_wrapper">
+					<label>Change #1 sum: </label>
+					<input id="income_lump_sum1" type="number" step="100" value="12000">
+					<label>Change #1 date: </label>
+					<input id="income_lump_date1" type="date" value="2020-02-01">
+				</div>
 
-				<label>Change #3 sum: </label>
-				<input id="income_lump_sum3" type="text" step="100" value="20000">
-				<label>Change #3 date: </label>
-				<input id="income_lump_date3" type="date" value="2022-50-06"> -->
+				<div id="income_lump2_wrapper">
+					<label>Change #2 sum: </label>
+					<input id="income_lump_sum2" type="number" step="100" value="6000">
+					<label>Change #2 date: </label>
+					<input id="income_lump_date2" type="date" value="2020-04-06">
+				</div>
 
-				<label>At what age- shoud we assume client will retire? </label>
+				<div id="income_lump3_wrapper">
+					<label>Change #3 sum: </label>
+					<input id="income_lump_sum3" type="number" step="100" value="3000">
+					<label>Change #3 date: </label>
+					<input id="income_lump_date3" type="date" value="2020-06-06">
+				</div>
+
+				<label>When shoud we assume client will retire? </label>
 				<input id="retire_date" type="date" value="2026-01-01">
 			</fieldset>
 
@@ -60,18 +67,32 @@
 				<input id="selfEmployIncome_increase" type="number" min="0" max="100" value="4">
 				<label>Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="selfEmployIncome_lump_number">
+					<option value="3"> 3 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
 					<option value="No"> No </option>
 				</select>
 
-				<label>Change #1 sum: </label>
-				<input id="selfEmployIncome_lump_sum1" type="number" step="100" value="-6000">
-				<label>Change #1 date: </label>
-				<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06">
+				<div id="selfEmploy_lump1_wrapper">
+					<label>Change #1 sum: </label>
+					<input id="selfEmployIncome_lump_sum1" type="number" step="100" value="-6000">
+					<label>Change #1 date: </label>
+					<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06">
+				</div>
+				<div id="selfEmploy_lump2_wrapper">
+					<label>Change #2 sum: </label>
+					<input id="selfEmployIncome_lump_sum2" type="number" step="100" value="12000">
+					<label>Change #2 date: </label>
+					<input id="selfEmployIncome_lump_date2" type="date" value="2020-07-06">
+				</div>
+				<div id="selfEmploy_lump3_wrapper">
+					<label>Change #3 sum: </label>
+					<input id="selfEmployIncome_lump_sum3" type="number" step="100" value="3000">
+					<label>Change #3 date: </label>
+					<input id="selfEmployIncome_lump_date3" type="date" value="2020-09-06">
+				</div>
 
-				<label>At what age- shoud we assume client will retire? </label>
+				<label>When shoud we assume client will retire? </label>
 				<input id="retire_self_date" type="date" value="2043-01-01">
 			</fieldset>
 
@@ -83,14 +104,28 @@
 				<input id="alimony_taxPerc" type="number" min="0" max="100" value="4">
 				<label>On how many occasions will this number change (including termation/end)?</label>
 				<select id="alimony_timesChange">
+					<option value="3"> 3 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
 					<option value="0"> 0 </option>
 				</select>
-				<label>Change #1</label>
-				<input id="alimony_changeDate1" type="date" value="2019-10-21">
-				<input id="alimony_changeSum1" type="number" step="100" value="1000">
+
+				<div id="alimony_lump1_wrapper">
+					<label>Change #1</label>
+					<input id="alimony_changeDate1" type="date" value="2019-10-21">
+					<input id="alimony_changeSum1" type="number" step="100" value="1000">
+				</div>
+				<div id="alimony_lump2_wrapper">
+					<label>Change #2</label>
+					<input id="alimony_changeDate2" type="date" value="2019-11-21">
+					<input id="alimony_changeSum2" type="number" step="100" value="-300">
+				</div>
+				<div id="alimony_lump3_wrapper">
+					<label>Change #3</label>
+					<input id="alimony_changeDate3" type="date" value="2019-12-21">
+					<input id="alimony_changeSum3" type="number" step="100" value="-600">
+				</div>
+
 			</fieldset>
 
 			<fieldset>
@@ -99,14 +134,29 @@
 				<input id="childSupp_value" type="number" min="0" step="100" value="500">
 				<label>On how many occasions will this number change (including termination/end)?</label>
 				<select id="childSupp_timesChange">
+					<option value="3"> 3 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
 					<option value="0"> 0 </option>
 				</select>
-				<label>Change #1</label>
-				<input id="childSupp_changeDate1" type="date" value="2020-03-04">
-				<input id="childSupp_changeSum1" type="number" step="100" value="300">
+
+				<div id="childSupp_lump1_wrapper">
+					<label>Change #1</label>
+					<input id="childSupp_changeDate1" type="date" value="2020-03-04">
+					<input id="childSupp_changeSum1" type="number" step="100" value="300">
+				</div>
+				<div id="childSupp_lump2_wrapper">
+					<label>Change #2</label>
+					<input id="childSupp_changeDate2" type="date" value="2020-05-04">
+					<input id="childSupp_changeSum2" type="number" step="100" value="-300">
+				</div>
+				<div id="childSupp_lump3_wrapper">
+					<label>Change #3</label>
+					<input id="childSupp_changeDate3" type="date" value="2020-07-04">
+					<input id="childSupp_changeSum3" type="number" step="100" value="-600">
+				</div>
+
+
 			</fieldset>
 
 			<fieldset>
@@ -191,16 +241,27 @@
 				<input id="expenses_perc" type="number" min="0" max="100" value="3">
 				<label>How many lump sum increases or decreases should we expect? This would include a child leaving the home, the payoff of a mortgage, or other one-time events.</label>
 				<select id="expenses_timesChange">
+					<option value="3"> 3 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
-					<option value="4"> 4 </option>
-					<option value="5"> 5 </option>
 					<option value="0"> 0 </option>
 				</select>
-				<label>Change #1</label>
-				<input id="expenses_changeDate1" type="date" value="2019-03-01">
-				<input id="expenses_changeSum1" type="number" step="100" value="-300">
+
+				<div id="expenses_lump1_wrapper">
+					<label>Change #1</label>
+					<input id="expenses_changeDate1" type="date" value="2019-03-01">
+					<input id="expenses_changeSum1" type="number" step="100" value="-300">
+				</div>
+				<div id="expenses_lump2_wrapper">
+					<label>Change #2</label>
+					<input id="expenses_changeDate2" type="date" value="2019-05-01">
+					<input id="expenses_changeSum2" type="number" step="100" value="-300">
+				</div>
+				<div id="expenses_lump3_wrapper">
+					<label>Change #3</label>
+					<input id="expenses_changeDate3" type="date" value="2019-07-01">
+					<input id="expenses_changeSum3" type="number" step="100" value="100">
+				</div>
 
 			</fieldset>
 
