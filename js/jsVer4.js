@@ -18,6 +18,22 @@ const monthNames = {
 let userInputs = {};
 let allResults = {};
 
+function addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, yearly = 'true' ) {
+  for (var i = 0; i < 5; i++) {
+    // console.log(userSelectedNumberOfLumps);
+    // console.log(yearAndMonthIDs);
+    // console.log(valuesIDs);
+    // console.log(objectPropertyName);
+    if(userSelectedNumberOfLumps >= (i+1) && userInputs[`${yearAndMonthIDs}${i+1}Year`] == currentYear && userInputs[`${yearAndMonthIDs}${i+1}Month`] == currentMonth) {
+      if(yearly){
+        allResults[currentYear][currentMonth][objectPropertyName] += userInputs[`${valuesIDs}${i+1}`] / 12;
+      }else{
+        allResults[currentYear][currentMonth][objectPropertyName] += userInputs[`${valuesIDs}${i+1}`];        
+      }
+    }
+  }
+}
+
 //#######################
 //##### Employment ######
 //#######################
@@ -40,21 +56,36 @@ function calcEmployment() {
       }
     }
     //add LUMP SUM(s)
-    if ( userInputs['income_lump_number'] == '1' || userInputs['income_lump_number'] == '2' || userInputs['income_lump_number'] == '3' ) {
-      if(userInputs['incomeLump1Year'] == currentYear && userInputs['incomeLump1Month'] == currentMonth) {
-        allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum1'] / 12;
-      }
-    }
-    if ( userInputs['income_lump_number'] == '2' || userInputs['income_lump_number'] == '3' ) {
-      if(userInputs['incomeLump2Year'] == currentYear && userInputs['incomeLump2Month'] == currentMonth) {
-        allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum2'] / 12;
-      }
-    }
-    if ( userInputs['income_lump_number'] == '3' ) {
-      if(userInputs['incomeLump3Year'] == currentYear && userInputs['incomeLump3Month'] == currentMonth) {
-        allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum3'] / 12;
-      }
-    }
+    let userSelectedNumberOfLumps = parseInt( userInputs['income_lump_number'] );
+    let yearAndMonthIDs = 'incomeLump';
+    let valuesIDs = 'income_lump_sum';
+    let objectPropertyName = 'employment';
+    addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName );
+    // if ( userInputs['income_lump_number'] == '1' || userInputs['income_lump_number'] == '2' || userInputs['income_lump_number'] == '3' || userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
+    //   if(userInputs['incomeLump1Year'] == currentYear && userInputs['incomeLump1Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum1'] / 12;
+    //   }
+    // }
+    // if ( userInputs['income_lump_number'] == '2' || userInputs['income_lump_number'] == '3' || userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
+    //   if(userInputs['incomeLump2Year'] == currentYear && userInputs['incomeLump2Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum2'] / 12;
+    //   }
+    // }
+    // if ( userInputs['income_lump_number'] == '3' || userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
+    //   if(userInputs['incomeLump3Year'] == currentYear && userInputs['incomeLump3Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum3'] / 12;
+    //   }
+    // }
+    // if ( userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
+    //   if(userInputs['incomeLump4Year'] == currentYear && userInputs['incomeLump4Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum4'] / 12;
+    //   }
+    // }
+    // if ( userInputs['income_lump_number'] == '5' ) {
+    //   if(userInputs['incomeLump5Year'] == currentYear && userInputs['incomeLump5Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum5'] / 12;
+    //   }
+    // }
   }
   currentEmployment = allResults[currentYear][currentMonth]['employment'];
 }
@@ -81,21 +112,26 @@ function calcSelfEmploy() {
       }
     }
     //add LUMP SUM(s)
-    if ( userInputs['selfEmployIncome_lump_number'] == '1' || userInputs['selfEmployIncome_lump_number'] == '2' || userInputs['selfEmployIncome_lump_number'] == '3' ) {        
-      if(userInputs['selfIncomeLump1Year'] == currentYear && userInputs['selfIncomeLump1Month'] == currentMonth) {
-        allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum1'] / 12;
-      }
-    }
-    if ( userInputs['selfEmployIncome_lump_number'] == '2' || userInputs['selfEmployIncome_lump_number'] == '3' ) {        
-      if(userInputs['selfIncomeLump2Year'] == currentYear && userInputs['selfIncomeLump2Month'] == currentMonth) {
-        allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum2'] / 12;
-      }
-    }
-    if ( userInputs['selfEmployIncome_lump_number'] == '3' ) {        
-      if(userInputs['selfIncomeLump3Year'] == currentYear && userInputs['selfIncomeLump3Month'] == currentMonth) {
-        allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum3'] / 12;
-      }
-    }
+    let userSelectedNumberOfLumps = parseInt( userInputs['selfEmployIncome_lump_number'] );
+    let yearAndMonthIDs = 'selfIncomeLump';
+    let valuesIDs = 'selfEmployIncome_lump_sum';
+    let objectPropertyName = 'selfEmployment';
+    addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName );
+    // if ( userInputs['selfEmployIncome_lump_number'] == '1' || userInputs['selfEmployIncome_lump_number'] == '2' || userInputs['selfEmployIncome_lump_number'] == '3' ) {        
+    //   if(userInputs['selfIncomeLump1Year'] == currentYear && userInputs['selfIncomeLump1Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum1'] / 12;
+    //   }
+    // }
+    // if ( userInputs['selfEmployIncome_lump_number'] == '2' || userInputs['selfEmployIncome_lump_number'] == '3' ) {        
+    //   if(userInputs['selfIncomeLump2Year'] == currentYear && userInputs['selfIncomeLump2Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum2'] / 12;
+    //   }
+    // }
+    // if ( userInputs['selfEmployIncome_lump_number'] == '3' ) {        
+    //   if(userInputs['selfIncomeLump3Year'] == currentYear && userInputs['selfIncomeLump3Month'] == currentMonth) {
+    //     allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum3'] / 12;
+    //   }
+    // }
   }
   currentSelfEmployment = allResults[currentYear][currentMonth]['selfEmployment'];
 }
@@ -111,21 +147,26 @@ function calcSpousalMaintenance() {
     allResults[currentYear][currentMonth]['spousalMaintenance'] = currentSpousalMaintenance;
   }
   //add LUMP SUM(s)
-  if ( userInputs['alimony_timesChange'] == '1' || userInputs['alimony_timesChange'] == '2' || userInputs['alimony_timesChange'] == '3' ) {
-    if (userInputs['spousalMaintenanceLump1Year'] == currentYear && userInputs['spousalMaintenanceLump1Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum1'];
-    }
-  }
-  if ( userInputs['alimony_timesChange'] == '2' || userInputs['alimony_timesChange'] == '3' ) {
-    if (userInputs['spousalMaintenanceLump2Year'] == currentYear && userInputs['spousalMaintenanceLump2Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum2'];
-    }
-  }
-  if ( userInputs['alimony_timesChange'] == '3' ) {
-    if (userInputs['spousalMaintenanceLump3Year'] == currentYear && userInputs['spousalMaintenanceLump3Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum3'];
-    }
-  }
+  let userSelectedNumberOfLumps = parseInt( userInputs['alimony_timesChange'] );
+  let yearAndMonthIDs = 'spousalMaintenanceLump';
+  let valuesIDs = 'alimony_changeSum';
+  let objectPropertyName = 'spousalMaintenance';
+  addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, false );
+  // if ( userInputs['alimony_timesChange'] == '1' || userInputs['alimony_timesChange'] == '2' || userInputs['alimony_timesChange'] == '3' ) {
+  //   if (userInputs['spousalMaintenanceLump1Year'] == currentYear && userInputs['spousalMaintenanceLump1Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum1'];
+  //   }
+  // }
+  // if ( userInputs['alimony_timesChange'] == '2' || userInputs['alimony_timesChange'] == '3' ) {
+  //   if (userInputs['spousalMaintenanceLump2Year'] == currentYear && userInputs['spousalMaintenanceLump2Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum2'];
+  //   }
+  // }
+  // if ( userInputs['alimony_timesChange'] == '3' ) {
+  //   if (userInputs['spousalMaintenanceLump3Year'] == currentYear && userInputs['spousalMaintenanceLump3Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum3'];
+  //   }
+  // }
   //NO TAXES FOR NOW
 
   currentSpousalMaintenance = allResults[currentYear][currentMonth]['spousalMaintenance'];
@@ -143,21 +184,26 @@ function calcChildSupport() {
   }
 
   //Lump Sums
-  if ( userInputs['childSupp_timesChange'] == '1' || userInputs['childSupp_timesChange'] == '2' || userInputs['childSupp_timesChange'] == '3' ) {
-    if (userInputs['childSupportLump1Year'] == currentYear && userInputs['childSupportLump1Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum1'];
-    }
-  }
-  if ( userInputs['childSupp_timesChange'] == '2' || userInputs['childSupp_timesChange'] == '3' ) {
-    if (userInputs['childSupportLump2Year'] == currentYear && userInputs['childSupportLump2Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum2'];
-    }
-  }
-  if ( userInputs['childSupp_timesChange'] == '3' ) {
-    if (userInputs['childSupportLump3Year'] == currentYear && userInputs['childSupportLump3Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum3'];
-    }
-  }
+  let userSelectedNumberOfLumps = parseInt( userInputs['childSupp_timesChange'] );
+  let yearAndMonthIDs = 'childSupportLump';
+  let valuesIDs = 'childSupp_changeSum';
+  let objectPropertyName = 'childSupport';
+  addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, false );
+  // if ( userInputs['childSupp_timesChange'] == '1' || userInputs['childSupp_timesChange'] == '2' || userInputs['childSupp_timesChange'] == '3' ) {
+  //   if (userInputs['childSupportLump1Year'] == currentYear && userInputs['childSupportLump1Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum1'];
+  //   }
+  // }
+  // if ( userInputs['childSupp_timesChange'] == '2' || userInputs['childSupp_timesChange'] == '3' ) {
+  //   if (userInputs['childSupportLump2Year'] == currentYear && userInputs['childSupportLump2Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum2'];
+  //   }
+  // }
+  // if ( userInputs['childSupp_timesChange'] == '3' ) {
+  //   if (userInputs['childSupportLump3Year'] == currentYear && userInputs['childSupportLump3Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum3'];
+  //   }
+  // }
 
   currentChildSupport = allResults[currentYear][currentMonth]['childSupport'];
 }
@@ -274,21 +320,26 @@ function calcExpenses() {
   }
 
   //add LUMP SUM(s)
-  if ( userInputs['expenses_timesChange'] == '1' || userInputs['expenses_timesChange'] == '2' || userInputs['expenses_timesChange'] == '3' ) {
-    if(userInputs['expensesLump1Year'] == currentYear && userInputs['expensesLump1Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum1'];
-    }
-  }
-  if ( userInputs['expenses_timesChange'] == '2' || userInputs['expenses_timesChange'] == '3' ) {
-    if(userInputs['expensesLump2Year'] == currentYear && userInputs['expensesLump2Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum2'];
-    }
-  }
-  if ( userInputs['expenses_timesChange'] == '3' ) {
-    if(userInputs['expensesLump3Year'] == currentYear && userInputs['expensesLump3Month'] == currentMonth) {
-      allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum3'];
-    }
-  }
+  let userSelectedNumberOfLumps = parseInt( userInputs['expenses_timesChange'] );
+  let yearAndMonthIDs = 'expensesLump';
+  let valuesIDs = 'expenses_changeSum';
+  let objectPropertyName = 'expenses';
+  addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, false );
+  // if ( userInputs['expenses_timesChange'] == '1' || userInputs['expenses_timesChange'] == '2' || userInputs['expenses_timesChange'] == '3' ) {
+  //   if(userInputs['expensesLump1Year'] == currentYear && userInputs['expensesLump1Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum1'];
+  //   }
+  // }
+  // if ( userInputs['expenses_timesChange'] == '2' || userInputs['expenses_timesChange'] == '3' ) {
+  //   if(userInputs['expensesLump2Year'] == currentYear && userInputs['expensesLump2Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum2'];
+  //   }
+  // }
+  // if ( userInputs['expenses_timesChange'] == '3' ) {
+  //   if(userInputs['expensesLump3Year'] == currentYear && userInputs['expensesLump3Month'] == currentMonth) {
+  //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum3'];
+  //   }
+  // }
 
   currentExpenses = allResults[currentYear][currentMonth]['expenses'];
 }
@@ -402,6 +453,25 @@ function calculateMain() {
   console.log(allResults);
 }
 
+//Income lump sums
+const allLumpSums = {
+  "income_lump_date" : "incomeLump",
+  "selfEmployIncome_lump_date" : "selfIncomeLump",
+  "alimony_changeDate" : "spousalMaintenanceLump",
+  "childSupp_changeDate" : "childSupportLump",
+  "expenses_changeDate" : "expensesLump",
+}
+//Adds years-months of each lump sums to userInputs global variable 
+function addAllYearsAndMonthsForLumpSums() {
+  $.each(allLumpSums, function(index, value){
+    for (var i = 0; i < 5; i++) {
+      let date = new Date( userInputs[`${index}${i+1}`] );
+      userInputs[`${value}${i+1}Year`] = date.getFullYear();
+      userInputs[`${value}${i+1}Month`] = date.getMonth();
+    }
+  })
+}
+
 // ### User Inputs ###
 
 let startingDate;
@@ -420,49 +490,51 @@ function readAllUserInputs() {
   userInputs['startingMonth'] = userInputs['startingDate'].getMonth();
   userInputs['startingDay'] = userInputs['startingDate'].getDate();
 
-  //Income lump sums
-  const incomeLump1Year = new Date(userInputs['income_lump_date1']);
-  userInputs['incomeLump1Year'] = incomeLump1Year.getFullYear();
-  userInputs['incomeLump1Month'] = incomeLump1Year.getMonth();
-  const incomeLump2Year = new Date(userInputs['income_lump_date2']);
-  userInputs['incomeLump2Year'] = incomeLump2Year.getFullYear();
-  userInputs['incomeLump2Month'] = incomeLump2Year.getMonth();
-  const incomeLump3Year = new Date(userInputs['income_lump_date3']);
-  userInputs['incomeLump3Year'] = incomeLump3Year.getFullYear();
-  userInputs['incomeLump3Month'] = incomeLump3Year.getMonth();
+  addAllYearsAndMonthsForLumpSums();
 
-  //self employ lump sums
-  const selfIncomeLump1Date = new Date(userInputs['selfEmployIncome_lump_date1']);
-  userInputs['selfIncomeLump1Year'] = selfIncomeLump1Date.getFullYear();
-  userInputs['selfIncomeLump1Month'] = selfIncomeLump1Date.getMonth();
-  const selfIncomeLump2Date = new Date(userInputs['selfEmployIncome_lump_date2']);
-  userInputs['selfIncomeLump2Year'] = selfIncomeLump2Date.getFullYear();
-  userInputs['selfIncomeLump2Month'] = selfIncomeLump2Date.getMonth();
-  const selfIncomeLump3Date = new Date(userInputs['selfEmployIncome_lump_date3']);
-  userInputs['selfIncomeLump3Year'] = selfIncomeLump3Date.getFullYear();
-  userInputs['selfIncomeLump3Month'] = selfIncomeLump3Date.getMonth();
 
-  //Spousal Maintenance/Alimony lump sums
-  const spousalMaintenanceLump1Date = new Date(userInputs['alimony_changeDate1']);
-  userInputs['spousalMaintenanceLump1Year'] = spousalMaintenanceLump1Date.getFullYear();
-  userInputs['spousalMaintenanceLump1Month'] = spousalMaintenanceLump1Date.getMonth();
-  const spousalMaintenanceLump2Date = new Date(userInputs['alimony_changeDate2']);
-  userInputs['spousalMaintenanceLump2Year'] = spousalMaintenanceLump2Date.getFullYear();
-  userInputs['spousalMaintenanceLump2Month'] = spousalMaintenanceLump2Date.getMonth();
-  const spousalMaintenanceLump3Date = new Date(userInputs['alimony_changeDate3']);
-  userInputs['spousalMaintenanceLump3Year'] = spousalMaintenanceLump3Date.getFullYear();
-  userInputs['spousalMaintenanceLump3Month'] = spousalMaintenanceLump3Date.getMonth();
+  // const incomeLump1Date = new Date(userInputs['income_lump_date1']);
+  // userInputs['incomeLump1Year'] = incomeLump1Date.getFullYear();
+  // userInputs['incomeLump1Month'] = incomeLump1Date.getMonth();
+  // const incomeLump2Year = new Date(userInputs['income_lump_date2']);
+  // userInputs['incomeLump2Year'] = incomeLump2Year.getFullYear();
+  // userInputs['incomeLump2Month'] = incomeLump2Year.getMonth();
+  // const incomeLump3Year = new Date(userInputs['income_lump_date3']);
+  // userInputs['incomeLump3Year'] = incomeLump3Year.getFullYear();
+  // userInputs['incomeLump3Month'] = incomeLump3Year.getMonth();
 
-  //Child Support
-  const childSupportLump1Date = new Date(userInputs['childSupp_changeDate1']);
-  userInputs['childSupportLump1Year'] = childSupportLump1Date.getFullYear();
-  userInputs['childSupportLump1Month'] = childSupportLump1Date.getMonth();
-  const childSupportLump2Date = new Date(userInputs['childSupp_changeDate2']);
-  userInputs['childSupportLump2Year'] = childSupportLump2Date.getFullYear();
-  userInputs['childSupportLump2Month'] = childSupportLump2Date.getMonth();
-  const childSupportLump3Date = new Date(userInputs['childSupp_changeDate3']);
-  userInputs['childSupportLump3Year'] = childSupportLump3Date.getFullYear();
-  userInputs['childSupportLump3Month'] = childSupportLump3Date.getMonth();
+  // //self employ lump sums
+  // const selfIncomeLump1Date = new Date(userInputs['selfEmployIncome_lump_date1']);
+  // userInputs['selfIncomeLump1Year'] = selfIncomeLump1Date.getFullYear();
+  // userInputs['selfIncomeLump1Month'] = selfIncomeLump1Date.getMonth();
+  // const selfIncomeLump2Date = new Date(userInputs['selfEmployIncome_lump_date2']);
+  // userInputs['selfIncomeLump2Year'] = selfIncomeLump2Date.getFullYear();
+  // userInputs['selfIncomeLump2Month'] = selfIncomeLump2Date.getMonth();
+  // const selfIncomeLump3Date = new Date(userInputs['selfEmployIncome_lump_date3']);
+  // userInputs['selfIncomeLump3Year'] = selfIncomeLump3Date.getFullYear();
+  // userInputs['selfIncomeLump3Month'] = selfIncomeLump3Date.getMonth();
+
+  // //Spousal Maintenance/Alimony lump sums
+  // const spousalMaintenanceLump1Date = new Date(userInputs['alimony_changeDate1']);
+  // userInputs['spousalMaintenanceLump1Year'] = spousalMaintenanceLump1Date.getFullYear();
+  // userInputs['spousalMaintenanceLump1Month'] = spousalMaintenanceLump1Date.getMonth();
+  // const spousalMaintenanceLump2Date = new Date(userInputs['alimony_changeDate2']);
+  // userInputs['spousalMaintenanceLump2Year'] = spousalMaintenanceLump2Date.getFullYear();
+  // userInputs['spousalMaintenanceLump2Month'] = spousalMaintenanceLump2Date.getMonth();
+  // const spousalMaintenanceLump3Date = new Date(userInputs['alimony_changeDate3']);
+  // userInputs['spousalMaintenanceLump3Year'] = spousalMaintenanceLump3Date.getFullYear();
+  // userInputs['spousalMaintenanceLump3Month'] = spousalMaintenanceLump3Date.getMonth();
+
+  // //Child Support
+  // const childSupportLump1Date = new Date(userInputs['childSupp_changeDate1']);
+  // userInputs['childSupportLump1Year'] = childSupportLump1Date.getFullYear();
+  // userInputs['childSupportLump1Month'] = childSupportLump1Date.getMonth();
+  // const childSupportLump2Date = new Date(userInputs['childSupp_changeDate2']);
+  // userInputs['childSupportLump2Year'] = childSupportLump2Date.getFullYear();
+  // userInputs['childSupportLump2Month'] = childSupportLump2Date.getMonth();
+  // const childSupportLump3Date = new Date(userInputs['childSupp_changeDate3']);
+  // userInputs['childSupportLump3Year'] = childSupportLump3Date.getFullYear();
+  // userInputs['childSupportLump3Month'] = childSupportLump3Date.getMonth();
 
   //retirement
   const retire_date = new Date(userInputs['retire_date']);
@@ -474,16 +546,16 @@ function readAllUserInputs() {
   userInputs['selfRetirementYear'] = retire_self_date.getFullYear();
   userInputs['selfRetirementMonth'] = retire_self_date.getMonth();
 
-  //expenses lump sums
-  const expensesLump1Date = new Date(userInputs['expenses_changeDate1']);
-  userInputs['expensesLump1Year'] = expensesLump1Date.getFullYear();
-  userInputs['expensesLump1Month'] = expensesLump1Date.getMonth();
-  const expensesLump2Date = new Date(userInputs['expenses_changeDate2']);
-  userInputs['expensesLump2Year'] = expensesLump2Date.getFullYear();
-  userInputs['expensesLump2Month'] = expensesLump2Date.getMonth();
-  const expensesLump3Date = new Date(userInputs['expenses_changeDate3']);
-  userInputs['expensesLump3Year'] = expensesLump3Date.getFullYear();
-  userInputs['expensesLump3Month'] = expensesLump3Date.getMonth();
+  // //expenses lump sums
+  // const expensesLump1Date = new Date(userInputs['expenses_changeDate1']);
+  // userInputs['expensesLump1Year'] = expensesLump1Date.getFullYear();
+  // userInputs['expensesLump1Month'] = expensesLump1Date.getMonth();
+  // const expensesLump2Date = new Date(userInputs['expenses_changeDate2']);
+  // userInputs['expensesLump2Year'] = expensesLump2Date.getFullYear();
+  // userInputs['expensesLump2Month'] = expensesLump2Date.getMonth();
+  // const expensesLump3Date = new Date(userInputs['expenses_changeDate3']);
+  // userInputs['expensesLump3Year'] = expensesLump3Date.getFullYear();
+  // userInputs['expensesLump3Month'] = expensesLump3Date.getMonth();
 
 
   //Social Security Starting Date
@@ -513,28 +585,43 @@ $('#showHideTable').on("click", function(){
 })
 
 //Show hide Lump Sum wrappers for Employment
+
+// ****************************************!!!!!!!!!!!!!
+// ********* Make function for these drop downs*********
+// ****************************************!!!!!!!!!!!!!
+
+
+
 $('#income_lump_number').on("change", function(){
   switch ( $(this).val() ) {
-    case 'No':
-        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper').css("display", "none");
+    case '0':
+        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
         break;
     case '1':
-        $('#income_lump2_wrapper, #income_lump3_wrapper').css("display", "none");
+        $('#income_lump2_wrapper, #income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
         $('#income_lump1_wrapper').css("display", "block");
         break;
     case '2':
-        $('#income_lump3_wrapper').css("display", "none");
+        $('#income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
         $('#income_lump1_wrapper, #income_lump2_wrapper').css("display", "block");
         break;
     case '3':
+        $('#income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
         $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper').css("display", "block");
         break;
+    case '4':
+        $('#income_lump5_wrapper').css("display", "none");
+        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper#, income_lump4_wrapper').css("display", "block");
+        break;
+    case '5':
+        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "block");
+        break;        
   }
 })
 //Show hide Lump Sum wrappers for Self-Employment
 $('#selfEmployIncome_lump_number').on("change", function(){
   switch ( $(this).val() ) {
-    case 'No':
+    case '0':
         $('#selfEmploy_lump1_wrapper, #selfEmploy_lump2_wrapper, #selfEmploy_lump3_wrapper').css("display", "none");
         break;
     case '1':

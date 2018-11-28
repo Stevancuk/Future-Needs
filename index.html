@@ -28,10 +28,12 @@
 				<input id="income_increase" type="number" min="0" max="100" value="5">
 				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="income_lump_number">
-					<option value="3"> 3 </option>
+					<option value="5"> 5 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="No"> No </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+					<option value="0"> No </option>
 				</select>
 
 				<div id="income_lump1_wrapper">
@@ -39,20 +41,40 @@
 					<input id="income_lump_sum1" type="number" step="100" value="12000">
 					<label>Change #1 date: </label>
 					<input id="income_lump_date1" type="date" value="2020-02-01">
+					<label>Change #1 note: </label>
+					<input id="income_lump_note1" type="text" value="Some occasion1">
 				</div>
-
 				<div id="income_lump2_wrapper">
 					<label>Change #2 sum: </label>
 					<input id="income_lump_sum2" type="number" step="100" value="6000">
 					<label>Change #2 date: </label>
 					<input id="income_lump_date2" type="date" value="2020-04-06">
+					<label>Change #2 note: </label>
+					<input id="income_lump_note2" type="text" value="Some occasion2">
 				</div>
-
 				<div id="income_lump3_wrapper">
 					<label>Change #3 sum: </label>
 					<input id="income_lump_sum3" type="number" step="100" value="3000">
 					<label>Change #3 date: </label>
 					<input id="income_lump_date3" type="date" value="2020-06-06">
+					<label>Change #3 note: </label>
+					<input id="income_lump_note3" type="text" value="Some occasion3">
+				</div>
+				<div id="income_lump4_wrapper">
+					<label>Change #4 sum: </label>
+					<input id="income_lump_sum4" type="number" step="100" value="4000">
+					<label>Change #4 date: </label>
+					<input id="income_lump_date4" type="date" value="2020-08-06">
+					<label>Change #4 note: </label>
+					<input id="income_lump_note4" type="text" value="Some occasion4">
+				</div>
+				<div id="income_lump5_wrapper">
+					<label>Change #5 sum: </label>
+					<input id="income_lump_sum5" type="number" step="100" value="5000">
+					<label>Change #5 date: </label>
+					<input id="income_lump_date5" type="date" value="2020-10-06">
+					<label>Change #5 note: </label>
+					<input id="income_lump_note5" type="text" value="Some occasion5">
 				</div>
 
 				<label>When shoud we assume client will retire? </label>
@@ -67,10 +89,12 @@
 				<input id="selfEmployIncome_increase" type="number" min="0" max="100" value="4">
 				<label>Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="selfEmployIncome_lump_number">
-					<option value="3"> 3 </option>
+					<option value="5"> 5 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="No"> No </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+					<option value="0"> No </option>
 				</select>
 
 				<div id="selfEmploy_lump1_wrapper">
@@ -78,18 +102,40 @@
 					<input id="selfEmployIncome_lump_sum1" type="number" step="100" value="-6000">
 					<label>Change #1 date: </label>
 					<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06">
+					<label>Change #1 note: </label>
+					<input id="selfEmployIncome_lump_note1" type="text" value="Some occasion1">
 				</div>
 				<div id="selfEmploy_lump2_wrapper">
 					<label>Change #2 sum: </label>
 					<input id="selfEmployIncome_lump_sum2" type="number" step="100" value="12000">
 					<label>Change #2 date: </label>
 					<input id="selfEmployIncome_lump_date2" type="date" value="2020-07-06">
+					<label>Change #2 note: </label>
+					<input id="selfEmployIncome_lump_note2" type="text" value="Some occasion2">
 				</div>
 				<div id="selfEmploy_lump3_wrapper">
 					<label>Change #3 sum: </label>
 					<input id="selfEmployIncome_lump_sum3" type="number" step="100" value="3000">
 					<label>Change #3 date: </label>
 					<input id="selfEmployIncome_lump_date3" type="date" value="2020-09-06">
+					<label>Change #3 note: </label>
+					<input id="selfEmployIncome_lump_note3" type="text" value="Some occasion3">
+				</div>
+				<div id="selfEmploy_lump4_wrapper">
+					<label>Change #4 sum: </label>
+					<input id="selfEmployIncome_lump_sum4" type="number" step="100" value="4000">
+					<label>Change #4 date: </label>
+					<input id="selfEmployIncome_lump_date4" type="date" value="2020-11-06">
+					<label>Change #4 note: </label>
+					<input id="selfEmployIncome_lump_note4" type="text" value="Some occasion4">
+				</div>
+				<div id="selfEmploy_lump5_wrapper">
+					<label>Change #5 sum: </label>
+					<input id="selfEmployIncome_lump_sum5" type="number" step="100" value="5000">
+					<label>Change #5 date: </label>
+					<input id="selfEmployIncome_lump_date5" type="date" value="2020-12-06">
+					<label>Change #5 note: </label>
+					<input id="selfEmployIncome_lump_note5" type="text" value="Some occasion5">
 				</div>
 
 				<label>When shoud we assume client will retire? </label>
@@ -104,26 +150,50 @@
 				<input id="alimony_taxPerc" type="number" min="0" max="100" value="4">
 				<label>On how many occasions will this number change (including termation/end)?</label>
 				<select id="alimony_timesChange">
-					<option value="3"> 3 </option>
+					<option value="5"> 5 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
 					<option value="0"> 0 </option>
 				</select>
 
 				<div id="alimony_lump1_wrapper">
 					<label>Change #1</label>
-					<input id="alimony_changeDate1" type="date" value="2019-10-21">
+					<input id="alimony_changeDate1" type="date" value="2019-06-21">
 					<input id="alimony_changeSum1" type="number" step="100" value="1000">
+					<label>Change #1 note: </label>
+					<input id="income_lump_note1" type="text" value="Some occasion1">
+					<label>Change #1 note: </label>
+					<input id="alimony_lump_note1" type="text" value="Some occasion1">
 				</div>
 				<div id="alimony_lump2_wrapper">
 					<label>Change #2</label>
-					<input id="alimony_changeDate2" type="date" value="2019-11-21">
+					<input id="alimony_changeDate2" type="date" value="2019-07-21">
 					<input id="alimony_changeSum2" type="number" step="100" value="-300">
+					<label>Change #2 note: </label>
+					<input id="alimony_lump_note2" type="text" value="Some occasion2">
 				</div>
 				<div id="alimony_lump3_wrapper">
 					<label>Change #3</label>
-					<input id="alimony_changeDate3" type="date" value="2019-12-21">
+					<input id="alimony_changeDate3" type="date" value="2019-08-21">
 					<input id="alimony_changeSum3" type="number" step="100" value="-600">
+					<label>Change #3 note: </label>
+					<input id="alimony_lump_note3" type="text" value="Some occasion3">
+				</div>
+				<div id="alimony_lump4_wrapper">
+					<label>Change #4</label>
+					<input id="alimony_changeDate4" type="date" value="2019-09-21">
+					<input id="alimony_changeSum4" type="number" step="100" value="600">
+					<label>Change #4 note: </label>
+					<input id="alimony_lump_note4" type="text" value="Some occasion4">
+				</div>
+				<div id="alimony_lump5_wrapper">
+					<label>Change #5</label>
+					<input id="alimony_changeDate5" type="date" value="2019-10-21">
+					<input id="alimony_changeSum5" type="number" step="100" value="600">
+					<label>Change #5 note: </label>
+					<input id="alimony_lump_note5" type="text" value="Some occasion5">
 				</div>
 
 			</fieldset>
@@ -134,26 +204,48 @@
 				<input id="childSupp_value" type="number" min="0" step="100" value="500">
 				<label>On how many occasions will this number change (including termination/end)?</label>
 				<select id="childSupp_timesChange">
-					<option value="3"> 3 </option>
+					<option value="5"> 5 </option>
+					<option value="0"> 0 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="0"> 0 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
 				</select>
 
 				<div id="childSupp_lump1_wrapper">
 					<label>Change #1</label>
 					<input id="childSupp_changeDate1" type="date" value="2020-03-04">
 					<input id="childSupp_changeSum1" type="number" step="100" value="300">
+					<label>Change #1 note: </label>
+					<input id="childSupp_lump_note1" type="text" value="Some occasion1">
 				</div>
 				<div id="childSupp_lump2_wrapper">
 					<label>Change #2</label>
 					<input id="childSupp_changeDate2" type="date" value="2020-05-04">
 					<input id="childSupp_changeSum2" type="number" step="100" value="-300">
+					<label>Change #2 note: </label>
+					<input id="childSupp_lump_note2" type="text" value="Some occasion2">
 				</div>
 				<div id="childSupp_lump3_wrapper">
 					<label>Change #3</label>
 					<input id="childSupp_changeDate3" type="date" value="2020-07-04">
 					<input id="childSupp_changeSum3" type="number" step="100" value="-600">
+					<label>Change #3 note: </label>
+					<input id="childSupp_lump_note3" type="text" value="Some occasion3">
+				</div>
+				<div id="childSupp_lump4_wrapper">
+					<label>Change #4</label>
+					<input id="childSupp_changeDate4" type="date" value="2020-09-04">
+					<input id="childSupp_changeSum4" type="number" step="100" value="600">
+					<label>Change #4 note: </label>
+					<input id="childSupp_lump_note4" type="text" value="Some occasion4">
+				</div>
+				<div id="childSupp_lump5_wrapper">
+					<label>Change #5</label>
+					<input id="childSupp_changeDate5" type="date" value="2020-11-04">
+					<input id="childSupp_changeSum5" type="number" step="100" value="1200">
+					<label>Change #5 note: </label>
+					<input id="childSupp_lump_note5" type="text" value="Some occasion5">
 				</div>
 
 
@@ -241,26 +333,48 @@
 				<input id="expenses_perc" type="number" min="0" max="100" value="3">
 				<label>How many lump sum increases or decreases should we expect? This would include a child leaving the home, the payoff of a mortgage, or other one-time events.</label>
 				<select id="expenses_timesChange">
-					<option value="3"> 3 </option>
+					<option value="5"> 5 </option>
+					<option value="0"> 0 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
-					<option value="0"> 0 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
 				</select>
 
 				<div id="expenses_lump1_wrapper">
 					<label>Change #1</label>
 					<input id="expenses_changeDate1" type="date" value="2019-03-01">
 					<input id="expenses_changeSum1" type="number" step="100" value="-300">
+					<label>Change #1 note: </label>
+					<input id="expenses_lump_note1" type="text" value="Some occasion1">
 				</div>
 				<div id="expenses_lump2_wrapper">
 					<label>Change #2</label>
 					<input id="expenses_changeDate2" type="date" value="2019-05-01">
 					<input id="expenses_changeSum2" type="number" step="100" value="-300">
+					<label>Change #2 note: </label>
+					<input id="expenses_lump_note2" type="text" value="Some occasion2">
 				</div>
 				<div id="expenses_lump3_wrapper">
 					<label>Change #3</label>
 					<input id="expenses_changeDate3" type="date" value="2019-07-01">
 					<input id="expenses_changeSum3" type="number" step="100" value="100">
+					<label>Change #3 note: </label>
+					<input id="expenses_lump_note3" type="text" value="Some occasion3">
+				</div>
+				<div id="expenses_lump4_wrapper">
+					<label>Change #4</label>
+					<input id="expenses_changeDate4" type="date" value="2019-09-01">
+					<input id="expenses_changeSum4" type="number" step="100" value="200">
+					<label>Change #4 note: </label>
+					<input id="expenses_lump_note4" type="text" value="Some occasion4">
+				</div>
+				<div id="expenses_lump5_wrapper">
+					<label>Change #5</label>
+					<input id="expenses_changeDate5" type="date" value="2019-11-01">
+					<input id="expenses_changeSum5" type="number" step="100" value="300">
+					<label>Change #5 note: </label>
+					<input id="expenses_lump_note5" type="text" value="Some occasion5">
 				</div>
 
 			</fieldset>
