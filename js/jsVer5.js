@@ -397,15 +397,35 @@ function drawResultsTable() {
         htmlForOutput += `</div>`;
       htmlForOutput += `</div>`;
     })
-
-
-
-
-
   htmlForOutput += `</div>`;
 
   $('#absResults').html(htmlForOutput);
 }
+
+
+
+
+
+//################################################
+//###Total Income (excluding Investment Income)###
+//################################################
+function calcTotalIncomeExcludingInvestmentIncome() {
+  allResults[currentYear][currentMonth]['incomeExcludingInvest'] = allResults[currentYear][currentMonth]['employment'] + allResults[currentYear][currentMonth]['selfEmployment'] + 
+                                                                   allResults[currentYear][currentMonth]['spousalMaintenance'];
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
 
 
 let currentYear, currentMonth;
