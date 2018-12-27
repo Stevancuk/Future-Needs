@@ -18,21 +18,29 @@
 			<fieldset>
 				<legend>Personalia:</legend>
 				Date of birth: <input id="birth" type="date" value="1982-12-14">
+				<label>Filing status:</label>
+				<select id="filling_status">
+					<option value="MFJ"> MFJ </option>
+					<option value="single"> single </option>
+					<option value="HOH"> HOH </option>
+					<option value="MFS"> MFS </option>
+				</select>
+
 			</fieldset>
 
 			<fieldset>
 				<legend>Income - Employment</legend>
 				<label> What is the client’s current net (post-tax) income from employment? </label>
-				<input id="income" type="number" min="0" step="100" value="60000">
+				<input id="income" type="number" min="0" step="100" value="70000">
 				<label> What is the expected avg. increase per year? </label>
-				<input id="income_increase" type="number" min="0" max="100" value="5">
+				<input id="income_increase" type="number" min="0" max="100" value="4">
 				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="income_lump_number">
-					<option value="5"> 5 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
 					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
+					<option value="5"> 5 </option>
 					<option value="0"> No </option>
 				</select>
 
@@ -86,15 +94,15 @@
 				<label>What is the client’s current net (post-tax) income from self-employment? </label>
 				<input id="selfEmployIncome" type="number" min="0" step="100" value="6000">
 				<label>What is the expected average increase per year?</label>
-				<input id="selfEmployIncome_increase" type="number" min="0" max="100" value="4">
+				<input id="selfEmployIncome_increase" type="number" min="0" max="100" value="5">
 				<label>Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
 				<select id="selfEmployIncome_lump_number">
+					<option value="0"> No </option>
 					<option value="5"> 5 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
 					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
-					<option value="0"> No </option>
 				</select>
 
 				<div id="selfEmploy_lump1_wrapper">

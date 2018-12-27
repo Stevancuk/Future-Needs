@@ -15,6 +15,208 @@ const monthNames = {
   11 : "December",
 }
 
+//Standard deduction table
+const standardDeductionTable = {
+  "standard" : {
+    "single" : 12000,
+    "MFJ" : 24000,
+    "MFS" : 12000,
+    "HOH" : 18000    
+  },
+  "additional" : {
+    "single" : 1600,
+    "MFJ" : 2600,
+    "MFS" : 1300,
+    "HOH" : 1600    
+  }
+}
+
+//Taxable Income table
+const taxableIncomeTable = {
+  "single" : {
+    "step1" : {
+      "perc" : 0.1,
+      "max" : 9526
+    },
+    "step2" : {
+      "perc" : 0.12,
+      "max" : 38701
+    },
+    "step3" : {
+      "perc" : 0.22,
+      "max" : 82501
+    },
+    "step4" : {
+      "perc" : 0.24,
+      "max" : 157501
+    },
+    "step5" : {
+      "perc" : 0.32,
+      "max" : 200001
+    },
+    "step6" : {
+      "perc" : 0.35,
+      "max" : 500001
+    },
+    "step7" : {
+      "perc" : 0.37
+    }
+  },
+  "MFJ" : {
+    "step1" : {
+      "perc" : 0.1,
+      "max" : 19050
+    },
+    "step2" : {
+      "perc" : 0.12,
+      "max" : 77400
+    },
+    "step3" : {
+      "perc" : 0.22,
+      "max" : 165000
+    },
+    "step4" : {
+      "perc" : 0.24,
+      "max" : 315000
+    },
+    "step5" : {
+      "perc" : 0.32,
+      "max" : 400000
+    },
+    "step6" : {
+      "perc" : 0.35,
+      "max" : 600001
+    },
+    "step7" : {
+      "perc" : 0.37
+    }
+  },
+  "MFS" : {
+    "step1" : {
+      "perc" : 0.1,
+      "max" : 9526
+    },
+    "step2" : {
+      "perc" : 0.12,
+      "max" : 38701
+    },
+    "step3" : {
+      "perc" : 0.22,
+      "max" : 82501
+    },
+    "step4" : {
+      "perc" : 0.24,
+      "max" : 157501
+    },
+    "step5" : {
+      "perc" : 0.32,
+      "max" : 200001
+    },
+    "step6" : {
+      "perc" : 0.35,
+      "max" : 300001
+    },
+    "step7" : {
+      "perc" : 0.37
+    }
+  },
+  "HOH" : {
+    "step1" : {
+      "perc" : 0.1,
+      "max" : 13600
+    },
+    "step2" : {
+      "perc" : 0.12,
+      "max" : 51800
+    },
+    "step3" : {
+      "perc" : 0.22,
+      "max" : 82501
+    },
+    "step4" : {
+      "perc" : 0.24,
+      "max" : 157501
+    },
+    "step5" : {
+      "perc" : 0.32,
+      "max" : 200001
+    },
+    "step6" : {
+      "perc" : 0.35,
+      "max" : 500001
+    },
+    "step7" : {
+      "perc" : 0.37
+    }
+  }
+}
+
+//Investment Income table
+// THIS ONE DOES NOT HAVE STEPS LIKE LAST ONE ??? BUT SINGLE PERC TO APPLY TO WHOLE SUM ?????
+const investmentIncomeTable = {
+  "single" : {
+    "step1" : {
+      "perc" : 0,
+      "max" : 38601
+    },
+    "step2" : {
+      "perc" : 0.15,
+      "max" : 425801
+    },
+    "step3" : {
+      "perc" : 0.20
+    }
+  },
+  "MFJ" : {
+    "step1" : {
+      "perc" : 0,
+      "max" : 77201
+    },
+    "step2" : {
+      "perc" : 0.15,
+      "max" : 425801
+    },
+    "step3" : {
+      "perc" : 0.20
+    }
+  },
+  "MFS" : {
+    "step1" : {
+      "perc" : 0,
+      "max" : 38601
+    },
+    "step2" : {
+      "perc" : 0.15,
+      "max" : 479001
+    },
+    "step3" : {
+      "perc" : 0.20
+    }
+  },
+  "HOH" : {
+    "step1" : {
+      "perc" : 0,
+      "max" : 51701
+    },
+    "step2" : {
+      "perc" : 0.15,
+      "max" : 452401
+    },
+    "step3" : {
+      "perc" : 0.20
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 let userInputs = {};
 let allResults = {};
 
@@ -406,6 +608,12 @@ function drawResultsTable() {
 
 
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// I'll need to rework this to be yearly, not monthly!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 //################################################
 //###Total Income (excluding Investment Income)###
 //################################################
@@ -413,14 +621,47 @@ function calcTotalIncomeExcludingInvestmentIncome() {
   allResults[currentYear][currentMonth]['incomeExcludingInvest'] = allResults[currentYear][currentMonth]['employment'] + allResults[currentYear][currentMonth]['selfEmployment'] + 
                                                                    allResults[currentYear][currentMonth]['spousalMaintenance'];
 
+  if(userInputs.filling_status == "MFJ") {
+    if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 44000) {
+      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.85;
+    }else if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 32000) {
+      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.50;
+    }
+  }else{
+    if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 34000) {
+      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.85;
+    }else if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 25000) {
+      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.50;
+    }
+  }
+}
 
+//########################
+//###Standard Deduction###
+//########################
+function calcStandardDeduction() {
+  allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status] / 12;
+}
 
+//########################################################
+//###Total Taxable Income (excluding Investment Income)###
+//########################################################
+function calcTotalTaxableIncomeExcludingInvest() {
+  if(allResults[currentYear][currentMonth]['incomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'] < 0) {
+    allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = 0;
+  }else{
+    allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = allResults[currentYear][currentMonth]['incomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'];
+  }
+}
+
+//####################################
+//###Total Tax (with capital gains)###
+//####################################
+function calcTotalTax() {
+    allResults[currentYear][currentMonth]['totalTax'] = allResults[currentYear][currentMonth]['selfEmployment'] * 0.0765 * 2;
 
 
 }
-
-
-
 
 
 
@@ -452,6 +693,10 @@ function calculateMain() {
       calcPension();
 
       calcExpenses();
+
+      calcTotalIncomeExcludingInvestmentIncome();
+      calcStandardDeduction();
+      calcTotalTaxableIncomeExcludingInvest();
 
 
 
