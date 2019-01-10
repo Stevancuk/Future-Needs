@@ -31,6 +31,57 @@ const standardDeductionTable = {
   }
 }
 
+//Takes yearly value of adequate calculated earnings and filling status and returns calculated taxes using Taxable Income table
+function useTableTaxableIncome(status, money) {
+  let taxCalculated = 0;
+  let moneyRemaining = money;
+  for (var i = 6; i > 0; i--) {
+    if(moneyRemaining > taxableIncomeTable[status][`step${i}`].max) {    
+      taxCalculated += ( moneyRemaining - taxableIncomeTable[status][`step${i}`].max ) * taxableIncomeTable[status][`step${i+1}`].perc;
+      moneyRemaining = taxableIncomeTable[status][`step${i}`].max;
+    }
+  }
+  taxCalculated += moneyRemaining * taxableIncomeTable[status].step1.perc;
+
+  // if(moneyRemaining > taxableIncomeTable[status].step6.max) {    
+  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step6.max ) * taxableIncomeTable[status].step7.perc;
+  //   moneyRemaining = taxableIncomeTable[status].step6.max;
+  // }
+  // //...
+  // if(moneyRemaining > taxableIncomeTable[status].step1.max) {    
+  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step1.max ) * taxableIncomeTable[status].step6.perc;
+  //   moneyRemaining = taxableIncomeTable[status].step5.max;
+  // }
+  return taxCalculated;
+}
+
+
+
+
+function useTableLTCG(status, money) {
+
+
+
+
+
+
+
+
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Taxable Income table
 const taxableIncomeTable = {
   "single" : {
@@ -575,6 +626,7 @@ function drawResultsTable() {
     htmlForOutput += `</div>`;
   htmlForOutput += `</div>`;
 
+
     $.each(allResults, function(index, value) {
       htmlForOutput += `<div class="resYandM">`;
         htmlForOutput += `<div class="resYears"> ${index}  </div>`;   
@@ -618,20 +670,33 @@ function drawResultsTable() {
 //###Total Income (excluding Investment Income)###
 //################################################
 function calcTotalIncomeExcludingInvestmentIncome() {
-  allResults[currentYear][currentMonth]['incomeExcludingInvest'] = allResults[currentYear][currentMonth]['employment'] + allResults[currentYear][currentMonth]['selfEmployment'] + 
-                                                                   allResults[currentYear][currentMonth]['spousalMaintenance'];
+  //Calculate every December 
+  if(currentMonth == 11) {
+    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
+    $.each(allResults[currentYear], function(index, value) {
+      allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
+      allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] += value.nonRetireAssetsMonthly;
+      allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
+      allResults[currentYear][currentMonth]['thisYearSocialSecurity'] += value.socialSecurity;
+    })
 
-  if(userInputs.filling_status == "MFJ") {
-    if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 44000) {
-      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.85;
-    }else if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 32000) {
-      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.50;
-    }
-  }else{
-    if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 34000) {
-      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.85;
-    }else if(allResults[currentYear][currentMonth]['nonRetireAssetsMonthly'] > 25000) {
-      allResults[currentYear][currentMonth]['incomeExcludingInvest'] += allResults[currentYear][currentMonth]['socialSecurity'] * 0.50;
+    allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] = allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'];
+
+    if(userInputs.filling_status == "MFJ") {
+      if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 44000) {
+        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.85;
+      }else if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 32000) {
+        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.50;
+      }
+    }else{
+      if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 34000) {
+        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.85;
+      }else if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 25000) {
+        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.50;
+      }
     }
   }
 }
@@ -640,17 +705,21 @@ function calcTotalIncomeExcludingInvestmentIncome() {
 //###Standard Deduction###
 //########################
 function calcStandardDeduction() {
-  allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status] / 12;
+  if(currentMonth == 11) {
+    allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status] / 12;
+  }
 }
 
 //########################################################
 //###Total Taxable Income (excluding Investment Income)###
 //########################################################
 function calcTotalTaxableIncomeExcludingInvest() {
-  if(allResults[currentYear][currentMonth]['incomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'] < 0) {
-    allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = 0;
-  }else{
-    allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = allResults[currentYear][currentMonth]['incomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'];
+  if(currentMonth == 11) {
+    if(allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'] < 0) {
+      allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = 0;
+    }else{
+      allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'];
+    }
   }
 }
 
@@ -658,9 +727,30 @@ function calcTotalTaxableIncomeExcludingInvest() {
 //###Total Tax (with capital gains)###
 //####################################
 function calcTotalTax() {
-    allResults[currentYear][currentMonth]['totalTax'] = allResults[currentYear][currentMonth]['selfEmployment'] * 0.0765 * 2;
+  if(currentMonth == 11) {
+    allResults[currentYear][currentMonth]['totalTax'] = allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] * 0.0765 * 2;
+
+    //Tax table
+    allResults[currentYear][currentMonth]['taxTablePart'] = useTableTaxableIncome(userInputs.filling_status, allResults[currentYear][currentMonth]['totalTaxIncExclInv']);
+    allResults[currentYear][currentMonth]['LTCGTablePart'] = useTableLTCG(userInputs.filling_status, allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment']);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
 }
 
 
@@ -697,7 +787,7 @@ function calculateMain() {
       calcTotalIncomeExcludingInvestmentIncome();
       calcStandardDeduction();
       calcTotalTaxableIncomeExcludingInvest();
-
+      calcTotalTax();
 
 
 
@@ -707,9 +797,8 @@ function calculateMain() {
       drawResultsTable();
 
 
-
       if(i == 0){
-        if(j + currentMonth >= 11) {
+        if(j + userInputs['startingMonth'] >= 11) {
           j = 12;
         }
       }
