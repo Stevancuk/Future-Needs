@@ -31,57 +31,6 @@ const standardDeductionTable = {
   }
 }
 
-//Takes yearly value of adequate calculated earnings and filling status and returns calculated taxes using Taxable Income table
-function useTableTaxableIncome(status, money) {
-  let taxCalculated = 0;
-  let moneyRemaining = money;
-  for (var i = 6; i > 0; i--) {
-    if(moneyRemaining > taxableIncomeTable[status][`step${i}`].max) {    
-      taxCalculated += ( moneyRemaining - taxableIncomeTable[status][`step${i}`].max ) * taxableIncomeTable[status][`step${i+1}`].perc;
-      moneyRemaining = taxableIncomeTable[status][`step${i}`].max;
-    }
-  }
-  taxCalculated += moneyRemaining * taxableIncomeTable[status].step1.perc;
-
-  // if(moneyRemaining > taxableIncomeTable[status].step6.max) {    
-  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step6.max ) * taxableIncomeTable[status].step7.perc;
-  //   moneyRemaining = taxableIncomeTable[status].step6.max;
-  // }
-  // //...
-  // if(moneyRemaining > taxableIncomeTable[status].step1.max) {    
-  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step1.max ) * taxableIncomeTable[status].step6.perc;
-  //   moneyRemaining = taxableIncomeTable[status].step5.max;
-  // }
-  return taxCalculated;
-}
-
-
-
-
-function useTableLTCG(status, money) {
-
-
-
-
-
-
-
-
-  
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Taxable Income table
 const taxableIncomeTable = {
   "single" : {
@@ -202,8 +151,11 @@ const taxableIncomeTable = {
   }
 }
 
+
 //Investment Income table
 // THIS ONE DOES NOT HAVE STEPS LIKE LAST ONE ??? BUT SINGLE PERC TO APPLY TO WHOLE SUM ?????
+
+//I think not, it's same logic ....
 const investmentIncomeTable = {
   "single" : {
     "step1" : {
@@ -259,6 +211,43 @@ const investmentIncomeTable = {
   }
 }
 
+//Takes yearly value of adequate calculated earnings and filling status and returns calculated taxes using Taxable Income table
+function useTableTaxableIncome(status, money) {
+  let taxCalculated = 0;
+  let moneyRemaining = money;
+  for (var i = 6; i > 0; i--) {
+    if(moneyRemaining > taxableIncomeTable[status][`step${i}`].max) {    
+      taxCalculated += ( moneyRemaining - taxableIncomeTable[status][`step${i}`].max ) * taxableIncomeTable[status][`step${i+1}`].perc;
+      moneyRemaining = taxableIncomeTable[status][`step${i}`].max;
+    }
+  }
+  taxCalculated += moneyRemaining * taxableIncomeTable[status].step1.perc;
+
+  // if(moneyRemaining > taxableIncomeTable[status].step6.max) {    
+  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step6.max ) * taxableIncomeTable[status].step7.perc;
+  //   moneyRemaining = taxableIncomeTable[status].step6.max;
+  // }
+  // //...
+  // if(moneyRemaining > taxableIncomeTable[status].step1.max) {    
+  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step1.max ) * taxableIncomeTable[status].step6.perc;
+  //   moneyRemaining = taxableIncomeTable[status].step5.max;
+  // }
+  return taxCalculated;
+}
+
+function useTableLTCG(status, money) {
+	let taxCalculated = 0;
+	let moneyRemaining = money;
+	for (var i = 3; i > 0; i--) {
+	if(moneyRemaining > investmentIncomeTable[status][`step${i}`].max) {    
+	  taxCalculated += ( moneyRemaining - investmentIncomeTable[status][`step${i}`].max ) * investmentIncomeTable[status][`step${i+1}`].perc;
+	  moneyRemaining = investmentIncomeTable[status][`step${i}`].max;
+	}
+	}
+	taxCalculated += moneyRemaining * investmentIncomeTable[status].step1.perc;
+
+	return taxCalculated;  
+}
 
 
 
