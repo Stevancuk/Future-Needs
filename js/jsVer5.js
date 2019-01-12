@@ -652,6 +652,49 @@ function drawResultsTable() {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // I'll need to rework this to be yearly, not monthly!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//DONE
+
+
+
+
+//#################
+//###Yearly sums###
+//#################
+
+function calcTotalIncomeExcludingInvestmentIncome() {
+  //Calculate every December 
+  if(currentMonth == 11) {
+    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
+    allResults[currentYear][currentMonth]['thisYearChildSupport'] = 0;
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // SHOULD PENSION INPUT BE CALCULATED AND INCREASED FROM DAY ONE OR THE INPUT IS THE VALUE EXPECTED AT THE DADY WHEN PENSION STARTS!!!!!
+    // TAXES FOR NON-FINANCIAL ASSETS?????
+    // WHERE TO PUT PLUS EFFECTS FROM EVERY YEAR
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+    // NON-FINANCIAL
+    // pension
+    // expenses
+    // preTax
+    // postTax
+    //AND ALL SUMS ...
+
+
+    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
+    $.each(allResults[currentYear], function(index, value) {
+      allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
+      allResults[currentYear][currentMonth]['thisYearChildSupport'] += value.childSupport;
+      allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] += value.nonRetireAssetsMonthly;
+      allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
+      allResults[currentYear][currentMonth]['thisYearSocialSecurity'] += value.socialSecurity;
+    })
+
+
+  }
+}
 
 
 
@@ -661,16 +704,6 @@ function drawResultsTable() {
 function calcTotalIncomeExcludingInvestmentIncome() {
   //Calculate every December 
   if(currentMonth == 11) {
-    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
-    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
-    $.each(allResults[currentYear], function(index, value) {
-      allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
-      allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] += value.nonRetireAssetsMonthly;
-      allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
-      allResults[currentYear][currentMonth]['thisYearSocialSecurity'] += value.socialSecurity;
-    })
 
     allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] = allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'];
 
@@ -717,30 +750,19 @@ function calcTotalTaxableIncomeExcludingInvest() {
 //####################################
 function calcTotalTax() {
   if(currentMonth == 11) {
-    allResults[currentYear][currentMonth]['totalTax'] = allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] * 0.0765 * 2;
 
     //Tax table
     allResults[currentYear][currentMonth]['taxTablePart'] = useTableTaxableIncome(userInputs.filling_status, allResults[currentYear][currentMonth]['totalTaxIncExclInv']);
     allResults[currentYear][currentMonth]['LTCGTablePart'] = useTableLTCG(userInputs.filling_status, allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment']);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    allResults[currentYear][currentMonth]['totalTax'] = allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] * 0.0765 * 2 + 
+                                allResults[currentYear][currentMonth]['taxTablePart'] + allResults[currentYear][currentMonth]['LTCGTablePart'];
 
   }
 }
+
+
+
 
 
 
