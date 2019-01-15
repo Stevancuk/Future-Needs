@@ -550,10 +550,90 @@ function calcPension() {
 }
 
 //#####################
+//##### PRE-TAX ######
+//#####################
+let currentPreTaxSum;
+function calcPreTax() {
+
+  //****************************************************
+  //SHOULD THERE BE A PERC OF SELF-EMPLOYMENT AS WELL???
+  //****************************************************
+
+  //for first year and first month take the user input for Value of clients Pre-tax
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    allResults[currentYear][currentMonth]['preTaxSum'] = userInputs['preTax_sum'];
+  }else{
+    if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+      allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_beforeRetirement_perc'] / 100 );
+    }else{
+      allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_afterRetirement_perc'] / 100 );
+    }
+  }
+
+  if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+    //Monthly contribution to PRE TAX, user+employer
+    allResults[currentYear][currentMonth]['preTaxMonthly'] = allResults[currentYear][currentMonth]['employment'] * userInputs['preTax_income_perc'] / 100;
+    //Add emplyer contribution
+    allResults[currentYear][currentMonth]['preTaxMonthly'] *= 1 + (userInputs['preTax_employMatch_perc'] / 100);
+    //Add monthly value to sum value
+    allResults[currentYear][currentMonth]['preTaxSum'] += allResults[currentYear][currentMonth]['preTaxMonthly'];
+  }else{
+    allResults[currentYear][currentMonth]['preTaxMonthly'] = 0;
+  }
+  currentPreTaxSum = allResults[currentYear][currentMonth]['preTaxSum'];
+
+  //Decrese income for the monthly value of pre-tax
+  allResults[currentYear][currentMonth]['employment'] = allResults[currentYear][currentMonth]['employment'] * ( 1 - userInputs['preTax_income_perc'] / 100 );
+}
+
+//#####################
+//##### POST-TAX ######
+//#####################
+let currentPostTaxSum;
+function calcPostTax() {
+
+  //****************************************************
+  //SHOULD THERE BE A PERC OF SELF-EMPLOYMENT AS WELL???
+  //****************************************************
+
+  //for first year and first month take the user input for Value of clients Post-tax
+  if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
+    allResults[currentYear][currentMonth]['postTaxSum'] = userInputs['postTax_sum'];
+  }else{
+    if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+      allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_beforeRetirement_perc'] / 100 );
+    }else{
+      allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_afterRetirement_perc'] / 100 );
+    }
+  }
+
+  if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+    //Monthly contribution to POST TAX, user+employer
+    allResults[currentYear][currentMonth]['postTaxMonthly'] = allResults[currentYear][currentMonth]['employment'] * userInputs['postTax_income_perc'] / 100;
+    //Add emplyer contribution
+    allResults[currentYear][currentMonth]['postTaxMonthly'] *= 1 + (userInputs['postTax_employMatch_perc'] / 100);
+    //Add monthly value to sum value
+    allResults[currentYear][currentMonth]['postTaxSum'] += allResults[currentYear][currentMonth]['postTaxMonthly'];
+  }else{
+    allResults[currentYear][currentMonth]['postTaxMonthly'] = 0;
+  }
+  currentPostTaxSum = allResults[currentYear][currentMonth]['postTaxSum'];
+}
+
+
+//#####################
 //##### Expenses ######
 //#####################
 let currentExpenses;
 function calcExpenses() {
+
+
+  //****************************
+  //ADD POST-TAX 
+  //****************************
+
+
+
   //for first year and first month take the user input
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['expenses'] = userInputs['expenses_sum'];
@@ -604,13 +684,22 @@ function drawResultsTable() {
         htmlForOutput += `<div class="resBold"> Self Employ </div>`;    
         htmlForOutput += `<div class="resBold"> Alimony </div>`;    
         htmlForOutput += `<div class="resBold"> Child Supp </div>`;    
-        htmlForOutput += `<div class="resBold"> Fin-Ass Val </div>`;    
         htmlForOutput += `<div class="resBold"> Fin-Ass Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Non-Fin-Ass Val </div>`;    
-        htmlForOutput += `<div class="resBold"> Non-Fin Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Soc. Security </div>`;    
+        htmlForOutput += `<div class="resBold"> Soc. Security </div>`; 
+        htmlForOutput += `<div class="resBold"> TotIncExclInvInc </div>`;    
+        htmlForOutput += `<div class="resBold"> Standard deduc </div>`;    
+        htmlForOutput += `<div class="resBold"> TotTaxIncExcInv </div>`;    
+        htmlForOutput += `<div class="resBold"> Total Tax </div>`;    
         htmlForOutput += `<div class="resBold"> Pension </div>`;    
         htmlForOutput += `<div class="resBold"> Expenses </div>`;    
+        htmlForOutput += `<div class="resBold"> Surplus/Shortfall </div>`;    
+        htmlForOutput += `<div class="resBold"> Non-Fin-Ass Val </div>`;    
+        htmlForOutput += `<div class="resBold"> Non-Fin Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Fin-Ass Val </div>`;    
+        htmlForOutput += `<div class="resBold"> Post-tax Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Post-tax Sum </div>`;    
+        htmlForOutput += `<div class="resBold"> Pre-tax Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Pre-tax Sum</div>`;    
       htmlForOutput += `</div>`;
     htmlForOutput += `</div>`;
   htmlForOutput += `</div>`;
@@ -628,13 +717,29 @@ function drawResultsTable() {
             htmlForOutput += `<div class="resMonths"> ${value2.selfEmployment.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.spousalMaintenance.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.childSupport.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsValue.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsValue.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.socialSecurity.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.socialSecurity.toFixed(2)}  </div>`; 
+            if(index2 == 11) {
+              htmlForOutput += `<div class="resMonths"> ${value2.thisYearIncomeExcludingInvest.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths"> ${value2.standardDeduction.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths"> ${value2.totalTaxIncExclInv.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths"> ${value2.totalTax.toFixed(2)}  </div>`;              
+            }else{
+              htmlForOutput += `<div class="resMonths"> / </div>`;
+              htmlForOutput += `<div class="resMonths"> / </div>`;
+              htmlForOutput += `<div class="resMonths"> / </div>`;
+              htmlForOutput += `<div class="resMonths"> / </div>`;
+            }           
             htmlForOutput += `<div class="resMonths"> ${value2.pension.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> Surplus </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsValue.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsValue.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.postTaxMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.postTaxSum.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.preTaxMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.preTaxSum.toFixed(2)}  </div>`;
           htmlForOutput += `</div>`;
         });
         htmlForOutput += `</div>`;
@@ -661,7 +766,7 @@ function drawResultsTable() {
 //###Yearly sums###
 //#################
 
-function calcTotalIncomeExcludingInvestmentIncome() {
+function calcYearlySums() {
   //Calculate every December 
   if(currentMonth == 11) {
     allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
@@ -728,7 +833,7 @@ function calcTotalIncomeExcludingInvestmentIncome() {
 //########################
 function calcStandardDeduction() {
   if(currentMonth == 11) {
-    allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status] / 12;
+    allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status];
   }
 }
 
@@ -792,9 +897,12 @@ function calculateMain() {
       calcNonFinanAssets();
       calcSocialSecurity();
       calcPension();
+      calcPreTax();
+      calcPostTax();
 
       calcExpenses();
 
+      calcYearlySums();
       calcTotalIncomeExcludingInvestmentIncome();
       calcStandardDeduction();
       calcTotalTaxableIncomeExcludingInvest();

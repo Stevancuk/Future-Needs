@@ -31,7 +31,7 @@
 			<fieldset>
 				<legend>Income - Employment</legend>
 				<label> What is the client’s current net (post-tax) income from employment? </label>
-				<input id="income" type="number" min="0" step="100" value="70000">
+				<input id="income" type="number" min="0" step="100" value="72916.67">
 				<label> What is the expected avg. increase per year? </label>
 				<input id="income_increase" type="number" min="0" max="100" value="4">
 				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
@@ -320,7 +320,7 @@
 					<option value="No">No</option>
 				</select>
 				<label>When do they expect to begin receiving such benefits? </label>
-				<input id="pension1_startDate" type="date" value="2019-06-04" >
+				<input id="pension1_startDate" type="date" value="2020-06-04" >
 				<label>How much do they expect to receive in net after-tax dollars from such income stream?</label>
 				<input id="pension1_sum" type="number" min="0" value="3000">
 				<label>Will there be any cost of living increase in such benefits, and if so how much? </label>
@@ -392,10 +392,18 @@
 
 				<label>What is the total value of the client’s post-tax (i.e.: Roth) retirement assets? </label>
 				<input id="postTax_sum" type="number" min="0" value="30000">
-				<label>What is the average expected increase per year in value prior to retirement (to include contribtutions)?</label>
-				<input id="postTax_beforeRetirement_perc" type="number" min="0" max="100" value="7">
+
+
+				<label>What percentage of your income (if any) will you be contibuting to a (pre-/post) retirement plan?</label>
+				<input id="postTax_income_perc" type="number" min="0" max="100" value="4">
+				<label>what percentage of your contibutions (if any) will your employer match?</label>
+				<input id="postTax_employMatch_perc" type="number" min="0" max="1000" value="50">
+
+
+				<label>What is the average expected increase per year in value prior to retirement?</label>
+				<input id="postTax_beforeRetirement_perc" type="number" min="0" max="100" value="3">
 				<label>What is the average expected increase per year in value after retirement? </label>
-				<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="3">				
+				<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="4">				
 			</fieldset>
 
 			<fieldset>
@@ -403,10 +411,16 @@
 
 				<label>What is the total value of the client’s pre-tax (i.e. 401(k), Traditional IRA, etc.) retirement assets? </label>
 				<input id="preTax_sum" type="number" min="0" value="50000">
-				<label>What is the average expected increase per year in value prior to retirement (to include contribtutions)? </label>
-				<input id="preTax_beforeRetirement_perc" type="number" min="0" max="100" value="6">
+
+				<label>What percentage of your income (if any) will you be contibuting to a (pre-/post) retirement plan?</label>
+				<input id="preTax_income_perc" type="number" min="0" max="100" value="4">
+				<label>what percentage of your contibutions (if any) will your employer match?</label>
+				<input id="preTax_employMatch_perc" type="number" min="0" max="1000" value="100">
+
+				<label>What is the average expected increase per year in value prior to retirement? </label>
+				<input id="preTax_beforeRetirement_perc" type="number" min="0" max="100" value="4">
 				<label>What is the average expected increase per year in value after retirement? </label>
-				<input id="preTax_afterRetirement_perc" type="number" min="0" max="100" value="2">	
+				<input id="preTax_afterRetirement_perc" type="number" min="0" max="100" value="5">	
 				<label>What % of withdrawals should we assume will go to income tax (usually estimated effective tax rate at retirement)? </label>
 				<input id="preTax_withdrawal_perc" type="number" min="0" max="100" value="3">				
 			</fieldset>
