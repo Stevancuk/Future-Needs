@@ -26,7 +26,7 @@ fieldset {
 
 #absResults {
 	display: none;
-	position: fixed;
+	position: absolute;
 	top: 0px;
 	right: 0px;
 	background-color: white;
@@ -61,4 +61,10 @@ fieldset {
 	overflow: hidden;
 	padding: 5px 0px;
 	padding-left: 3px;
+}
+.gryBck {
+	background-color: #e3e3e3
+}
+.resultWide {
+	width: 80px;
 }

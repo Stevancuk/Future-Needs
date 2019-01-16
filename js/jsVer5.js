@@ -626,14 +626,6 @@ function calcPostTax() {
 //#####################
 let currentExpenses;
 function calcExpenses() {
-
-
-  //****************************
-  //ADD POST-TAX 
-  //****************************
-
-
-
   //for first year and first month take the user input
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['expenses'] = userInputs['expenses_sum'];
@@ -661,96 +653,16 @@ function calcExpenses() {
   //   if(userInputs['expensesLump3Year'] == currentYear && userInputs['expensesLump3Month'] == currentMonth) {
   //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum3'];
   //   }
-  // }
+  // } 
+
+
+  //ADD POST-TAX 
+  allResults[currentYear][currentMonth]['expenses'] += allResults[currentYear][currentMonth]['postTaxMonthly'];
+
+
 
   currentExpenses = allResults[currentYear][currentMonth]['expenses'];
 }
-
-
-
-
-
-
-
-function drawResultsTable() {
-  let htmlForOutput = `<div id="resultsWrapper">`;
-
-  htmlForOutput += `<div class="resYandM">`;
-    htmlForOutput += `<div class="resYears"> Results  </div>`;   
-    htmlForOutput += `<div class="resYears"> Months  </div>`;   
-    htmlForOutput += `<div class="resYears">`;   
-      htmlForOutput += `<div class="resYandM">`;    
-        htmlForOutput += `<div class="resBold"> Employmnet  </div> `;    
-        htmlForOutput += `<div class="resBold"> Self Employ </div>`;    
-        htmlForOutput += `<div class="resBold"> Alimony </div>`;    
-        htmlForOutput += `<div class="resBold"> Child Supp </div>`;    
-        htmlForOutput += `<div class="resBold"> Fin-Ass Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Soc. Security </div>`; 
-        htmlForOutput += `<div class="resBold"> TotIncExclInvInc </div>`;    
-        htmlForOutput += `<div class="resBold"> Standard deduc </div>`;    
-        htmlForOutput += `<div class="resBold"> TotTaxIncExcInv </div>`;    
-        htmlForOutput += `<div class="resBold"> Total Tax </div>`;    
-        htmlForOutput += `<div class="resBold"> Pension </div>`;    
-        htmlForOutput += `<div class="resBold"> Expenses </div>`;    
-        htmlForOutput += `<div class="resBold"> Surplus/Shortfall </div>`;    
-        htmlForOutput += `<div class="resBold"> Non-Fin-Ass Val </div>`;    
-        htmlForOutput += `<div class="resBold"> Non-Fin Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Fin-Ass Val </div>`;    
-        htmlForOutput += `<div class="resBold"> Post-tax Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Post-tax Sum </div>`;    
-        htmlForOutput += `<div class="resBold"> Pre-tax Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Pre-tax Sum</div>`;    
-      htmlForOutput += `</div>`;
-    htmlForOutput += `</div>`;
-  htmlForOutput += `</div>`;
-
-
-    $.each(allResults, function(index, value) {
-      htmlForOutput += `<div class="resYandM">`;
-        htmlForOutput += `<div class="resYears"> ${index}  </div>`;   
-
-        htmlForOutput += `<div class="resYandM">`;
-        $.each(value, function(index2, value2) {
-          htmlForOutput += `<div class="resYandM">`;
-            htmlForOutput += `<div class="resMonths"> ${monthNames[index2]}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.employment.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.selfEmployment.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.spousalMaintenance.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.childSupport.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.socialSecurity.toFixed(2)}  </div>`; 
-            if(index2 == 11) {
-              htmlForOutput += `<div class="resMonths"> ${value2.thisYearIncomeExcludingInvest.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths"> ${value2.standardDeduction.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths"> ${value2.totalTaxIncExclInv.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths"> ${value2.totalTax.toFixed(2)}  </div>`;              
-            }else{
-              htmlForOutput += `<div class="resMonths"> / </div>`;
-              htmlForOutput += `<div class="resMonths"> / </div>`;
-              htmlForOutput += `<div class="resMonths"> / </div>`;
-              htmlForOutput += `<div class="resMonths"> / </div>`;
-            }           
-            htmlForOutput += `<div class="resMonths"> ${value2.pension.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> Surplus </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsValue.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsValue.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.postTaxMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.postTaxSum.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.preTaxMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.preTaxSum.toFixed(2)}  </div>`;
-          htmlForOutput += `</div>`;
-        });
-        htmlForOutput += `</div>`;
-      htmlForOutput += `</div>`;
-    })
-  htmlForOutput += `</div>`;
-
-  $('#absResults').html(htmlForOutput);
-}
-
-
 
 
 
@@ -769,32 +681,35 @@ function drawResultsTable() {
 function calcYearlySums() {
   //Calculate every December 
   if(currentMonth == 11) {
-    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
+    allResults[currentYear][currentMonth]['thisYearEmployment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearAlimony'] = 0;
     allResults[currentYear][currentMonth]['thisYearChildSupport'] = 0;
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // SHOULD PENSION INPUT BE CALCULATED AND INCREASED FROM DAY ONE OR THE INPUT IS THE VALUE EXPECTED AT THE DADY WHEN PENSION STARTS!!!!!
-    // TAXES FOR NON-FINANCIAL ASSETS?????
-    // WHERE TO PUT PLUS EFFECTS FROM EVERY YEAR
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
+    allResults[currentYear][currentMonth]['thisYearNonFinancial'] = 0;
+    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
+    allResults[currentYear][currentMonth]['thisYearPension'] = 0;
+    allResults[currentYear][currentMonth]['thisYearExpenses'] = 0;
 
-
-    // NON-FINANCIAL
-    // pension
-    // expenses
     // preTax
     // postTax
-    //AND ALL SUMS ...
 
 
-    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
     $.each(allResults[currentYear], function(index, value) {
-      allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
+      allResults[currentYear][currentMonth]['thisYearEmployment'] += value.employment;
+      allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
+      allResults[currentYear][currentMonth]['thisYearAlimony'] += value.spousalMaintenance;
       allResults[currentYear][currentMonth]['thisYearChildSupport'] += value.childSupport;
       allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] += value.nonRetireAssetsMonthly;
-      allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
+      allResults[currentYear][currentMonth]['thisYearNonFinancial'] += value.nonFinanAssetsMonthly;
       allResults[currentYear][currentMonth]['thisYearSocialSecurity'] += value.socialSecurity;
+      allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
+      // if ( (currentYear > userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && index >= userInputs['pensionStartingMonth']) ) {
+        allResults[currentYear][currentMonth]['thisYearPension'] += value.pension;
+      // }
+      allResults[currentYear][currentMonth]['thisYearExpenses'] += value.expenses;
+
     })
 
 
@@ -866,7 +781,142 @@ function calcTotalTax() {
   }
 }
 
+//####################################
+//##########Surplus/Shortfall#########
+//####################################
+function calcSurplusShortfall() {
 
+
+
+
+
+
+
+
+}
+
+function drawResultsTable() {
+  let htmlForOutput = `<div id="resultsWrapper">`;
+
+  htmlForOutput += `<div class="resYandM">`;
+    htmlForOutput += `<div class="resYears"> Results  </div>`;   
+    htmlForOutput += `<div class="resYears"> Months  </div>`;   
+    htmlForOutput += `<div class="resYears">`;   
+      htmlForOutput += `<div class="resYandM">`;    
+        htmlForOutput += `<div class="resBold"> Employmnet  </div> `;    
+        htmlForOutput += `<div class="resBold"> Self Employ </div>`;    
+        htmlForOutput += `<div class="resBold"> Alimony </div>`;    
+        htmlForOutput += `<div class="resBold"> Child Supp </div>`;    
+        htmlForOutput += `<div class="resBold"> Fin-Ass Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Soc. Security </div>`; 
+        htmlForOutput += `<div class="resBold"> Pension </div>`;    
+        htmlForOutput += `<div class="resBold"> Non-Fin-Ass Val </div>`;    
+        htmlForOutput += `<div class="resBold"> Non-Fin Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Fin-Ass Val </div>`;    
+        htmlForOutput += `<div class="resBold"> Post-tax Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Post-tax Sum </div>`;    
+        htmlForOutput += `<div class="resBold"> Pre-tax Monthly </div>`;    
+        htmlForOutput += `<div class="resBold"> Pre-tax Sum</div>`;    
+        htmlForOutput += `<div class="resBold"> Expenses </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> year Income </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> Self Employ </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> Alimony </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Child Supp </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Fin-Ass Monthly </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Soc. Security </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Pension </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Non-Fin-Ass Val </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Pre tax </div>`; 
+        htmlForOutput += `<div class="resBold gryBck"> Post tax </div>`; 
+
+        htmlForOutput += `<div class="resBold gryBck"> TotIncExclInvInc </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> Standard deduc </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> TotTaxIncExcInv </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> Total Tax </div>`;    
+        htmlForOutput += `<div class="resBold gryBck"> Expenses </div>`;    
+        htmlForOutput += `<div class="resBold"> Surplus/Shortfall </div>`;    
+      htmlForOutput += `</div>`;
+    htmlForOutput += `</div>`;
+  htmlForOutput += `</div>`;
+
+
+
+
+  //**********************************************************************************
+  //**********MAKE ALL PLUS AND ALL MINUS FIELDS - ALL MINUS DARKER COLOR*************
+  //**********************************************************************************
+
+
+
+
+    $.each(allResults, function(index, value) {
+      htmlForOutput += `<div class="resYandM">`;
+        htmlForOutput += `<div class="resYears"> ${index}  </div>`;   
+
+        htmlForOutput += `<div class="resYandM">`;
+        $.each(value, function(index2, value2) {
+          htmlForOutput += `<div class="resYandM">`;
+            htmlForOutput += `<div class="resMonths"> ${monthNames[index2]}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.employment.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.selfEmployment.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.spousalMaintenance.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.childSupport.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.socialSecurity.toFixed(2)}  </div>`; 
+            htmlForOutput += `<div class="resMonths"> ${value2.pension.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsValue.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsValue.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.postTaxMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.postTaxSum.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.preTaxMonthly.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.preTaxSum.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
+            if(index2 == 11) {
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearEmployment.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearInceomeFromSelfEmployment.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearAlimony.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearChildSupport.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearInceomeFromInvestment.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearSocialSecurity.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearPension.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearNonFinancial.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> Pre tax </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> Post tax </div>`;
+
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearIncomeExcludingInvest.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.standardDeduction.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.totalTaxIncExclInv.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.totalTax.toFixed(2)}  </div>`;              
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearExpenses.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="resMonths gryBck resultWide"> Surplus </div>`;
+            }else{
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+            }           
+          htmlForOutput += `</div>`;
+        });
+        htmlForOutput += `</div>`;
+      htmlForOutput += `</div>`;
+    })
+  htmlForOutput += `</div>`;
+
+  $('#absResults').html(htmlForOutput);
+}
 
 
 
@@ -878,7 +928,7 @@ function calcTotalTax() {
 let currentYear, currentMonth;
 function calculateMain() {
   // add years
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 2; i++) {
     currentYear = userInputs['startingYear'] + i;
     allResults[currentYear] = {};
     //For each month
@@ -907,6 +957,8 @@ function calculateMain() {
       calcStandardDeduction();
       calcTotalTaxableIncomeExcludingInvest();
       calcTotalTax();
+
+      calcSurplusShortfall();
 
 
 
