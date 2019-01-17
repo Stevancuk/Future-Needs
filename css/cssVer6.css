@@ -68,3 +68,9 @@ fieldset {
 .resultWide {
 	width: 80px;
 }
+.allIncomesGreen {
+	background-color: #90EE90;
+}
+.allExpensesRed {
+	background-color: #FF0000;
+}
