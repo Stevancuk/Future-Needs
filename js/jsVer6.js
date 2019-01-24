@@ -555,10 +555,6 @@ function calcPension() {
 let currentPreTaxSum;
 function calcPreTax() {
 
-  //****************************************************
-  //SHOULD THERE BE A PERC OF SELF-EMPLOYMENT AS WELL???
-  //****************************************************
-
   //for first year and first month take the user input for Value of clients Pre-tax
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['preTaxSum'] = userInputs['preTax_sum'];
@@ -575,6 +571,8 @@ function calcPreTax() {
     allResults[currentYear][currentMonth]['preTaxMonthly'] = allResults[currentYear][currentMonth]['employment'] * userInputs['preTax_income_perc'] / 100;
     //Add emplyer contribution
     allResults[currentYear][currentMonth]['preTaxMonthly'] *= 1 + (userInputs['preTax_employMatch_perc'] / 100);
+    //Add self employment
+    allResults[currentYear][currentMonth]['preTaxMonthly'] += allResults[currentYear][currentMonth]['selfEmployment'] * userInputs['preTax_income_perc'] / 100;
     //Add monthly value to sum value
     allResults[currentYear][currentMonth]['preTaxSum'] += allResults[currentYear][currentMonth]['preTaxMonthly'];
   }else{
@@ -582,8 +580,10 @@ function calcPreTax() {
   }
   currentPreTaxSum = allResults[currentYear][currentMonth]['preTaxSum'];
 
-  //Decrese income for the monthly value of pre-tax
+  //Decrease income for the monthly value of pre-tax
   allResults[currentYear][currentMonth]['employment'] = allResults[currentYear][currentMonth]['employment'] * ( 1 - userInputs['preTax_income_perc'] / 100 );
+  //Decrease self employment income for the monthly value of pre-tax
+  allResults[currentYear][currentMonth]['selfEmployment'] = allResults[currentYear][currentMonth]['selfEmployment'] * ( 1 - userInputs['preTax_income_perc'] / 100 );
 }
 
 //#####################
@@ -591,10 +591,6 @@ function calcPreTax() {
 //#####################
 let currentPostTaxSum;
 function calcPostTax() {
-
-  //****************************************************
-  //SHOULD THERE BE A PERC OF SELF-EMPLOYMENT AS WELL???
-  //****************************************************
 
   //for first year and first month take the user input for Value of clients Post-tax
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
@@ -612,6 +608,8 @@ function calcPostTax() {
     allResults[currentYear][currentMonth]['postTaxMonthly'] = allResults[currentYear][currentMonth]['employment'] * userInputs['postTax_income_perc'] / 100;
     //Add emplyer contribution
     allResults[currentYear][currentMonth]['postTaxMonthly'] *= 1 + (userInputs['postTax_employMatch_perc'] / 100);
+    //Add self employment
+    allResults[currentYear][currentMonth]['postTaxMonthly'] += allResults[currentYear][currentMonth]['selfEmployment'] * userInputs['postTax_income_perc'] / 100;
     //Add monthly value to sum value
     allResults[currentYear][currentMonth]['postTaxSum'] += allResults[currentYear][currentMonth]['postTaxMonthly'];
   }else{
@@ -679,41 +677,37 @@ function calcExpenses() {
 //#################
 
 function calcYearlySums() {
-  //Calculate every December 
-  if(currentMonth == 11) {
-    allResults[currentYear][currentMonth]['thisYearEmployment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearAlimony'] = 0;
-    allResults[currentYear][currentMonth]['thisYearChildSupport'] = 0;
-    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
-    allResults[currentYear][currentMonth]['thisYearNonFinancial'] = 0;
-    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
-    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
-    allResults[currentYear][currentMonth]['thisYearPension'] = 0;
-    allResults[currentYear][currentMonth]['thisYearExpenses'] = 0;
+  
+  allResults[currentYear][currentMonth]['thisYearEmployment'] = 0;
+  allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] = 0;
+  allResults[currentYear][currentMonth]['thisYearAlimony'] = 0;
+  allResults[currentYear][currentMonth]['thisYearChildSupport'] = 0;
+  allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] = 0;
+  allResults[currentYear][currentMonth]['thisYearNonFinancial'] = 0;
+  allResults[currentYear][currentMonth]['thisYearSocialSecurity'] = 0;
+  allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] = 0;
+  allResults[currentYear][currentMonth]['thisYearPension'] = 0;
+  allResults[currentYear][currentMonth]['thisYearExpenses'] = 0;
 
-    // preTax
-    // postTax
-
-
-    $.each(allResults[currentYear], function(index, value) {
-      allResults[currentYear][currentMonth]['thisYearEmployment'] += value.employment;
-      allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
-      allResults[currentYear][currentMonth]['thisYearAlimony'] += value.spousalMaintenance;
-      allResults[currentYear][currentMonth]['thisYearChildSupport'] += value.childSupport;
-      allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] += value.nonRetireAssetsMonthly;
-      allResults[currentYear][currentMonth]['thisYearNonFinancial'] += value.nonFinanAssetsMonthly;
-      allResults[currentYear][currentMonth]['thisYearSocialSecurity'] += value.socialSecurity;
-      allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
-      // if ( (currentYear > userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && index >= userInputs['pensionStartingMonth']) ) {
-        allResults[currentYear][currentMonth]['thisYearPension'] += value.pension;
-      // }
-      allResults[currentYear][currentMonth]['thisYearExpenses'] += value.expenses;
-
-    })
+  // preTax
+  // postTax
 
 
-  }
+  $.each(allResults[currentYear], function(index, value) {
+    allResults[currentYear][currentMonth]['thisYearEmployment'] += value.employment;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
+    allResults[currentYear][currentMonth]['thisYearAlimony'] += value.spousalMaintenance;
+    allResults[currentYear][currentMonth]['thisYearChildSupport'] += value.childSupport;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] += value.nonRetireAssetsMonthly;
+    allResults[currentYear][currentMonth]['thisYearNonFinancial'] += value.nonFinanAssetsMonthly;
+    allResults[currentYear][currentMonth]['thisYearSocialSecurity'] += value.socialSecurity;
+    allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'] += value.employment + value.selfEmployment + value.spousalMaintenance;
+    // if ( (currentYear > userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && index >= userInputs['pensionStartingMonth']) ) {
+      allResults[currentYear][currentMonth]['thisYearPension'] += value.pension;
+    // }
+    allResults[currentYear][currentMonth]['thisYearExpenses'] += value.expenses;
+
+  })
 }
 
 
@@ -722,23 +716,20 @@ function calcYearlySums() {
 //###Total Income (excluding Investment Income)###
 //################################################
 function calcTotalIncomeExcludingInvestmentIncome() {
-  //Calculate every December 
-  if(currentMonth == 11) {
 
-    allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] = allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'];
+  allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] = allResults[currentYear][currentMonth]['thisYearInceomeFromEmployPlusSelfEmplPlusSpousMaintain'];
 
-    if(userInputs.filling_status == "MFJ") {
-      if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 44000) {
-        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.85;
-      }else if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 32000) {
-        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.50;
-      }
-    }else{
-      if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 34000) {
-        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.85;
-      }else if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 25000) {
-        allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.50;
-      }
+  if(userInputs.filling_status == "MFJ") {
+    if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 44000) {
+      allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.85;
+    }else if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 32000) {
+      allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.50;
+    }
+  }else{
+    if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 34000) {
+      allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.85;
+    }else if(allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] > 25000) {
+      allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] += allResults[currentYear][currentMonth]['thisYearSocialSecurity'] * 0.50;
     }
   }
 }
@@ -747,21 +738,17 @@ function calcTotalIncomeExcludingInvestmentIncome() {
 //###Standard Deduction###
 //########################
 function calcStandardDeduction() {
-  if(currentMonth == 11) {
-    allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status];
-  }
+  allResults[currentYear][currentMonth]['standardDeduction'] =  standardDeductionTable.standard[userInputs.filling_status];
 }
 
 //########################################################
 //###Total Taxable Income (excluding Investment Income)###
 //########################################################
 function calcTotalTaxableIncomeExcludingInvest() {
-  if(currentMonth == 11) {
-    if(allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'] < 0) {
-      allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = 0;
-    }else{
-      allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'];
-    }
+  if(allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'] < 0) {
+    allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = 0;
+  }else{
+    allResults[currentYear][currentMonth]['totalTaxIncExclInv'] = allResults[currentYear][currentMonth]['thisYearIncomeExcludingInvest'] - allResults[currentYear][currentMonth]['standardDeduction'];
   }
 }
 
@@ -769,7 +756,6 @@ function calcTotalTaxableIncomeExcludingInvest() {
 //###Total Tax (with capital gains)###
 //####################################
 function calcTotalTax() {
-  if(currentMonth == 11) {
 
     //Tax table
     allResults[currentYear][currentMonth]['taxTablePart'] = useTableTaxableIncome(userInputs.filling_status, allResults[currentYear][currentMonth]['totalTaxIncExclInv']);
@@ -778,14 +764,26 @@ function calcTotalTax() {
     allResults[currentYear][currentMonth]['totalTax'] = allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] * 0.0765 * 2 + 
                                 allResults[currentYear][currentMonth]['taxTablePart'] + allResults[currentYear][currentMonth]['LTCGTablePart'];
 
-  }
 }
 
 //####################################
 //##########Surplus/Shortfall#########
 //####################################
 function calcSurplusShortfall() {
-  if(currentMonth == 11) {
+
+
+  //NEED TO MAKE SURPLUS/SHORTFALL MONTHL
+
+
+
+
+
+
+
+
+
+
+
     allResults[currentYear][currentMonth]['thisYearPlusSide'] = allResults[currentYear][currentMonth]['thisYearEmployment'] + allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] +
                                         allResults[currentYear][currentMonth]['thisYearAlimony'] + allResults[currentYear][currentMonth]['thisYearChildSupport'] +
                                         allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] + allResults[currentYear][currentMonth]['thisYearSocialSecurity'] +
@@ -794,17 +792,6 @@ function calcSurplusShortfall() {
     allResults[currentYear][currentMonth]['thisYearMinusSide'] = allResults[currentYear][currentMonth]['thisYearExpenses'] + allResults[currentYear][currentMonth]['totalTax'];
 
     allResults[currentYear][currentMonth]['thisYearSurplusShortfall'] = allResults[currentYear][currentMonth]['thisYearPlusSide'] - allResults[currentYear][currentMonth]['thisYearMinusSide'];
-
-  }
-
-
-
-    
-    
-
-
-
-
 
 }
 
@@ -950,24 +937,29 @@ function calculateMain() {
       allResults[currentYear][currentMonth] = {};
       calcEmployment();
       calcSelfEmploy();
+      //Post-tax is calculated first because idea is to have the same ammmount in pre-tax and post-tax contributions if user inputs same perc for contributions
+      //That is: DON'T lower the income for pre-tax contributions and calc post-tax contribuutions out of the rest
+      calcPostTax();
+      //Pre-tax contributions lower the income and self-employment income
+      calcPreTax();
       calcSpousalMaintenance();
       calcChildSupport();
-      calcNonRetireAssets();
       calcNonFinanAssets();
       calcSocialSecurity();
       calcPension();
-      calcPreTax();
-      calcPostTax();
-
+      calcNonRetireAssets();
       calcExpenses();
 
-      calcYearlySums();
-      calcTotalIncomeExcludingInvestmentIncome();
-      calcStandardDeduction();
-      calcTotalTaxableIncomeExcludingInvest();
-      calcTotalTax();
+      //Calculate every December 
+      if(currentMonth == 11) {
+        calcYearlySums();
+        calcTotalIncomeExcludingInvestmentIncome();
+        calcStandardDeduction();
+        calcTotalTaxableIncomeExcludingInvest();
+        calcTotalTax();
 
-      calcSurplusShortfall();
+        calcSurplusShortfall();
+      }
 
 
 
