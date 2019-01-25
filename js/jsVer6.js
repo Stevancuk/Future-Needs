@@ -772,27 +772,100 @@ function calcTotalTax() {
 function calcSurplusShortfall() {
 
 
-  //NEED TO MAKE SURPLUS/SHORTFALL MONTHL
+  //NEED TO MAKE SURPLUS/SHORTFALL MONTHLy
+  let monthlyTax = allResults[currentYear][currentMonth]['totalTax'];
+  let currentSurpluses = 0; //These fonds are 'temp' during one year
+  let currentShortfall = 0; //This variable is here only for calculations in one month
+  let postTaxFondsUsedThisMonth, preTaxFondsUsedThisMonth;
+
+  $.each(allResults[currentYear], function(index2, value2) {
+    value2['thisMonthTax'] = monthlyTax / 12;
+
+    value2['thisMonthPlusSide'] = value2['employment'] + value2['selfEmployment'] + value2['spousalMaintenance'] +
+                       value2['childSupport'] + value2['nonFinanAssetsMonthly'] + value2['nonRetireAssetsMonthly'] +
+                       value2['socialSecurity'] + value2['pension'];
+    value2['thisMonthMinusSide'] = value2['thisMonthTax'] + value2['expenses'];
+    value2['surplusShortfall'] = value2['thisMonthPlusSide'] - value2['thisMonthMinusSide'];
+
+    //If there is a Surplus add it to Non-retirement financial assets
+    //It's stored on a special place during the year...
+    if( value2['surplusShortfall'] >= 0) {
+      currentSurpluses += value2['surplusShortfall'];
+    }else{
+      //if there is a shortfall
+      currentShortfall = (-1 * value2['surplusShortfall']);
+      //check first if there are funds from earlier months surpluses in this year
+      if(currentSurpluses > 0) {
+        //if there are enough fonds here, cover all lose from these fonds
+        if ( currentSurpluses >= currentShortfall ) {
+          currentSurpluses -= currentShortfall;
+          currentShortfall = 0;
+        }else{
+          //when there are not enough fonds in this years 'savings', first empty those fonds
+          currentShortfall = currentShortfall - currentSurpluses;
+          currentSurpluses = 0;
+        }
+      }
+      //Then go to pre-tax, post-tax first after retirement
+      //or go to non-retirement financial assets before retirement
+      if ( (currentYear > userInputs['retirementYear']) || (userInputs['retirementYear'] == currentYear && index2 >= userInputs['retirementMonth']) ) {
+        //if there are fonds in post-tax
+        if(value2['postTaxSum'] > 0) {
+          //check if there are enough fonds in post-tax to cover shortfall in whole
+          if(value2['postTaxSum'] >= currentShortfall) {
+            value2['postTaxSum'] -= currentShortfall;
+            //TRACK NOW MUCH FONDS ARE USED TO FIX VALUES IN FOLOWING MONTHS OF THIS YEAR!!!!!
+            postTaxFondsUsedThisMonth = currentShortfall;
+            currentShortfall = 0;
+          }else{
+            // when post tax can only partially cover shortfall
+            postTaxFondsUsedThisMonth = value2['postTaxSum'];
+            currentShortfall -= postTaxFondsUsedThisMonth;
+            value2['postTaxSum'] = 0;
+          }
+        }
+
+        //Try to take rest fonds out of pre-tax
+        if(value2['preTaxSum'] > 0) {
+          //check if there are enough fonds in pre-tax to cover shortfall in whole
+          if(value2['preTaxSum'] >= currentShortfall) {
+            value2['preTaxSum'] -= currentShortfall;
+            //TRACK NOW MUCH FONDS ARE USED TO FIX VALUES IN FOLOWING MONTHS OF THIS YEAR!!!!!
+            preTaxFondsUsedThisMonth = currentShortfall;
+            currentShortfall = 0;
+          }else{
+            // when pre tax can only partially cover shortfall
+            preTaxFondsUsedThisMonth = value2['preTaxSum'];
+            currentShortfall -= preTaxFondsUsedThisMonth;
+            value2['preTaxSum'] = 0;
+          }
+        }
+      }
+
+      //Take the rest out of non-retirement finan. assets
+      value2['nonRetireAssetsValue'] -= currentShortfall;
+      nonRetireFondsUsedThisMonth = currentShortfall;
+      currentShortfall = 0;
+
+      //I GUESS WE CAN STOP HERE AND LET THESE FONDS GO TO NEGATIVE IF NEEDED (THAT WOULD REPRESENT SOME KIND OF LOANS...)
+      //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
+          
+       
+      
 
 
 
+      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //NEED TO USE THESE TRACKERS FOR MONTHLY USAGE OF DIFFERENT FONDSD IN COVERING UP SHORTFALL
+      //REMEBER THAT % OF INCREASE SHOULD BE TAKEN INTO ACCOUNT AS WELL
+      //SINCE THOSE GROSS VALUES(SUMS) WERE BEING INCREASE BY THE PERC IN THE 'FIRST' LOOP
+      //AND NOW NEEDS TO BE DECREASED USING THAT PERC AS WELL
 
 
-
-
-
-
-
-
-    allResults[currentYear][currentMonth]['thisYearPlusSide'] = allResults[currentYear][currentMonth]['thisYearEmployment'] + allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] +
-                                        allResults[currentYear][currentMonth]['thisYearAlimony'] + allResults[currentYear][currentMonth]['thisYearChildSupport'] +
-                                        allResults[currentYear][currentMonth]['thisYearInceomeFromInvestment'] + allResults[currentYear][currentMonth]['thisYearSocialSecurity'] +
-                                        allResults[currentYear][currentMonth]['thisYearPension'];
-
-    allResults[currentYear][currentMonth]['thisYearMinusSide'] = allResults[currentYear][currentMonth]['thisYearExpenses'] + allResults[currentYear][currentMonth]['totalTax'];
-
-    allResults[currentYear][currentMonth]['thisYearSurplusShortfall'] = allResults[currentYear][currentMonth]['thisYearPlusSide'] - allResults[currentYear][currentMonth]['thisYearMinusSide'];
-
+    }
+    value2['thisYearTempSurpluses'] = currentSurpluses;
+  })
+  console.log(allResults);
 }
 
 function drawResultsTable() {
