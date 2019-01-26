@@ -865,9 +865,31 @@ function calcSurplusShortfall() {
       currentShortfall = 0;
 
       //lower pre tax gross value for folowing months of this year
-      for (var i = index2 + 1; i < 12; i++) {
+      for (var i = parseInt(index2) + 1; i < 12; i++) {
         allResults[currentYear][i]['nonRetireAssetsValue'] -= nonRetireFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
       }
+
+
+
+
+
+
+
+
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // THIS DOESN'T WORK AS IT SHOULD
+      // IT'S REDUCING THE VALUE OF FOLLOWING MONTHS MORE THEN IT SHOULD
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
 
       //I GUESS WE CAN STOP HERE AND LET THESE FONDS GO TO NEGATIVE IF NEEDED (THAT WOULD REPRESENT SOME KIND OF LOANS...)
       //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
