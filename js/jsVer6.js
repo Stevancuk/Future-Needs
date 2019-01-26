@@ -560,9 +560,9 @@ function calcPreTax() {
     allResults[currentYear][currentMonth]['preTaxSum'] = userInputs['preTax_sum'];
   }else{
     if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
-      allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_beforeRetirement_perc'] / 100 );
+      allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_beforeRetirement_perc'] / 100 / 12 );
     }else{
-      allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_afterRetirement_perc'] / 100 );
+      allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
     }
   }
 
@@ -597,9 +597,9 @@ function calcPostTax() {
     allResults[currentYear][currentMonth]['postTaxSum'] = userInputs['postTax_sum'];
   }else{
     if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
-      allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_beforeRetirement_perc'] / 100 );
+      allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_beforeRetirement_perc'] / 100 / 12 );
     }else{
-      allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_afterRetirement_perc'] / 100 );
+      allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
     }
   }
 
@@ -768,7 +768,15 @@ function calcTotalTax() {
 
 //####################################
 //##########Surplus/Shortfall#########
-//####################################
+//####################################   
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// If There is shortfall
+// and that shortfall is covered from pre-tax/post-tax/non-retirement financial assets
+// there'll be a new loop that will decrease the gross value in the following months of current year
+// that ammont will be increased by the same perc that was used in monthly calculation of those 3 values
+
+
 function calcSurplusShortfall() {
 
 
@@ -776,7 +784,7 @@ function calcSurplusShortfall() {
   let monthlyTax = allResults[currentYear][currentMonth]['totalTax'];
   let currentSurpluses = 0; //These fonds are 'temp' during one year
   let currentShortfall = 0; //This variable is here only for calculations in one month
-  let postTaxFondsUsedThisMonth, preTaxFondsUsedThisMonth;
+  let postTaxFondsUsedThisMonth, preTaxFondsUsedThisMonth, nonRetireFondsUsedThisMonth;
 
   $.each(allResults[currentYear], function(index2, value2) {
     value2['thisMonthTax'] = monthlyTax / 12;
@@ -791,6 +799,7 @@ function calcSurplusShortfall() {
     //It's stored on a special place during the year...
     if( value2['surplusShortfall'] >= 0) {
       currentSurpluses += value2['surplusShortfall'];
+      currentShortfall = 0;
     }else{
       //if there is a shortfall
       currentShortfall = (-1 * value2['surplusShortfall']);
@@ -823,6 +832,10 @@ function calcSurplusShortfall() {
             currentShortfall -= postTaxFondsUsedThisMonth;
             value2['postTaxSum'] = 0;
           }
+          //lower post tax gross value for folowing months of this year
+          for (var i = index2 + 1; i < 12; i++) {
+            allResults[currentYear][i]['postTaxSum'] -= postTaxFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+          }
         }
 
         //Try to take rest fonds out of pre-tax
@@ -839,6 +852,10 @@ function calcSurplusShortfall() {
             currentShortfall -= preTaxFondsUsedThisMonth;
             value2['preTaxSum'] = 0;
           }
+          //lower pre tax gross value for folowing months of this year
+          for (var i = index2 + 1; i < 12; i++) {
+            allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
+          }
         }
       }
 
@@ -847,24 +864,19 @@ function calcSurplusShortfall() {
       nonRetireFondsUsedThisMonth = currentShortfall;
       currentShortfall = 0;
 
+      //lower pre tax gross value for folowing months of this year
+      for (var i = index2 + 1; i < 12; i++) {
+        allResults[currentYear][i]['nonRetireAssetsValue'] -= nonRetireFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
+      }
+
       //I GUESS WE CAN STOP HERE AND LET THESE FONDS GO TO NEGATIVE IF NEEDED (THAT WOULD REPRESENT SOME KIND OF LOANS...)
       //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
-          
-       
-      
-
-
-
-      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      //NEED TO USE THESE TRACKERS FOR MONTHLY USAGE OF DIFFERENT FONDSD IN COVERING UP SHORTFALL
-      //REMEBER THAT % OF INCREASE SHOULD BE TAKEN INTO ACCOUNT AS WELL
-      //SINCE THOSE GROSS VALUES(SUMS) WERE BEING INCREASE BY THE PERC IN THE 'FIRST' LOOP
-      //AND NOW NEEDS TO BE DECREASED USING THAT PERC AS WELL
-
-
     }
     value2['thisYearTempSurpluses'] = currentSurpluses;
+
   })
+  //at the end of the lat month add currentSurpluses to Non-retirement financial assets
+  currentNonRetireAssetsValue += currentSurpluses;
   console.log(allResults);
 }
 
@@ -891,6 +903,10 @@ function drawResultsTable() {
         htmlForOutput += `<div class="resBold"> Pre-tax Monthly </div>`;    
         htmlForOutput += `<div class="resBold"> Pre-tax Sum</div>`;    
         htmlForOutput += `<div class="resBold"> Expenses </div>`;    
+        htmlForOutput += `<div class="resBold allIncomesGreen"> ALL INCOME </div>`;    
+        htmlForOutput += `<div class="resBold allExpensesRed"> TAX + Expenses </div>`;    
+        htmlForOutput += `<div class="resBold allIncomesGreen"> Surplus/Shortfall </div>`;    
+        htmlForOutput += `<div class="resBold allIncomesGreen"> TempSurplus </div>`;    
         htmlForOutput += `<div class="resBold allIncomesGreen"> year Income </div>`;    
         htmlForOutput += `<div class="resBold allIncomesGreen"> Self Employ </div>`;    
         htmlForOutput += `<div class="resBold allIncomesGreen"> Alimony </div>`; 
@@ -907,9 +923,6 @@ function drawResultsTable() {
         htmlForOutput += `<div class="resBold gryBck"> TotTaxIncExcInv </div>`;    
         htmlForOutput += `<div class="resBold allExpensesRed"> Total Tax </div>`;    
         htmlForOutput += `<div class="resBold allExpensesRed"> Expenses </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> ALL INCOME </div>`;    
-        htmlForOutput += `<div class="resBold allExpensesRed"> TAX + Expenses </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Surplus/Shortfall </div>`;    
       htmlForOutput += `</div>`;
     htmlForOutput += `</div>`;
   htmlForOutput += `</div>`;
@@ -937,6 +950,10 @@ function drawResultsTable() {
             htmlForOutput += `<div class="resMonths"> ${value2.preTaxMonthly.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.preTaxSum.toFixed(2)}  </div>`;
             htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.thisMonthPlusSide.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.thisMonthMinusSide.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.surplusShortfall.toFixed(2)}  </div>`;
+            htmlForOutput += `<div class="resMonths"> ${value2.thisYearTempSurpluses.toFixed(2)}  </div>`;
             if(index2 == 11) {
               htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearEmployment.toFixed(2)}  </div>`;
               htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearInceomeFromSelfEmployment.toFixed(2)}  </div>`;
@@ -954,13 +971,7 @@ function drawResultsTable() {
               htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.totalTaxIncExclInv.toFixed(2)}  </div>`;
               htmlForOutput += `<div class="resMonths allExpensesRed resultWide"> ${value2.totalTax.toFixed(2)}  </div>`;              
               htmlForOutput += `<div class="resMonths allExpensesRed resultWide"> ${value2.thisYearExpenses.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearPlusSide.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allExpensesRed resultWide"> ${value2.thisYearMinusSide.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearSurplusShortfall.toFixed(2)}  </div>`;
             }else{
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
               htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
               htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
               htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
@@ -1039,7 +1050,6 @@ function calculateMain() {
 
 
 
-      drawResultsTable();
 
 
       if(i == 0){
@@ -1049,6 +1059,7 @@ function calculateMain() {
       }
     }
   }
+      drawResultsTable();
   console.log(allResults);
 }
 
