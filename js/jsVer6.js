@@ -151,11 +151,6 @@ const taxableIncomeTable = {
   }
 }
 
-
-//Investment Income table
-// THIS ONE DOES NOT HAVE STEPS LIKE LAST ONE ??? BUT SINGLE PERC TO APPLY TO WHOLE SUM ?????
-
-//I think not, it's same logic ....
 const investmentIncomeTable = {
   "single" : {
     "step1" : {
@@ -223,15 +218,6 @@ function useTableTaxableIncome(status, money) {
   }
   taxCalculated += moneyRemaining * taxableIncomeTable[status].step1.perc;
 
-  // if(moneyRemaining > taxableIncomeTable[status].step6.max) {    
-  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step6.max ) * taxableIncomeTable[status].step7.perc;
-  //   moneyRemaining = taxableIncomeTable[status].step6.max;
-  // }
-  // //...
-  // if(moneyRemaining > taxableIncomeTable[status].step1.max) {    
-  //   taxCalculated += ( moneyRemaining - taxableIncomeTable[status].step1.max ) * taxableIncomeTable[status].step6.perc;
-  //   moneyRemaining = taxableIncomeTable[status].step5.max;
-  // }
   return taxCalculated;
 }
 
@@ -239,33 +225,21 @@ function useTableLTCG(status, money) {
 	let taxCalculated = 0;
 	let moneyRemaining = money;
 	for (var i = 3; i > 0; i--) {
-	if(moneyRemaining > investmentIncomeTable[status][`step${i}`].max) {    
-	  taxCalculated += ( moneyRemaining - investmentIncomeTable[status][`step${i}`].max ) * investmentIncomeTable[status][`step${i+1}`].perc;
-	  moneyRemaining = investmentIncomeTable[status][`step${i}`].max;
-	}
+  	if(moneyRemaining > investmentIncomeTable[status][`step${i}`].max) {    
+  	  taxCalculated += ( moneyRemaining - investmentIncomeTable[status][`step${i}`].max ) * investmentIncomeTable[status][`step${i+1}`].perc;
+  	  moneyRemaining = investmentIncomeTable[status][`step${i}`].max;
+  	}
 	}
 	taxCalculated += moneyRemaining * investmentIncomeTable[status].step1.perc;
 
 	return taxCalculated;  
 }
 
-
-
-
-
-
-
-
-
 let userInputs = {};
 let allResults = {};
 
 function addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, yearly = 'true' ) {
   for (var i = 0; i < 5; i++) {
-    // console.log(userSelectedNumberOfLumps);
-    // console.log(yearAndMonthIDs);
-    // console.log(valuesIDs);
-    // console.log(objectPropertyName);
     if(userSelectedNumberOfLumps >= (i+1) && userInputs[`${yearAndMonthIDs}${i+1}Year`] == currentYear && userInputs[`${yearAndMonthIDs}${i+1}Month`] == currentMonth) {
       if(yearly){
         allResults[currentYear][currentMonth][objectPropertyName] += userInputs[`${valuesIDs}${i+1}`] / 12;
@@ -303,31 +277,6 @@ function calcEmployment() {
     let valuesIDs = 'income_lump_sum';
     let objectPropertyName = 'employment';
     addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName );
-    // if ( userInputs['income_lump_number'] == '1' || userInputs['income_lump_number'] == '2' || userInputs['income_lump_number'] == '3' || userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
-    //   if(userInputs['incomeLump1Year'] == currentYear && userInputs['incomeLump1Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum1'] / 12;
-    //   }
-    // }
-    // if ( userInputs['income_lump_number'] == '2' || userInputs['income_lump_number'] == '3' || userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
-    //   if(userInputs['incomeLump2Year'] == currentYear && userInputs['incomeLump2Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum2'] / 12;
-    //   }
-    // }
-    // if ( userInputs['income_lump_number'] == '3' || userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
-    //   if(userInputs['incomeLump3Year'] == currentYear && userInputs['incomeLump3Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum3'] / 12;
-    //   }
-    // }
-    // if ( userInputs['income_lump_number'] == '4' || userInputs['income_lump_number'] == '5' ) {
-    //   if(userInputs['incomeLump4Year'] == currentYear && userInputs['incomeLump4Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum4'] / 12;
-    //   }
-    // }
-    // if ( userInputs['income_lump_number'] == '5' ) {
-    //   if(userInputs['incomeLump5Year'] == currentYear && userInputs['incomeLump5Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['employment'] += userInputs['income_lump_sum5'] / 12;
-    //   }
-    // }
   }
   currentEmployment = allResults[currentYear][currentMonth]['employment'];
 }
@@ -359,21 +308,6 @@ function calcSelfEmploy() {
     let valuesIDs = 'selfEmployIncome_lump_sum';
     let objectPropertyName = 'selfEmployment';
     addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName );
-    // if ( userInputs['selfEmployIncome_lump_number'] == '1' || userInputs['selfEmployIncome_lump_number'] == '2' || userInputs['selfEmployIncome_lump_number'] == '3' ) {        
-    //   if(userInputs['selfIncomeLump1Year'] == currentYear && userInputs['selfIncomeLump1Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum1'] / 12;
-    //   }
-    // }
-    // if ( userInputs['selfEmployIncome_lump_number'] == '2' || userInputs['selfEmployIncome_lump_number'] == '3' ) {        
-    //   if(userInputs['selfIncomeLump2Year'] == currentYear && userInputs['selfIncomeLump2Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum2'] / 12;
-    //   }
-    // }
-    // if ( userInputs['selfEmployIncome_lump_number'] == '3' ) {        
-    //   if(userInputs['selfIncomeLump3Year'] == currentYear && userInputs['selfIncomeLump3Month'] == currentMonth) {
-    //     allResults[currentYear][currentMonth]['selfEmployment'] += userInputs['selfEmployIncome_lump_sum3'] / 12;
-    //   }
-    // }
   }
   currentSelfEmployment = allResults[currentYear][currentMonth]['selfEmployment'];
 }
@@ -394,22 +328,6 @@ function calcSpousalMaintenance() {
   let valuesIDs = 'alimony_changeSum';
   let objectPropertyName = 'spousalMaintenance';
   addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, false );
-  // if ( userInputs['alimony_timesChange'] == '1' || userInputs['alimony_timesChange'] == '2' || userInputs['alimony_timesChange'] == '3' ) {
-  //   if (userInputs['spousalMaintenanceLump1Year'] == currentYear && userInputs['spousalMaintenanceLump1Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum1'];
-  //   }
-  // }
-  // if ( userInputs['alimony_timesChange'] == '2' || userInputs['alimony_timesChange'] == '3' ) {
-  //   if (userInputs['spousalMaintenanceLump2Year'] == currentYear && userInputs['spousalMaintenanceLump2Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum2'];
-  //   }
-  // }
-  // if ( userInputs['alimony_timesChange'] == '3' ) {
-  //   if (userInputs['spousalMaintenanceLump3Year'] == currentYear && userInputs['spousalMaintenanceLump3Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['spousalMaintenance'] += userInputs['alimony_changeSum3'];
-  //   }
-  // }
-  //NO TAXES FOR NOW
 
   currentSpousalMaintenance = allResults[currentYear][currentMonth]['spousalMaintenance'];
 }
@@ -431,21 +349,6 @@ function calcChildSupport() {
   let valuesIDs = 'childSupp_changeSum';
   let objectPropertyName = 'childSupport';
   addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, false );
-  // if ( userInputs['childSupp_timesChange'] == '1' || userInputs['childSupp_timesChange'] == '2' || userInputs['childSupp_timesChange'] == '3' ) {
-  //   if (userInputs['childSupportLump1Year'] == currentYear && userInputs['childSupportLump1Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum1'];
-  //   }
-  // }
-  // if ( userInputs['childSupp_timesChange'] == '2' || userInputs['childSupp_timesChange'] == '3' ) {
-  //   if (userInputs['childSupportLump2Year'] == currentYear && userInputs['childSupportLump2Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum2'];
-  //   }
-  // }
-  // if ( userInputs['childSupp_timesChange'] == '3' ) {
-  //   if (userInputs['childSupportLump3Year'] == currentYear && userInputs['childSupportLump3Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['childSupport'] += userInputs['childSupp_changeSum3'];
-  //   }
-  // }
 
   currentChildSupport = allResults[currentYear][currentMonth]['childSupport'];
 }
@@ -622,55 +525,27 @@ function calcPostTax() {
 //#####################
 //##### Expenses ######
 //#####################
-let currentExpenses;
+let currentExpensesWithoutPostTax;
 function calcExpenses() {
   //for first year and first month take the user input
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
-    allResults[currentYear][currentMonth]['expenses'] = userInputs['expenses_sum'];
+    allResults[currentYear][currentMonth]['expensesWithoutPostTax'] = userInputs['expenses_sum'];
   }else{
-    allResults[currentYear][currentMonth]['expenses'] = currentExpenses * ( 1 + userInputs['expenses_perc'] / 12 / 100 );
+    allResults[currentYear][currentMonth]['expensesWithoutPostTax'] = currentExpensesWithoutPostTax * ( 1 + userInputs['expenses_perc'] / 12 / 100 );
   }
 
   //add LUMP SUM(s)
   let userSelectedNumberOfLumps = parseInt( userInputs['expenses_timesChange'] );
   let yearAndMonthIDs = 'expensesLump';
   let valuesIDs = 'expenses_changeSum';
-  let objectPropertyName = 'expenses';
+  let objectPropertyName = 'expensesWithoutPostTax';
   addsLumpsSums(userSelectedNumberOfLumps, yearAndMonthIDs, valuesIDs, objectPropertyName, false );
-  // if ( userInputs['expenses_timesChange'] == '1' || userInputs['expenses_timesChange'] == '2' || userInputs['expenses_timesChange'] == '3' ) {
-  //   if(userInputs['expensesLump1Year'] == currentYear && userInputs['expensesLump1Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum1'];
-  //   }
-  // }
-  // if ( userInputs['expenses_timesChange'] == '2' || userInputs['expenses_timesChange'] == '3' ) {
-  //   if(userInputs['expensesLump2Year'] == currentYear && userInputs['expensesLump2Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum2'];
-  //   }
-  // }
-  // if ( userInputs['expenses_timesChange'] == '3' ) {
-  //   if(userInputs['expensesLump3Year'] == currentYear && userInputs['expensesLump3Month'] == currentMonth) {
-  //     allResults[currentYear][currentMonth]['expenses'] += userInputs['expenses_changeSum3'];
-  //   }
-  // } 
 
-
+  currentExpensesWithoutPostTax = allResults[currentYear][currentMonth]['expensesWithoutPostTax'];
   //ADD POST-TAX 
-  allResults[currentYear][currentMonth]['expenses'] += allResults[currentYear][currentMonth]['postTaxMonthly'];
+  allResults[currentYear][currentMonth]['expenses'] = currentExpensesWithoutPostTax + allResults[currentYear][currentMonth]['postTaxMonthly'];
 
-
-
-  currentExpenses = allResults[currentYear][currentMonth]['expenses'];
 }
-
-
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// I'll need to rework this to be yearly, not monthly!!!!!
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//DONE
-
-
-
 
 //#################
 //###Yearly sums###
@@ -689,10 +564,6 @@ function calcYearlySums() {
   allResults[currentYear][currentMonth]['thisYearPension'] = 0;
   allResults[currentYear][currentMonth]['thisYearExpenses'] = 0;
 
-  // preTax
-  // postTax
-
-
   $.each(allResults[currentYear], function(index, value) {
     allResults[currentYear][currentMonth]['thisYearEmployment'] += value.employment;
     allResults[currentYear][currentMonth]['thisYearInceomeFromSelfEmployment'] += value.selfEmployment;
@@ -709,8 +580,6 @@ function calcYearlySums() {
 
   })
 }
-
-
 
 //################################################
 //###Total Income (excluding Investment Income)###
@@ -833,8 +702,8 @@ function calcSurplusShortfall() {
             value2['postTaxSum'] = 0;
           }
           //lower post tax gross value for folowing months of this year
-          for (var i = index2 + 1; i < 12; i++) {
-            allResults[currentYear][i]['postTaxSum'] -= postTaxFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+          for (var i = parseInt(index2) + 1; i < 12; i++) {
+            allResults[currentYear][i]['postTaxSum'] -= postTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
           }
         }
 
@@ -853,8 +722,8 @@ function calcSurplusShortfall() {
             value2['preTaxSum'] = 0;
           }
           //lower pre tax gross value for folowing months of this year
-          for (var i = index2 + 1; i < 12; i++) {
-            allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
+          for (var i = parseInt(index2) + 1; i < 12; i++) {
+            allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
           }
         }
       }
@@ -864,16 +733,10 @@ function calcSurplusShortfall() {
       nonRetireFondsUsedThisMonth = currentShortfall;
       currentShortfall = 0;
 
-      //lower pre tax gross value for folowing months of this year
+      //lower non Retire gross value for folowing months of this year
       for (var i = parseInt(index2) + 1; i < 12; i++) {
-        allResults[currentYear][i]['nonRetireAssetsValue'] -= nonRetireFondsUsedThisMonth * (i - index2) * ( 1 + userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
+        allResults[currentYear][i]['nonRetireAssetsValue'] -= nonRetireFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
       }
-
-
-
-
-
-
 
 
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -883,22 +746,15 @@ function calcSurplusShortfall() {
 
 
 
-
-
-
-
-
-
-
-
       //I GUESS WE CAN STOP HERE AND LET THESE FONDS GO TO NEGATIVE IF NEEDED (THAT WOULD REPRESENT SOME KIND OF LOANS...)
       //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
     }
     value2['thisYearTempSurpluses'] = currentSurpluses;
 
   })
-  //at the end of the lat month add currentSurpluses to Non-retirement financial assets
-  currentNonRetireAssetsValue += currentSurpluses;
+  //at the end of the last month add currentSurpluses to Non-retirement financial assets
+  // currentNonRetireAssetsValue += currentSurpluses;    NOT GOOD
+  currentNonRetireAssetsValue = allResults[currentYear][currentMonth]['nonRetireAssetsValue'] + currentSurpluses;  //this looks better
   console.log(allResults);
 }
 
@@ -1021,12 +877,6 @@ function drawResultsTable() {
 }
 
 
-
-
-
-
-
-
 let currentYear, currentMonth;
 function calculateMain() {
   // add years
@@ -1066,13 +916,6 @@ function calculateMain() {
 
         calcSurplusShortfall();
       }
-
-
-
-
-
-
-
 
       if(i == 0){
         if(j + userInputs['startingMonth'] >= 11) {
@@ -1123,51 +966,7 @@ function readAllUserInputs() {
   userInputs['startingDay'] = userInputs['startingDate'].getDate();
 
   addAllYearsAndMonthsForLumpSums();
-
-
-  // const incomeLump1Date = new Date(userInputs['income_lump_date1']);
-  // userInputs['incomeLump1Year'] = incomeLump1Date.getFullYear();
-  // userInputs['incomeLump1Month'] = incomeLump1Date.getMonth();
-  // const incomeLump2Year = new Date(userInputs['income_lump_date2']);
-  // userInputs['incomeLump2Year'] = incomeLump2Year.getFullYear();
-  // userInputs['incomeLump2Month'] = incomeLump2Year.getMonth();
-  // const incomeLump3Year = new Date(userInputs['income_lump_date3']);
-  // userInputs['incomeLump3Year'] = incomeLump3Year.getFullYear();
-  // userInputs['incomeLump3Month'] = incomeLump3Year.getMonth();
-
-  // //self employ lump sums
-  // const selfIncomeLump1Date = new Date(userInputs['selfEmployIncome_lump_date1']);
-  // userInputs['selfIncomeLump1Year'] = selfIncomeLump1Date.getFullYear();
-  // userInputs['selfIncomeLump1Month'] = selfIncomeLump1Date.getMonth();
-  // const selfIncomeLump2Date = new Date(userInputs['selfEmployIncome_lump_date2']);
-  // userInputs['selfIncomeLump2Year'] = selfIncomeLump2Date.getFullYear();
-  // userInputs['selfIncomeLump2Month'] = selfIncomeLump2Date.getMonth();
-  // const selfIncomeLump3Date = new Date(userInputs['selfEmployIncome_lump_date3']);
-  // userInputs['selfIncomeLump3Year'] = selfIncomeLump3Date.getFullYear();
-  // userInputs['selfIncomeLump3Month'] = selfIncomeLump3Date.getMonth();
-
-  // //Spousal Maintenance/Alimony lump sums
-  // const spousalMaintenanceLump1Date = new Date(userInputs['alimony_changeDate1']);
-  // userInputs['spousalMaintenanceLump1Year'] = spousalMaintenanceLump1Date.getFullYear();
-  // userInputs['spousalMaintenanceLump1Month'] = spousalMaintenanceLump1Date.getMonth();
-  // const spousalMaintenanceLump2Date = new Date(userInputs['alimony_changeDate2']);
-  // userInputs['spousalMaintenanceLump2Year'] = spousalMaintenanceLump2Date.getFullYear();
-  // userInputs['spousalMaintenanceLump2Month'] = spousalMaintenanceLump2Date.getMonth();
-  // const spousalMaintenanceLump3Date = new Date(userInputs['alimony_changeDate3']);
-  // userInputs['spousalMaintenanceLump3Year'] = spousalMaintenanceLump3Date.getFullYear();
-  // userInputs['spousalMaintenanceLump3Month'] = spousalMaintenanceLump3Date.getMonth();
-
-  // //Child Support
-  // const childSupportLump1Date = new Date(userInputs['childSupp_changeDate1']);
-  // userInputs['childSupportLump1Year'] = childSupportLump1Date.getFullYear();
-  // userInputs['childSupportLump1Month'] = childSupportLump1Date.getMonth();
-  // const childSupportLump2Date = new Date(userInputs['childSupp_changeDate2']);
-  // userInputs['childSupportLump2Year'] = childSupportLump2Date.getFullYear();
-  // userInputs['childSupportLump2Month'] = childSupportLump2Date.getMonth();
-  // const childSupportLump3Date = new Date(userInputs['childSupp_changeDate3']);
-  // userInputs['childSupportLump3Year'] = childSupportLump3Date.getFullYear();
-  // userInputs['childSupportLump3Month'] = childSupportLump3Date.getMonth();
-
+ 
   //retirement
   const retire_date = new Date(userInputs['retire_date']);
   userInputs['retirementYear'] = retire_date.getFullYear();
@@ -1177,18 +976,6 @@ function readAllUserInputs() {
   const retire_self_date = new Date(userInputs['retire_self_date']);
   userInputs['selfRetirementYear'] = retire_self_date.getFullYear();
   userInputs['selfRetirementMonth'] = retire_self_date.getMonth();
-
-  // //expenses lump sums
-  // const expensesLump1Date = new Date(userInputs['expenses_changeDate1']);
-  // userInputs['expensesLump1Year'] = expensesLump1Date.getFullYear();
-  // userInputs['expensesLump1Month'] = expensesLump1Date.getMonth();
-  // const expensesLump2Date = new Date(userInputs['expenses_changeDate2']);
-  // userInputs['expensesLump2Year'] = expensesLump2Date.getFullYear();
-  // userInputs['expensesLump2Month'] = expensesLump2Date.getMonth();
-  // const expensesLump3Date = new Date(userInputs['expenses_changeDate3']);
-  // userInputs['expensesLump3Year'] = expensesLump3Date.getFullYear();
-  // userInputs['expensesLump3Month'] = expensesLump3Date.getMonth();
-
 
   //Social Security Starting Date
   const socialSecStartingDate = new Date(userInputs['socialSecurity_startDate']);
@@ -1200,12 +987,8 @@ function readAllUserInputs() {
   userInputs['pensionStartingYear'] = pensionStartingDate.getFullYear();
   userInputs['pensionStartingMonth'] = pensionStartingDate.getMonth();
 
-
-
-
   console.log(userInputs);
 }
-
 
 // ######################
 // ### Event Handlers ###
@@ -1298,19 +1081,6 @@ $('input, select').on("change", function(){
 $(function(){
   readAllUserInputs();
   calculateMain();
-
-  //var pageTitle = $(document).find("title").text();
-
-  //Temp for 'next next next' through pages
-  // if(pageTitle == "Clean Questionnaire") {
-  //   $('#next_buttons_subb_2_button').on("click", function(e) {
-  //     e.preventDefault();
-  //     window.location = "indexVideo.html";
-  //   })
-  // }
-
-
-
 
   // Warning Duplicate IDs
   $('[id]').each(function(){
