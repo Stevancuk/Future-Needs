@@ -462,14 +462,14 @@ function calcPreTax() {
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['preTaxSum'] = userInputs['preTax_sum'];
   }else{
-    if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+    if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && currentMonth < userInputs['retirementMonth']) ) {
       allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_beforeRetirement_perc'] / 100 / 12 );
     }else{
       allResults[currentYear][currentMonth]['preTaxSum'] = currentPreTaxSum * ( 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
     }
   }
 
-  if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+  if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && currentMonth < userInputs['retirementMonth']) ) {
     //Monthly contribution to PRE TAX, user+employer
     allResults[currentYear][currentMonth]['preTaxMonthly'] = allResults[currentYear][currentMonth]['employment'] * userInputs['preTax_income_perc'] / 100;
     //Add emplyer contribution
@@ -499,14 +499,14 @@ function calcPostTax() {
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['postTaxSum'] = userInputs['postTax_sum'];
   }else{
-    if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+    if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && currentMonth < userInputs['retirementMonth']) ) {
       allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_beforeRetirement_perc'] / 100 / 12 );
     }else{
       allResults[currentYear][currentMonth]['postTaxSum'] = currentPostTaxSum * ( 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
     }
   }
 
-  if ( (currentYear < userInputs['pensionStartingYear']) || (currentYear == userInputs['pensionStartingYear'] && currentMonth < userInputs['pensionStartingMonth']) ) {
+  if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && currentMonth < userInputs['retirementMonth']) ) {
     //Monthly contribution to POST TAX, user+employer
     allResults[currentYear][currentMonth]['postTaxMonthly'] = allResults[currentYear][currentMonth]['employment'] * userInputs['postTax_income_perc'] / 100;
     //Add emplyer contribution
@@ -648,8 +648,6 @@ function calcTotalTax() {
 
 function calcSurplusShortfall() {
 
-
-  //NEED TO MAKE SURPLUS/SHORTFALL MONTHLy
   let monthlyTax = allResults[currentYear][currentMonth]['totalTax'];
   let currentSurpluses = 0; //These fonds are 'temp' during one year
   let currentShortfall = 0; //This variable is here only for calculations in one month
@@ -671,7 +669,8 @@ function calcSurplusShortfall() {
       currentShortfall = 0;
     }else{
       //if there is a shortfall
-      currentShortfall = (-1 * value2['surplusShortfall']);
+      currentShortfall = -1 * value2['surplusShortfall'];
+      console.log(currentShortfall);
       //check first if there are funds from earlier months surpluses in this year
       if(currentSurpluses > 0) {
         //if there are enough fonds here, cover all lose from these fonds
@@ -684,8 +683,9 @@ function calcSurplusShortfall() {
           currentSurpluses = 0;
         }
       }
-      //Then go to pre-tax, post-tax first after retirement
+      //Then go to post-tax, pre-tax first after retirement
       //or go to non-retirement financial assets before retirement
+      console.log(value2['postTaxSum']);
       if ( (currentYear > userInputs['retirementYear']) || (userInputs['retirementYear'] == currentYear && index2 >= userInputs['retirementMonth']) ) {
         //if there are fonds in post-tax
         if(value2['postTaxSum'] > 0) {
@@ -702,10 +702,50 @@ function calcSurplusShortfall() {
             value2['postTaxSum'] = 0;
           }
           //lower post tax gross value for folowing months of this year
+          let tempTrackPostTaxUsed = postTaxFondsUsedThisMonth;
           for (var i = parseInt(index2) + 1; i < 12; i++) {
-            allResults[currentYear][i]['postTaxSum'] -= postTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+            console.log(allResults[currentYear][i]['postTaxSum']);
+            //check if it's before or after retirement
+            if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && i < userInputs['retirementMonth']) ) {
+              tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_beforeRetirement_perc'] / 100 / 12 )
+            }else{
+              tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+            }
+            allResults[currentYear][i]['postTaxSum'] -= tempTrackPostTaxUsed;
+            console.log(allResults[currentYear][i]['postTaxSum']);
           }
         }
+
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // THIS WAS NOT GOOD!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+        // //lower post tax gross value for folowing months of this year
+        //   for (var i = parseInt(index2) + 1; i < 12; i++) {
+        //     allResults[currentYear][i]['postTaxSum'] -= postTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+        //   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Try to take rest fonds out of pre-tax
         if(value2['preTaxSum'] > 0) {
@@ -723,7 +763,12 @@ function calcSurplusShortfall() {
           }
           //lower pre tax gross value for folowing months of this year
           for (var i = parseInt(index2) + 1; i < 12; i++) {
-            allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
+            //check if it's before or after retirement
+            if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && currentMonth < userInputs['retirementMonth']) ) {
+              allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['preTax_beforeRetirement_perc'] / 100 / 12 );
+            }else{
+              allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
+            }
           }
         }
       }
