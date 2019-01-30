@@ -654,6 +654,7 @@ function calcSurplusShortfall() {
   let postTaxFondsUsedThisMonth, preTaxFondsUsedThisMonth, nonRetireFondsUsedThisMonth;
 
   $.each(allResults[currentYear], function(index2, value2) {
+    postTaxFondsUsedThisMonth = 0;
     value2['thisMonthTax'] = monthlyTax / 12;
 
     value2['thisMonthPlusSide'] = value2['employment'] + value2['selfEmployment'] + value2['spousalMaintenance'] +
@@ -670,7 +671,7 @@ function calcSurplusShortfall() {
     }else{
       //if there is a shortfall
       currentShortfall = -1 * value2['surplusShortfall'];
-      console.log(currentShortfall);
+      console.log('Shortfal in: ', index2, ' is: ', currentShortfall);
       //check first if there are funds from earlier months surpluses in this year
       if(currentSurpluses > 0) {
         //if there are enough fonds here, cover all lose from these fonds
@@ -685,7 +686,7 @@ function calcSurplusShortfall() {
       }
       //Then go to post-tax, pre-tax first after retirement
       //or go to non-retirement financial assets before retirement
-      console.log(value2['postTaxSum']);
+      console.log(`This month: `, value2['postTaxSum']);
       if ( (currentYear > userInputs['retirementYear']) || (userInputs['retirementYear'] == currentYear && index2 >= userInputs['retirementMonth']) ) {
         //if there are fonds in post-tax
         if(value2['postTaxSum'] > 0) {
@@ -703,49 +704,24 @@ function calcSurplusShortfall() {
           }
           //lower post tax gross value for folowing months of this year
           let tempTrackPostTaxUsed = postTaxFondsUsedThisMonth;
+          console.log(`tempTrackPost u mesecu: `,index2, ` je: ` , tempTrackPostTaxUsed);
           for (var i = parseInt(index2) + 1; i < 12; i++) {
-            console.log(allResults[currentYear][i]['postTaxSum']);
+            console.log(`PRE u mesecu: `, i, ` je: ` , allResults[currentYear][i]['postTaxSum']);
             //check if it's before or after retirement
             if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && i < userInputs['retirementMonth']) ) {
-              tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_beforeRetirement_perc'] / 100 / 12 )
+              // tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_beforeRetirement_perc'] / 100 / 12 )
+              // tempTrackPostTaxUsed *= ( Math.pow( 1 + userInputs['postTax_beforeRetirement_perc'] / 100 / 12 , (i - index2) ) )
+              tempTrackPostTaxUsed *= 1 + userInputs['postTax_beforeRetirement_perc'] / 100 / 12;
             }else{
-              tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+              // tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
+              // tempTrackPostTaxUsed *= ( Math.pow( 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12 , (i - index2) ) );
+              tempTrackPostTaxUsed *= 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12;
+              console.log('smanjujem ', i - index2);
             }
             allResults[currentYear][i]['postTaxSum'] -= tempTrackPostTaxUsed;
-            console.log(allResults[currentYear][i]['postTaxSum']);
+            console.log(`POSLE u mesecu: `, i, ` je: ` , allResults[currentYear][i]['postTaxSum']);
           }
         }
-
-
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // THIS WAS NOT GOOD!!!!!!!!!!!!!!!!!!!!!!!!
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-        // //lower post tax gross value for folowing months of this year
-        //   for (var i = parseInt(index2) + 1; i < 12; i++) {
-        //     allResults[currentYear][i]['postTaxSum'] -= postTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
-        //   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //Try to take rest fonds out of pre-tax
         if(value2['preTaxSum'] > 0) {
@@ -762,13 +738,17 @@ function calcSurplusShortfall() {
             value2['preTaxSum'] = 0;
           }
           //lower pre tax gross value for folowing months of this year
+          let tempTrackPreTaxUsed = preTaxFondsUsedThisMonth;
           for (var i = parseInt(index2) + 1; i < 12; i++) {
             //check if it's before or after retirement
-            if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && currentMonth < userInputs['retirementMonth']) ) {
-              allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['preTax_beforeRetirement_perc'] / 100 / 12 );
+            if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && i < userInputs['retirementMonth']) ) {
+              // tempTrackPreTaxUsed *= ( Math.pow( 1 + userInputs['preTax_beforeRetirement_perc'] / 100 / 12 , (i - index2) ) )
+              tempTrackPreTaxUsed *= 1 + userInputs['preTax_beforeRetirement_perc'] / 100 / 12;
             }else{
-              allResults[currentYear][i]['preTaxSum'] -= preTaxFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['preTax_afterRetirement_perc'] / 100 / 12 );
+              // tempTrackPreTaxUsed *= ( Math.pow( 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12 , (i - index2) ) );
+              tempTrackPreTaxUsed *= 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12;
             }
+            allResults[currentYear][i]['preTaxSum'] -= tempTrackPreTaxUsed;
           }
         }
       }
@@ -806,126 +786,125 @@ function calcSurplusShortfall() {
 function drawResultsTable() {
   let htmlForOutput = `<div id="resultsWrapper">`;
 
-  htmlForOutput += `<div class="resYandM">`;
-    htmlForOutput += `<div class="resYears"> Results  </div>`;   
-    htmlForOutput += `<div class="resYears"> Months  </div>`;   
-    htmlForOutput += `<div class="resYears">`;   
-      htmlForOutput += `<div class="resYandM">`;    
-        htmlForOutput += `<div class="resBold"> Employmnet  </div> `;    
-        htmlForOutput += `<div class="resBold"> Self Employ </div>`;    
-        htmlForOutput += `<div class="resBold"> Alimony </div>`;    
-        htmlForOutput += `<div class="resBold"> Child Supp </div>`;    
-        htmlForOutput += `<div class="resBold"> Fin-Ass Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Soc. Security </div>`; 
-        htmlForOutput += `<div class="resBold"> Pension </div>`;    
-        htmlForOutput += `<div class="resBold"> Non-Fin-Ass Val </div>`;    
-        htmlForOutput += `<div class="resBold"> Non-Fin Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Fin-Ass Val </div>`;    
-        htmlForOutput += `<div class="resBold"> Post-tax Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Post-tax Sum </div>`;    
-        htmlForOutput += `<div class="resBold"> Pre-tax Monthly </div>`;    
-        htmlForOutput += `<div class="resBold"> Pre-tax Sum</div>`;    
-        htmlForOutput += `<div class="resBold"> Expenses </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> ALL INCOME </div>`;    
-        htmlForOutput += `<div class="resBold allExpensesRed"> TAX + Expenses </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Surplus/Shortfall </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> TempSurplus </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> year Income </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Self Employ </div>`;    
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Alimony </div>`; 
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Child Supp </div>`; 
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Fin-Ass Monthly </div>`; 
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Soc. Security </div>`; 
-        htmlForOutput += `<div class="resBold allIncomesGreen"> Pension </div>`; 
-        htmlForOutput += `<div class="resBold gryBck"> Non-Fin-Ass Val </div>`; 
-        htmlForOutput += `<div class="resBold gryBck"> Pre tax </div>`; 
-        htmlForOutput += `<div class="resBold gryBck"> Post tax </div>`; 
+  htmlForOutput += `<div id="tableFirstColumn" class="tableFirstColumnClass">`;
+    htmlForOutput += `<div class="tableElementLabel backGrColorTable"> Results  </div>`;   
+    htmlForOutput += `<div class="tableElementLabel borderBotBlack"> Months  </div>`;   
+   
+    htmlForOutput += `<div class="tableElementLabel"> Employmnet  </div> `;    
+    htmlForOutput += `<div class="tableElementLabel"> Self Employmnet </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Alimony </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Child Support </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Financial Assessment Monthly </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Social Security </div>`; 
+    htmlForOutput += `<div class="tableElementLabel"> Pension </div>`;    
+    htmlForOutput += `<div class="tableElementLabel borderBotBlack"> Non-Financial Monthly </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Non-Financial Gross Value </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Fin-Ass Gross Value </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Post-tax Monthly </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Post-tax Gross </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Pre-tax Monthly </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Pre-tax Gross</div>`;    
+    htmlForOutput += `<div class="tableElementLabel borderBotBlack"> Expenses </div>`; 
 
-        htmlForOutput += `<div class="resBold gryBck"> TotIncExclInvInc </div>`;    
-        htmlForOutput += `<div class="resBold gryBck"> Standard deduc </div>`;    
-        htmlForOutput += `<div class="resBold gryBck"> TotTaxIncExcInv </div>`;    
-        htmlForOutput += `<div class="resBold allExpensesRed"> Total Tax </div>`;    
-        htmlForOutput += `<div class="resBold allExpensesRed"> Expenses </div>`;    
-      htmlForOutput += `</div>`;
-    htmlForOutput += `</div>`;
+    htmlForOutput += `<div class="tableElementLabel"> ALL INCOME </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> TAX + Expenses </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Surplus/Shortfall </div>`;    
+    htmlForOutput += `<div class="tableElementLabel borderBotBlack"> Temp Surplus This Year </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> This Year Employmnet - pre-tax </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Self Employmnet - pre-tax </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Alimony </div>`; 
+    htmlForOutput += `<div class="tableElementLabel"> Child Supp </div>`; 
+    htmlForOutput += `<div class="tableElementLabel"> Fin-Ass Gains </div>`; 
+    htmlForOutput += `<div class="tableElementLabel"> Soc. Security </div>`; 
+    htmlForOutput += `<div class="tableElementLabel"> Pension </div>`; 
+    htmlForOutput += `<div class="tableElementLabel"> Non-Fin-Ass Gains </div>`; 
+
+    htmlForOutput += `<div class="tableElementLabel"> Total Income Excluding Invest. Inc. </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Standard deduction </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Total Taxable Income Exc. Inv. Inc. </div>`;    
+    htmlForOutput += `<div class="tableElementLabel"> Total Tax </div>`;    
   htmlForOutput += `</div>`;
 
     $.each(allResults, function(index, value) {
-      htmlForOutput += `<div class="resYandM">`;
-        htmlForOutput += `<div class="resYears"> ${index}  </div>`;   
-
-        htmlForOutput += `<div class="resYandM">`;
-        $.each(value, function(index2, value2) {
-          htmlForOutput += `<div class="resYandM">`;
-            htmlForOutput += `<div class="resMonths"> ${monthNames[index2]}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.employment.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.selfEmployment.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.spousalMaintenance.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.childSupport.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.socialSecurity.toFixed(2)}  </div>`; 
-            htmlForOutput += `<div class="resMonths"> ${value2.pension.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsValue.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonFinanAssetsMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.nonRetireAssetsValue.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.postTaxMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.postTaxSum.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.preTaxMonthly.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.preTaxSum.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.expenses.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.thisMonthPlusSide.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.thisMonthMinusSide.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.surplusShortfall.toFixed(2)}  </div>`;
-            htmlForOutput += `<div class="resMonths"> ${value2.thisYearTempSurpluses.toFixed(2)}  </div>`;
+      $.each(value, function(index2, value2) {
+        if ((index == userInputs.startingYear) && (index2 == 0)) {
+          htmlForOutput += `<div id="tableSecondColumn" class="borderBottClass">`;          
+        }else{
+        htmlForOutput += `<div class="borderBottClass">`;
+        }
+          
+            htmlForOutput += `<div class="tableElement backGrColorTable"> ${index} </div>`;   
+            htmlForOutput += `<div class="tableElement borderBotBlack"> ${monthNames[index2]}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.employment.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.selfEmployment.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.spousalMaintenance.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.childSupport.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.nonRetireAssetsMonthly.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.socialSecurity.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`; 
+            htmlForOutput += `<div class="tableElement"> ${value2.pension.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement borderBotBlack"> ${value2.nonFinanAssetsMonthly.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.nonFinanAssetsValue.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.nonRetireAssetsValue.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.postTaxMonthly.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.postTaxSum.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.preTaxMonthly.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.preTaxSum.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement borderBotBlack"> ${value2.expenses.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.thisMonthPlusSide.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.thisMonthMinusSide.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement"> ${value2.surplusShortfall.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+            htmlForOutput += `<div class="tableElement borderBotBlack"> ${value2.thisYearTempSurpluses.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
             if(index2 == 11) {
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearEmployment.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearInceomeFromSelfEmployment.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearAlimony.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearChildSupport.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearInceomeFromInvestment.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearSocialSecurity.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allIncomesGreen resultWide"> ${value2.thisYearPension.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearNonFinancial.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths gryBck resultWide"> Pre tax </div>`;
-              htmlForOutput += `<div class="resMonths gryBck resultWide"> Post tax </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearEmployment.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearInceomeFromSelfEmployment.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearAlimony.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearChildSupport.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearInceomeFromInvestment.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearSocialSecurity.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearPension.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearNonFinancial.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
 
-              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.thisYearIncomeExcludingInvest.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.standardDeduction.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths gryBck resultWide"> ${value2.totalTaxIncExclInv.toFixed(2)}  </div>`;
-              htmlForOutput += `<div class="resMonths allExpensesRed resultWide"> ${value2.totalTax.toFixed(2)}  </div>`;              
-              htmlForOutput += `<div class="resMonths allExpensesRed resultWide"> ${value2.thisYearExpenses.toFixed(2)}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.thisYearIncomeExcludingInvest.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.standardDeduction.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.totalTaxIncExclInv.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;
+              htmlForOutput += `<div class="tableElement"> ${value2.totalTax.toLocaleString('es-US', { maximumFractionDigits : 0 })}  </div>`;              
             }else{
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
-              htmlForOutput += `<div class="resMonths gryBck"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
+              htmlForOutput += `<div class="tableElement"> / </div>`;
             }           
-          htmlForOutput += `</div>`;
-        });
         htmlForOutput += `</div>`;
-      htmlForOutput += `</div>`;
+      });
     })
   htmlForOutput += `</div>`;
 
   $('#absResults').html(htmlForOutput);
+
+  $('#resultsWrapper').css('width', ($('#resultsWrapper > div').length + 5) * 106);
+
+  $.each( $('.tableElement'), function() {
+    var $this = $(this);
+    if(  ($this.html() == '0.00') || ($this.html() == ' 0 ') || ($this.html() == ' 0  ') || ($this.html() == '0') || ($this.html() == ' 0.00 ') ||
+       ($this.html() == '-0.00') || ($this.html() == ' -0 ') || ($this.html() == '-0') || ($this.html() == ' -0.00 ') ) {
+      $this.html('-');
+    }
+  });
 }
 
 
 let currentYear, currentMonth;
 function calculateMain() {
   // add years
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 20; i++) {
     currentYear = userInputs['startingYear'] + i;
     allResults[currentYear] = {};
     //For each month
@@ -1116,6 +1095,44 @@ $('#alimony_timesChange').on("change", function(){
         break;
   }
 })
+
+// scroll right for first column of table
+$(document).scroll(function(){
+    if($(this).scrollLeft() >= 100){
+         $('#tableFirstColumn').css({
+          "position" : "absolute",
+          "backgroundColor" : "grey",
+          "color" : "white",
+          "left" : $(this).scrollLeft()
+         });
+         $('#tableSecondColumn').css("marginLeft","268px");
+    }else{
+      $('#tableFirstColumn').css({
+          "position" : "static",
+          "backgroundColor" : "white",
+          "color" : "black",
+          "left" : "0px"
+         });
+      $('#tableSecondColumn').css("marginLeft","0px");
+    }
+    if($(this).scrollLeft() >= 100){
+         $('#tableFirstColumn').css({
+          "position" : "absolute",
+          "backgroundColor" : "grey",
+          "color" : "white",
+          "left" : $(this).scrollLeft()
+         });
+         $('#tableSecondColumn').css("marginLeft","268px");
+    }else{
+      $('#tableFirstColumn').css({
+          "position" : "static",
+          "backgroundColor" : "white",
+          "color" : "black",
+          "left" : "0px"
+         });
+      $('#tableSecondColumn').css("marginLeft","0px");
+    }
+});
 
 
 $('input, select').on("change", function(){
