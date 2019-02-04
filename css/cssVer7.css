@@ -1,26 +1,41 @@
-input, select {
+body, div, p, h1, h1 {
+	font-family: sans-serif;
+}
+h1, h2 {
+	text-align: center;
+}
+input:not([type='checkbox']), select {
 	display: block;
 	margin-bottom: 10px;
 }
-fieldset {
-	width: 500px;
-	float: left;
-}
-
-
 .clear {
 	clear: both;
 }
-
-#starting_form {
+#main_wrapper {
 	width: 90%;
+	max-width: 800px;
 	margin: 0 auto;
+	padding: 20px;
+	background-color: white;
+}
+.mainSections {
+	display: none;
+	border: 1px solid black;
 	padding: 10px;
-	background-color: #f2f2f2;
+	margin-bottom: 20px;
 }
-#submit {
-	margin-top: 20px;
+#section_3 {
+	display: block;
 }
+#next_back_wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+#back_button {
+	/*display: none;*/
+}
+
+
 
 /*Temp results*/
 

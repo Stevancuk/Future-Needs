@@ -11,25 +11,54 @@
 <body>
 	<div id="absResults"></div>
 	<div id="fn_wrapper">
-		<h4> Starting inputs ... </h4>
-		<button id="showHideTable"> Show/Hide Table</button>
+		
+		<div id="main_wrapper">
+			<section id="section_1" class="mainSections">
+				<h2> Legal ... </h2>
+				<p>
+					The calculator you are about to use will provide a roughly estimated outline of a client’s financial needs over time based the information and reasonable assumptions related to the client’s expenses, income and assets. Please note that this calculator is only an estimate of future financial needs extrapolated out over the course of time. The results it provides are based on your inputs and your assumptions about your client’s financial needs and resources now and in the future. Although these may be appropriate assumptions based on circumstances as they currently exist, neither you nor the calculator can predict future critical events such as remarriage, divorce, unexpected job loss, demotions, promotions, major market corrections, major medical events, to name a few. Therefore, this calculator should be used for demonstration and educational purposes only. The client must understand that the results this calculator provides should in no way be considered legal, tax or financial planning advice. The results are not a substitute for professional financial planning or tax advice. 
+				</p>
+				<p>
+					This calculator is best used to argue a client’s case for alimony, spousal maintenance, child support, or a disproportionate share of marital or community property. It is effective and appropriate for that purpose. Although it is possible in the absence of professional financial advice to use it to help a client understand the approximated potential long-term effects of certain current or future financial choices, this should be done carefully. Careful consideration should be given as to whether and how to present certain results to clients, as a pessimistic or bleak financial outlook may unnecessarily alarm some clients, making even legally advantageous settlements more difficult for the client to accept. 
+				</p>
+				<p>
+					THIS CALCULATOR AND THE RESULTS IT PROVIDES ARE NOT LEGAL, TAX, OR FINANCIAL PLANNING ADVICE. IMAJINE LEGAL SERVICES, LLC MAKES NO REPRESENTATIONS AS TO THE ACCURACY OF THE CALCULATOR OF ANY OF THE RESULTS IT DISPLAYS AS A RESULT OF ITS USE.  
+				</p>
+				<p>
+					By initialing the box below, you warrant that you have read the above and agree that by using this future needs calculator, you hold Imagine Legal Solutions, LLC harmless from any and all liability, losses or damages arising directly or indirectly from its use, and agree to defend and indemnify Imagine Legal Solutions, LLC for any liability arising from your use of this calculator.  
+				</p>
+			</section>
 
-		<form id="starting_form">
-			<fieldset>
-				<legend>Personalia:</legend>
-				Date of birth: <input id="birth" type="date" value="1982-12-14">
-				<label>Filing status:</label>
+
+
+			<section id="section_2" class="mainSections">
+				<h2> INITIAL </h2>
+				<label for="birth">Date of birth:</label> <input id="birth" type="date" value="1982-12-14">
+				<label for="filling_status">Filing status:</label>
 				<select id="filling_status">
 					<option value="MFJ"> MFJ </option>
 					<option value="single"> single </option>
 					<option value="HOH"> HOH </option>
 					<option value="MFS"> MFS </option>
 				</select>
+			</section>
 
-			</fieldset>
+			<section id="section_3" class="mainSections">
+				<h2> EXPECTED TYPES OF INCOME </h2>
 
-			<fieldset>
-				<legend>Income - Employment</legend>
+				<p> What types of income should we take into account in the future?* </p>
+
+				<input type="checkbox" id="incomeFrom_employment"><label for="incomeFrom_employment"> Income from employment </label><br>
+				<input type="checkbox" id="incomeFrom_selfEmployment"><label for="incomeFrom_selfEmployment"> Income from self-employment </label><br>
+				<input type="checkbox" id="incomeFrom_spousalMaintenance"><label for="incomeFrom_spousalMaintenance"> Spousal Maintenance/Alimony </label><br>
+				<input type="checkbox" id="incomeFrom_childSupport"><label for="incomeFrom_childSupport"> Child Support </label><br>
+				<input type="checkbox" id="incomeFrom_nonFinanAssets"><label for="incomeFrom_nonFinanAssets"> Income from Non-Financial Assets (Examples: Rents, Oil & Gas Royalties, etc. </label><br>
+				<input type="checkbox" id="incomeFrom_socialSec"><label for="incomeFrom_socialSec"> Social Security </label><br>
+				<input type="checkbox" id="incomeFrom_notTaxedToRecipient"><label for="incomeFrom_notTaxedToRecipient"> Income Not Taxed to Recipient (Gifts under exemption limit, Distributions of principal, etc.) </label><br>
+			</section>
+
+			<section id="section_4" class="mainSections">
+				<h2>Income - Employment</h2>
 				<label> What is the client’s current net (post-tax) income from employment? </label>
 				<input id="income" type="number" min="0" step="100" value="65000">
 				<label> What is the expected avg. increase per year? </label>
@@ -87,10 +116,10 @@
 
 				<label>When shoud we assume client will retire? </label>
 				<input id="retire_date" type="date" value="2020-10-05">
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>Income - Self Employment</legend>
+			<section id="section_4" class="mainSections">
+				<h2>Income - Self Employment</h2>
 				<label>What is the client’s current net (post-tax) income from self-employment? </label>
 				<input id="selfEmployIncome" type="number" min="0" step="100" value="11000">
 				<label>What is the expected average increase per year?</label>
@@ -148,10 +177,10 @@
 
 				<label>When shoud we assume client will retire? </label>
 				<input id="retire_self_date" type="date" value="2043-01-01">
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>Spousal Maintenance/Alimony</legend>
+			<section id="section_5" class="mainSections">
+				<h2>Spousal Maintenance/Alimony</h2>
 				<label>What will client receive at the outset from Spousal Maintenance or Alimony?</label>
 				<input id="alimony" type="number" min="0" step="100" value="5000">
 				<label>At what tax rate can the client reasonably expect to be taxed on Spousal Maintenance Alimony?</label>
@@ -204,10 +233,10 @@
 					<input id="alimony_lump_note5" type="text" value="Some occasion5">
 				</div>
 
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>Child Support</legend>
+			<section id="section_6" class="mainSections">
+				<h2>Child Support</h2>
 				<label>What will client receive at the outset from Child Support?</label>
 				<input id="childSupp_value" type="number" min="0" step="100" value="2000">
 				<label>On how many occasions will this number change (including termination/end)?</label>
@@ -257,10 +286,10 @@
 				</div>
 
 
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>Non-retirement financial assets</legend>
+			<section id="section_7" class="mainSections">
+				<h2>Non-retirement financial assets</h2>
 
 				<label>What is the total value of the client’s non-retirement financial assets (i.e.: bank, brokerage, etc.)</label>
 				<input id="nonRetireFinanAssets_sum" type="number" min="0" step="100" value="50000">
@@ -275,10 +304,10 @@
 				</select>
 				<label>By which percentage will it increase (if at all)?</label>
 				<input id="nonRetire_netIncome_perc" type="number" min="0" max="100" value="8">
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>NON-FINANCIAL ASSETS</legend>
+			<section id="section_8" class="mainSections">
+				<h2>NON-FINANCIAL ASSETS</h2>
 
 				<label>What is the total value of the client’s non-financial assets? (i.e.: real estate, mineral interests, etc.)</label>
 				<input id="nonFinanAssets_sum" type="number" min="0" step="100" value="20000">
@@ -293,10 +322,10 @@
 				</select>
 				<label>By what average percentage with this income increase per year? </label>
 				<input id="nonFinanIncome_netIncome_perc" type="number" min="0" max="100" value="10">
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>SOCIAL SECURITY</legend>
+			<section id="section_9" class="mainSections">
+				<h2>SOCIAL SECURITY</h2>
 
 				<label>What is the amount the client expects from Social Security?</label>
 				<input id="socialSecurity_sum" type="number" min="0" step="100" value="6000">
@@ -309,10 +338,10 @@
 				</select>
 				<label>Expected percentage?</label>
 				<input id="socialSecurity_costOfLivingIncrease_perc" type="number" min="0" max="100" value="3">
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>PENSION</legend>
+			<section id="section_10" class="mainSections">
+				<h2>PENSION</h2>
 
 				<label>Does the client expect a stream of income from a pension, annuity or other such asset at any point in the future? </label>
 				<select id="pension1_yesNo">
@@ -330,10 +359,10 @@
 					<option value="No">No</option>
 					<option value="Yes">Yes</option>
 				</select>
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>Projected Expenses</legend>
+			<section id="section_11" class="mainSections">
+				<h2>Projected Expenses</h2>
 
 				<label>What is the total amount of client’s total monthly expenses?</label>
 				<input id="expenses_sum" type="number" min="0" value="21000">
@@ -385,10 +414,10 @@
 					<input id="expenses_lump_note5" type="text" value="Some occasion5">
 				</div>
 
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>POST-TAX RETIREMENT</legend>
+			<section id="section_12" class="mainSections">
+				<h2>POST-TAX RETIREMENT</h2>
 
 				<label>What is the total value of the client’s post-tax (i.e.: Roth) retirement assets? </label>
 				<input id="postTax_sum" type="number" min="0" value="30000">
@@ -404,10 +433,10 @@
 				<input id="postTax_beforeRetirement_perc" type="number" min="0" max="100" value="5">
 				<label>What is the average expected increase per year in value after retirement? </label>
 				<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="10">				
-			</fieldset>
+			</section>
 
-			<fieldset>
-				<legend>PRE-TAX RETIREMENT</legend>
+			<section id="section_13" class="mainSections">
+				<h2>PRE-TAX RETIREMENT</h2>
 
 				<label>What is the total value of the client’s pre-tax (i.e. 401(k), Traditional IRA, etc.) retirement assets? </label>
 				<input id="preTax_sum" type="number" min="0" value="50000">
@@ -423,13 +452,20 @@
 				<input id="preTax_afterRetirement_perc" type="number" min="0" max="100" value="10">	
 				<label>What % of withdrawals should we assume will go to income tax (usually estimated effective tax rate at retirement)? </label>
 				<input id="preTax_withdrawal_perc" type="number" min="0" max="100" value="3">				
-			</fieldset>
+			</section>
+
+			<section id="section_14" class="mainSections">
+				<button id="showHideTable"> Show/Hide Table</button>				
+			</section>
 
 
 
 
 
-
+			<div id="next_back_wrapper">
+				<div id="back_wrapper"><button id="back_button"> BACK </button></div>
+				<div id="next_wrapper"><button id="next_button"> NEXT </button></div>
+			</div>
 
 
 
@@ -440,8 +476,8 @@
 
 
 			<div class="clear"></div>
-			<input id="submit" type="submit" value="Submit">
-		</form>
+
+		</div>
 
 		
 

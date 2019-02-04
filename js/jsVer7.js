@@ -671,7 +671,6 @@ function calcSurplusShortfall() {
     }else{
       //if there is a shortfall
       currentShortfall = -1 * value2['surplusShortfall'];
-      console.log('Shortfal in: ', index2, ' is: ', currentShortfall);
       //check first if there are funds from earlier months surpluses in this year
       if(currentSurpluses > 0) {
         //if there are enough fonds here, cover all lose from these fonds
@@ -686,7 +685,6 @@ function calcSurplusShortfall() {
       }
       //Then go to post-tax, pre-tax first after retirement
       //or go to non-retirement financial assets before retirement
-      console.log(`This month: `, value2['postTaxSum']);
       if ( (currentYear > userInputs['retirementYear']) || (userInputs['retirementYear'] == currentYear && index2 >= userInputs['retirementMonth']) ) {
         //if there are fonds in post-tax
         if(value2['postTaxSum'] > 0) {
@@ -704,9 +702,7 @@ function calcSurplusShortfall() {
           }
           //lower post tax gross value for folowing months of this year
           let tempTrackPostTaxUsed = postTaxFondsUsedThisMonth;
-          console.log(`tempTrackPost u mesecu: `,index2, ` je: ` , tempTrackPostTaxUsed);
           for (var i = parseInt(index2) + 1; i < 12; i++) {
-            console.log(`PRE u mesecu: `, i, ` je: ` , allResults[currentYear][i]['postTaxSum']);
             //check if it's before or after retirement
             if ( (currentYear < userInputs['retirementYear']) || (currentYear == userInputs['retirementYear'] && i < userInputs['retirementMonth']) ) {
               // tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_beforeRetirement_perc'] / 100 / 12 )
@@ -716,10 +712,8 @@ function calcSurplusShortfall() {
               // tempTrackPostTaxUsed *= ( 1 + (i - index2) * userInputs['postTax_afterRetirement_perc'] / 100 / 12 );
               // tempTrackPostTaxUsed *= ( Math.pow( 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12 , (i - index2) ) );
               tempTrackPostTaxUsed *= 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12;
-              console.log('smanjujem ', i - index2);
             }
             allResults[currentYear][i]['postTaxSum'] -= tempTrackPostTaxUsed;
-            console.log(`POSLE u mesecu: `, i, ` je: ` , allResults[currentYear][i]['postTaxSum']);
           }
         }
 
@@ -780,7 +774,7 @@ function calcSurplusShortfall() {
   //at the end of the last month add currentSurpluses to Non-retirement financial assets
   // currentNonRetireAssetsValue += currentSurpluses;    NOT GOOD
   currentNonRetireAssetsValue = allResults[currentYear][currentMonth]['nonRetireAssetsValue'] + currentSurpluses;  //this looks better
-  console.log(allResults);
+  // console.log(allResults);
 }
 
 function drawResultsTable() {
@@ -1134,8 +1128,47 @@ $(document).scroll(function(){
     }
 });
 
+//####################
+//### NEXT AND BACK###
+//####################
 
-$('input, select').on("change", function(){
+let currentSection = 1;
+const numberOfSections = 14;
+
+$('#next_button').on("click", function(){
+  $('.mainSections').css("display", "none");
+  if(currentSection == 1) {
+    $('#back_button').css("display", "block");
+  }
+  if(currentSection == numberOfSections-1) {
+    $('#next_button').css("display", "none");
+  }
+  if(currentSection < numberOfSections) {
+    $(`#section_${currentSection+1}`).css("display", "block");
+    currentSection++;
+  }else{
+    
+  }
+})
+//back button
+$('#back_button').on("click", function(){
+  $('.mainSections').css("display", "none");
+  if(currentSection == numberOfSections) {
+    $('#next_button').css("display", "block");
+  }
+  if(currentSection == 2) {
+    $('#back_button').css("display", "none");
+  }
+  if(currentSection > 1) {
+    $(`#section_${currentSection-1}`).css("display", "block");
+    currentSection--;
+  }else{
+    
+  }
+})
+
+
+$('input:not([type="checkbox"]), select').on("change", function(){
   readAllUserInputs();
   calculateMain();
 })
