@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Future Needs</title>
-	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
 	<link rel="stylesheet" href="css/cssVer7.css">
 </head>
@@ -13,7 +13,7 @@
 	<div id="fn_wrapper">
 		
 		<div id="main_wrapper">
-			<section id="section_1" class="mainSections">
+			<form id="section_1" class="mainSections">
 				<h2> Legal ... </h2>
 				<p>
 					The calculator you are about to use will provide a roughly estimated outline of a client’s financial needs over time based the information and reasonable assumptions related to the client’s expenses, income and assets. Please note that this calculator is only an estimate of future financial needs extrapolated out over the course of time. The results it provides are based on your inputs and your assumptions about your client’s financial needs and resources now and in the future. Although these may be appropriate assumptions based on circumstances as they currently exist, neither you nor the calculator can predict future critical events such as remarriage, divorce, unexpected job loss, demotions, promotions, major market corrections, major medical events, to name a few. Therefore, this calculator should be used for demonstration and educational purposes only. The client must understand that the results this calculator provides should in no way be considered legal, tax or financial planning advice. The results are not a substitute for professional financial planning or tax advice. 
@@ -25,13 +25,17 @@
 					THIS CALCULATOR AND THE RESULTS IT PROVIDES ARE NOT LEGAL, TAX, OR FINANCIAL PLANNING ADVICE. IMAJINE LEGAL SERVICES, LLC MAKES NO REPRESENTATIONS AS TO THE ACCURACY OF THE CALCULATOR OF ANY OF THE RESULTS IT DISPLAYS AS A RESULT OF ITS USE.  
 				</p>
 				<p>
-					By initialing the box below, you warrant that you have read the above and agree that by using this future needs calculator, you hold Imagine Legal Solutions, LLC harmless from any and all liability, losses or damages arising directly or indirectly from its use, and agree to defend and indemnify Imagine Legal Solutions, LLC for any liability arising from your use of this calculator.  
-				</p>
-			</section>
+					By initialing the box below, you warrant that you have read the above and agree that by using this future needs calculator, you hold Imagine Legal Solutions, LLC harmless from any and all liability, losses or damages arising directly or indirectly from its use, and agree to defend and indemnify Imagine Legal Solutions, LLC for any liability arising from your use of this calculator. </p>
+
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
 
 
 
-			<section id="section_2" class="mainSections">
+			<form id="section_2" class="mainSections">
 				<h2> INITIAL </h2>
 				<label for="birth">Date of birth:</label> <input id="birth" type="date" value="1982-12-14">
 				<label for="filling_status">Filing status:</label>
@@ -41,9 +45,14 @@
 					<option value="HOH"> HOH </option>
 					<option value="MFS"> MFS </option>
 				</select>
-			</section>
 
-			<section id="section_3" class="mainSections">
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_3" class="mainSections">
 				<h2> EXPECTED TYPES OF INCOME </h2>
 
 				<p> What types of income should we take into account in the future?* </p>
@@ -55,368 +64,497 @@
 				<input type="checkbox" id="incomeFrom_nonFinanAssets"><label for="incomeFrom_nonFinanAssets"> Income from Non-Financial Assets (Examples: Rents, Oil & Gas Royalties, etc. </label><br>
 				<input type="checkbox" id="incomeFrom_socialSec"><label for="incomeFrom_socialSec"> Social Security </label><br>
 				<input type="checkbox" id="incomeFrom_notTaxedToRecipient"><label for="incomeFrom_notTaxedToRecipient"> Income Not Taxed to Recipient (Gifts under exemption limit, Distributions of principal, etc.) </label><br>
-			</section>
 
-			<section id="section_4" class="mainSections">
-				<h2>Income - Employment</h2>
-				<label> What is the client’s current net (post-tax) income from employment? </label>
-				<input id="income" type="number" min="0" step="100" value="65000">
-				<label> What is the expected avg. increase per year? </label>
-				<input id="income_increase" type="number" min="0" max="100" value="2">
-				<label> Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
+				<legend>*For periodic expenses, please include these as an average cost per month. As an example, if the client is expected to pay $12,000 in property taxes once per year, these should be calculated as $1,000 of the client’s budget each month. </legend>
+
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>
+			</form>
+
+			<form id="section_4" class="mainSections">
+				<h2> TYPES OF ASSETS TO BE OWNED BY CLIENT </h2>
+
+				<p> What types of assets does the client own or expect to own in the future? </p>
+
+				<input type="checkbox" id="typesAsset_realEstate"><label for="typesAsset_realEstate"> Real Estate </label><br>
+				<input type="checkbox" id="typesAsset_mineralInterests"><label for="typesAsset_mineralInterests"> Mineral Interests </label><br>
+				<input type="checkbox" id="typesAsset_significant"><label for="typesAsset_significant"> Significant non-depreciating personal property (artwork, jewelry, etc.) </label><br>
+				<input type="checkbox" id="typesAsset_anyOther"><label for="typesAsset_anyOther"> Any other significant non-financial assets (intellectual property, etc.) </label><br>
+				<input type="checkbox" id="typesAsset_bankAccounts"><label for="typesAsset_bankAccounts"> Bank Accounts </label><br>
+				<input type="checkbox" id="typesAsset_brokerageAcc"><label for="typesAsset_brokerageAcc"> Brokerage Accounts </label><br>
+				<input type="checkbox" id="typesAsset_nonRetire"><label for="typesAsset_nonRetire"> Other Non-Retirement Financial Assets </label><br>
+				<input type="checkbox" id="typesAsset_retirement"><label for="typesAsset_retirement"> Retirement (Defined Benefit) (Such as a Pension Plan) </label><br>
+				<input type="checkbox" id="typesAsset_preTax"><label for="typesAsset_preTax"> Retirement: (Defined Contribution,, Pre-Tax) (Such as 401k, Traditional IRA, SEP, etc) </label><br>
+				<input type="checkbox" id="typesAsset_postTax"><label for="typesAsset_postTax"> Retirement: Post-Tax (Defined Contribution, Post-Tax)(Such as Roth IRA or Roth 401k)  </label><br>
+
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>
+			</form>
+
+
+			<form id="section_5" class="mainSections">
+				<h2> INCOME FROM EMPLOYMENT </h2>
+
+				<label for="income"> What is the total monthly income from the client’s employment (all sources): </label>
+				<input id="income" type="number" min="0">
+				<label for="incomePercLegend"> By what average percentage should we assume this income will increase each year: <i id="incomePercHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
+
+				<div id="incomePercLegend" class="popUps">
+					<legend>
+						Employment income increases over time due to a host of different factors, which are of course different fo each individual case. These factors may include inflationary, cost of living, or performance raises, job promotions, company success, etc. This is of course speculative, and for most situations, it is likely best to estimate increases in income conservatively. However to provide some context, according to the Congressional Budget Office, the real median averagefamily income in the United States increased by an average of approximately 1.45% per year from 1979-2011, although the percentage changed widely when accounting for different lifestyle factors such as level of education, age, race, etc.  
+					</legend>
+				</div>
+
+				<input id="income_increase" type="number" min="0" max="100">
+				<label> Does the client expect any sudden lump sum increases or decreases in the future (not to include retirement) <i id="incomeLumpHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
+
+				<div id="incomeLumpLegend" class="popUps">
+					<legend>
+						Lump sum increases could be due the client anticipating the completion of an educational track, a major job promotion, etc. As always, it is best to be conservative when entering or estimated the time such event(s) would take place, as well as any corresponding increase in income. If this is a temporary change, such as a temporary decrease due to other obligations, please indicate that there will be two changes – both the decrease, and the return to the normal salary.
+					</legend>
+				</div>
+				
 				<select id="income_lump_number">
-					<option value="3"> 3 </option>
+					<option value="0"> No </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
 					<option value="5"> 5 </option>
-					<option value="0"> No </option>
 				</select>
 
-				<div id="income_lump1_wrapper">
+				<div id="income_lump1_wrapper" class="income_lumps">
 					<label>Change #1 sum: </label>
-					<input id="income_lump_sum1" type="number" step="100" value="-12000">
+					<input id="income_lump_sum1" type="number">
 					<label>Change #1 date: </label>
-					<input id="income_lump_date1" type="date" value="2020-02-01">
-					<label>Change #1 note: </label>
-					<input id="income_lump_note1" type="text" value="Some occasion1">
+					<input id="income_lump_date1" type="date">
+					<!-- <label>Change #1 note: </label>
+					<input id="income_lump_note1" type="text" value="Some occasion1"> -->
 				</div>
-				<div id="income_lump2_wrapper">
+				<div id="income_lump2_wrapper" class="income_lumps">
 					<label>Change #2 sum: </label>
-					<input id="income_lump_sum2" type="number" step="100" value="6000">
+					<input id="income_lump_sum2" type="number">
 					<label>Change #2 date: </label>
-					<input id="income_lump_date2" type="date" value="2020-04-06">
-					<label>Change #2 note: </label>
-					<input id="income_lump_note2" type="text" value="Some occasion2">
+					<input id="income_lump_date2" type="date">
+					<!-- <label>Change #2 note: </label>
+					<input id="income_lump_note2" type="text" value="Some occasion2"> -->
 				</div>
-				<div id="income_lump3_wrapper">
+				<div id="income_lump3_wrapper" class="income_lumps">
 					<label>Change #3 sum: </label>
-					<input id="income_lump_sum3" type="number" step="100" value="3000">
+					<input id="income_lump_sum3" type="number">
 					<label>Change #3 date: </label>
-					<input id="income_lump_date3" type="date" value="2020-06-06">
-					<label>Change #3 note: </label>
-					<input id="income_lump_note3" type="text" value="Some occasion3">
+					<input id="income_lump_date3" type="date">
+					<!-- <label>Change #3 note: </label>
+					<input id="income_lump_note3" type="text"> -->
 				</div>
-				<div id="income_lump4_wrapper">
+				<div id="income_lump4_wrapper" class="income_lumps">
 					<label>Change #4 sum: </label>
-					<input id="income_lump_sum4" type="number" step="100" value="4000">
+					<input id="income_lump_sum4" type="number">
 					<label>Change #4 date: </label>
-					<input id="income_lump_date4" type="date" value="2020-08-06">
-					<label>Change #4 note: </label>
-					<input id="income_lump_note4" type="text" value="Some occasion4">
+					<input id="income_lump_date4" type="date">
+					<!-- <label>Change #4 note: </label>
+					<input id="income_lump_note4" type="text"> -->
 				</div>
-				<div id="income_lump5_wrapper">
+				<div id="income_lump5_wrapper" class="income_lumps">
 					<label>Change #5 sum: </label>
-					<input id="income_lump_sum5" type="number" step="100" value="5000">
+					<input id="income_lump_sum5" type="number">
 					<label>Change #5 date: </label>
-					<input id="income_lump_date5" type="date" value="2020-10-06">
-					<label>Change #5 note: </label>
-					<input id="income_lump_note5" type="text" value="Some occasion5">
+					<input id="income_lump_date5" type="date">
+					<!-- <label>Change #5 note: </label>
+					<input id="income_lump_note5" type="text"> -->
 				</div>
 
 				<label>When shoud we assume client will retire? </label>
-				<input id="retire_date" type="date" value="2020-10-05">
-			</section>
+				<input id="retire_date" type="date">
 
-			<section id="section_4" class="mainSections">
-				<h2>Income - Self Employment</h2>
-				<label>What is the client’s current net (post-tax) income from self-employment? </label>
-				<input id="selfEmployIncome" type="number" min="0" step="100" value="11000">
-				<label>What is the expected average increase per year?</label>
-				<input id="selfEmployIncome_increase" type="number" min="0" max="100" value="5">
-				<label>Does the client expect any lump sudden increases or decreases in the future (not to include retirement)?</label>
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_6" class="mainSections">
+
+				<h2>INCOME FROM SELF-EMPLOYMENT</h2>
+
+				<label for="selfEmployIncome">What is the total monthly income from the client’s self employment (all sources):  </label>
+				<input id="selfEmployIncome" type="number" min="0">
+
+				<label for="selfEmployIncome_increase">By what average percentage should we assume this income will increase each year: <i id="selfIncomePercHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
+				<div id="selfIncomePercLegend" class="popUps">
+					<legend>
+						Income can be expected to increase over time due to a host of different factors, which are of course different fo each individual case. These factors may include inflationary, cost of living, or performance raises, job promotions, company success, etc. This is of course speculative, and for most situations, it is likely best to estimate increases in income conservatively. However to provide some context, according to the Congressional Budget Office, the real median average family income in the United States increased by an average of approximately 1.45% per year from 1979-2011, although the percentage changed widely when accounting for different lifestyle factors such as level of education, age, race, etc. 
+					</legend>
+				</div>
+				<input id="selfEmployIncome_increase" type="number" min="0" max="100">
+
+				<label for="selfEmployIncome_lump_number">Does the client expect any sudden lump sum increases or decreases in the future (not to include retirement)? <i id="selfIncomeLumpHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
+				<div id="selfIncomeLumpLegend" class="popUps">
+					<legend>
+						Lump sum increases could be due the client anticipating the completion of an educational track, a business change, a major promotion, etc. As always, it is best to be conservative when entering or estimated the time such event(s) would take place, as well as any corresponding increase in income. If this is a temporary change, such as a temporary decrease due to other obligations, please indicate that there will be two changes – both the decrease, and the return to the normal rate of pay. 
+					</legend>
+				</div>
 				<select id="selfEmployIncome_lump_number">
-					<option value="2"> 2 </option>
 					<option value="0"> No </option>
 					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
 					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
 					<option value="5"> 5 </option>
 				</select>
 
-				<div id="selfEmploy_lump1_wrapper">
+				<div id="selfEmploy_lump1_wrapper" class="selfIncome_lumps">
 					<label>Change #1 sum: </label>
-					<input id="selfEmployIncome_lump_sum1" type="number" step="100" value="-6000">
+					<input id="selfEmployIncome_lump_sum1" type="number" >
 					<label>Change #1 date: </label>
-					<input id="selfEmployIncome_lump_date1" type="date" value="2020-05-06">
-					<label>Change #1 note: </label>
-					<input id="selfEmployIncome_lump_note1" type="text" value="Some occasion1">
+					<input id="selfEmployIncome_lump_date1" type="date" >
+					<!-- <label>Change #1 note: </label>
+					<input id="selfEmployIncome_lump_note1" type="text" > -->
 				</div>
-				<div id="selfEmploy_lump2_wrapper">
+				<div id="selfEmploy_lump2_wrapper" class="selfIncome_lumps">
 					<label>Change #2 sum: </label>
-					<input id="selfEmployIncome_lump_sum2" type="number" step="100" value="12000">
+					<input id="selfEmployIncome_lump_sum2" type="number" >
 					<label>Change #2 date: </label>
-					<input id="selfEmployIncome_lump_date2" type="date" value="2020-07-06">
-					<label>Change #2 note: </label>
-					<input id="selfEmployIncome_lump_note2" type="text" value="Some occasion2">
+					<input id="selfEmployIncome_lump_date2" type="date" >
+					<!-- <label>Change #2 note: </label>
+					<input id="selfEmployIncome_lump_note2" type="text" > -->
 				</div>
-				<div id="selfEmploy_lump3_wrapper">
+				<div id="selfEmploy_lump3_wrapper" class="selfIncome_lumps">
 					<label>Change #3 sum: </label>
-					<input id="selfEmployIncome_lump_sum3" type="number" step="100" value="3000">
+					<input id="selfEmployIncome_lump_sum3" type="number" >
 					<label>Change #3 date: </label>
-					<input id="selfEmployIncome_lump_date3" type="date" value="2020-09-06">
-					<label>Change #3 note: </label>
-					<input id="selfEmployIncome_lump_note3" type="text" value="Some occasion3">
+					<input id="selfEmployIncome_lump_date3" type="date" >
+					<!-- <label>Change #3 note: </label>
+					<input id="selfEmployIncome_lump_note3" type="text" > -->
 				</div>
-				<div id="selfEmploy_lump4_wrapper">
+				<div id="selfEmploy_lump4_wrapper" class="selfIncome_lumps">
 					<label>Change #4 sum: </label>
-					<input id="selfEmployIncome_lump_sum4" type="number" step="100" value="4000">
+					<input id="selfEmployIncome_lump_sum4" type="number" >
 					<label>Change #4 date: </label>
-					<input id="selfEmployIncome_lump_date4" type="date" value="2020-11-06">
-					<label>Change #4 note: </label>
-					<input id="selfEmployIncome_lump_note4" type="text" value="Some occasion4">
+					<input id="selfEmployIncome_lump_date4" type="date" >
+					<!-- <label>Change #4 note: </label>
+					<input id="selfEmployIncome_lump_note4" type="text" > -->
 				</div>
-				<div id="selfEmploy_lump5_wrapper">
+				<div id="selfEmploy_lump5_wrapper" class="selfIncome_lumps">
 					<label>Change #5 sum: </label>
-					<input id="selfEmployIncome_lump_sum5" type="number" step="100" value="5000">
+					<input id="selfEmployIncome_lump_sum5" type="number" >
 					<label>Change #5 date: </label>
-					<input id="selfEmployIncome_lump_date5" type="date" value="2020-12-06">
-					<label>Change #5 note: </label>
-					<input id="selfEmployIncome_lump_note5" type="text" value="Some occasion5">
+					<input id="selfEmployIncome_lump_date5" type="date" >
+					<!-- <label>Change #5 note: </label>
+					<input id="selfEmployIncome_lump_note5" type="text" > -->
 				</div>
 
 				<label>When shoud we assume client will retire? </label>
-				<input id="retire_self_date" type="date" value="2043-01-01">
-			</section>
+				<input id="retire_self_date" type="date">
 
-			<section id="section_5" class="mainSections">
-				<h2>Spousal Maintenance/Alimony</h2>
-				<label>What will client receive at the outset from Spousal Maintenance or Alimony?</label>
-				<input id="alimony" type="number" min="0" step="100" value="5000">
-				<label>At what tax rate can the client reasonably expect to be taxed on Spousal Maintenance Alimony?</label>
-				<input id="alimony_taxPerc" type="number" min="0" max="100" value="4">
-				<label>On how many occasions will this number change (including termation/end)?</label>
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_7" class="mainSections">
+
+				<h2>SPOUSAL MAINTENANCE/ALIMONY</h2>
+
+				<label for="alimony">What will client receive at the outset from Spousal Maintenance or Alimony?</label>
+				<input id="alimony" type="number" min="0">
+
+				<label for="alimony_timesChange">On how many occasions will this number change (including termation/end)?</label>
 				<select id="alimony_timesChange">
-					<option value="5"> 5 </option>
+					<option value="0"> 0 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
 					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
-					<option value="0"> 0 </option>
+					<option value="5"> 5 </option>
 				</select>
 
-				<div id="alimony_lump1_wrapper">
+				<div id="alimony_lump1_wrapper" class="alimony_lumps">
 					<label>Change #1</label>
-					<input id="alimony_changeDate1" type="date" value="2020-06-21">
-					<input id="alimony_changeSum1" type="number" step="100" value="-1000">
-					<label>Change #1 note: </label>
-					<input id="income_lump_note1" type="text" value="Some occasion1">
-					<label>Change #1 note: </label>
-					<input id="alimony_lump_note1" type="text" value="Some occasion1">
+					<input id="alimony_changeDate1" type="date">
+					<input id="alimony_changeSum1" type="number" >
+					<!-- <label>Change #1 note: </label>
+					<input id="alimony_lump_note1" type="text" value="Some occasion1"> -->
 				</div>
-				<div id="alimony_lump2_wrapper">
+				<div id="alimony_lump2_wrapper" class="alimony_lumps">
 					<label>Change #2</label>
-					<input id="alimony_changeDate2" type="date" value="2020-07-21">
-					<input id="alimony_changeSum2" type="number" step="100" value="-300">
-					<label>Change #2 note: </label>
-					<input id="alimony_lump_note2" type="text" value="Some occasion2">
+					<input id="alimony_changeDate2" type="date" >
+					<input id="alimony_changeSum2" type="number" >
+					<!-- <label>Change #2 note: </label>
+					<input id="alimony_lump_note2" type="text" value="Some occasion2"> -->
 				</div>
-				<div id="alimony_lump3_wrapper">
+				<div id="alimony_lump3_wrapper" class="alimony_lumps">
 					<label>Change #3</label>
-					<input id="alimony_changeDate3" type="date" value="2020-08-21">
-					<input id="alimony_changeSum3" type="number" step="100" value="-600">
-					<label>Change #3 note: </label>
-					<input id="alimony_lump_note3" type="text" value="Some occasion3">
+					<input id="alimony_changeDate3" type="date" >
+					<input id="alimony_changeSum3" type="number" >
+					<!-- <label>Change #3 note: </label>
+					<input id="alimony_lump_note3" type="text" value="Some occasion3"> -->
 				</div>
-				<div id="alimony_lump4_wrapper">
+				<div id="alimony_lump4_wrapper" class="alimony_lumps">
 					<label>Change #4</label>
-					<input id="alimony_changeDate4" type="date" value="2020-09-21">
-					<input id="alimony_changeSum4" type="number" step="100" value="600">
-					<label>Change #4 note: </label>
-					<input id="alimony_lump_note4" type="text" value="Some occasion4">
+					<input id="alimony_changeDate4" type="date" >
+					<input id="alimony_changeSum4" type="number" >
+					<!-- <label>Change #4 note: </label>
+					<input id="alimony_lump_note4" type="text" value="Some occasion4"> -->
 				</div>
-				<div id="alimony_lump5_wrapper">
+				<div id="alimony_lump5_wrapper" class="alimony_lumps">
 					<label>Change #5</label>
-					<input id="alimony_changeDate5" type="date" value="2020-10-21">
-					<input id="alimony_changeSum5" type="number" step="100" value="600">
-					<label>Change #5 note: </label>
-					<input id="alimony_lump_note5" type="text" value="Some occasion5">
+					<input id="alimony_changeDate5" type="date" >
+					<input id="alimony_changeSum5" type="number">
+					<!-- <label>Change #5 note: </label>
+					<input id="alimony_lump_note5" type="text" value="Some occasion5"> -->
 				</div>
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>
+			</form>
 
-			</section>
-
-			<section id="section_6" class="mainSections">
-				<h2>Child Support</h2>
-				<label>What will client receive at the outset from Child Support?</label>
-				<input id="childSupp_value" type="number" min="0" step="100" value="2000">
-				<label>On how many occasions will this number change (including termination/end)?</label>
+			<form id="section_8" class="mainSections">
+				<h2> CHILD SUPPORT </h2>
+				<label for="childSupp_value">What will client receive at the outset from Child Support?</label>
+				<input required id="childSupp_value" type="number" min="0">
+				<label for="childSupp_timesChange">How many times will this amount change (including termination/end)?<i id="childSuppLumpHover" class="fa fa-question-circle" aria-hidden="true"></i></label>
+				<div id="childSuppLumpLegend" class="popUps">
+					<legend>
+						For most states, and for most situations this number will simply be the number of children, and the dates will be the dates the child support will end for each child under the applicable statute – usually the date each child is expected to attain the age of majority or graduate from high school.
+					</legend>
+				</div>
 				<select id="childSupp_timesChange">
-					<option value="1"> 1 </option>
 					<option value="0"> 0 </option>
+					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
 					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
 					<option value="5"> 5 </option>
 				</select>
 
-				<div id="childSupp_lump1_wrapper">
+				<div id="childSupp_lump1_wrapper" class="childSupp_lumps">
 					<label>Change #1</label>
-					<input id="childSupp_changeDate1" type="date" value="2020-03-04">
-					<input id="childSupp_changeSum1" type="number" step="100" value="-1000">
-					<label>Change #1 note: </label>
-					<input id="childSupp_lump_note1" type="text" value="Some occasion1">
+					<input id="childSupp_changeDate1" type="date">
+					<input id="childSupp_changeSum1" type="number" >
+					<!-- <label>Change #1 note: </label>
+					<input id="childSupp_lump_note1" type="text" value="Some occasion1"> -->
 				</div>
-				<div id="childSupp_lump2_wrapper">
+				<div id="childSupp_lump2_wrapper" class="childSupp_lumps">
 					<label>Change #2</label>
-					<input id="childSupp_changeDate2" type="date" value="2020-05-04">
-					<input id="childSupp_changeSum2" type="number" step="100" value="-300">
-					<label>Change #2 note: </label>
-					<input id="childSupp_lump_note2" type="text" value="Some occasion2">
+					<input id="childSupp_changeDate2" type="date" >
+					<input id="childSupp_changeSum2" type="number" >
+					<!-- <label>Change #2 note: </label>
+					<input id="childSupp_lump_note2" type="text" value="Some occasion2"> -->
 				</div>
-				<div id="childSupp_lump3_wrapper">
+				<div id="childSupp_lump3_wrapper" class="childSupp_lumps">
 					<label>Change #3</label>
-					<input id="childSupp_changeDate3" type="date" value="2020-07-04">
-					<input id="childSupp_changeSum3" type="number" step="100" value="-600">
-					<label>Change #3 note: </label>
-					<input id="childSupp_lump_note3" type="text" value="Some occasion3">
+					<input id="childSupp_changeDate3" type="date" >
+					<input id="childSupp_changeSum3" type="number" >
+					<!-- <label>Change #3 note: </label>
+					<input id="childSupp_lump_note3" type="text" value="Some occasion3"> -->
 				</div>
-				<div id="childSupp_lump4_wrapper">
+				<div id="childSupp_lump4_wrapper" class="childSupp_lumps">
 					<label>Change #4</label>
-					<input id="childSupp_changeDate4" type="date" value="2020-09-04">
-					<input id="childSupp_changeSum4" type="number" step="100" value="600">
-					<label>Change #4 note: </label>
-					<input id="childSupp_lump_note4" type="text" value="Some occasion4">
+					<input id="childSupp_changeDate4" type="date" >
+					<input id="childSupp_changeSum4" type="number" >
+					<!-- <label>Change #4 note: </label>
+					<input id="childSupp_lump_note4" type="text" value="Some occasion4"> -->
 				</div>
-				<div id="childSupp_lump5_wrapper">
+				<div id="childSupp_lump5_wrapper" class="childSupp_lumps">
 					<label>Change #5</label>
-					<input id="childSupp_changeDate5" type="date" value="2020-11-04">
-					<input id="childSupp_changeSum5" type="number" step="100" value="1200">
-					<label>Change #5 note: </label>
-					<input id="childSupp_lump_note5" type="text" value="Some occasion5">
+					<input id="childSupp_changeDate5" type="date" >
+					<input id="childSupp_changeSum5" type="number" >
+					<!-- <label>Change #5 note: </label>
+					<input id="childSupp_lump_note5" type="text" value="Some occasion5"> -->
 				</div>
 
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>
+			</form>
 
-			</section>
+			<form id="section_9" class="mainSections">
 
-			<section id="section_7" class="mainSections">
-				<h2>Non-retirement financial assets</h2>
+				<h2>FINANCIAL ASSETS (Non-Retirement)</h2>
 
-				<label>What is the total value of the client’s non-retirement financial assets (i.e.: bank, brokerage, etc.)</label>
-				<input id="nonRetireFinanAssets_sum" type="number" min="0" step="100" value="50000">
-				<label>What is the average projected appreciation of these non-retirement financial assets?</label>
-				<input id="nonRetireFinanAssets_perc" type="number" min="0" max="100" value="2">
-				<label>What net income (post-tax), if any, will the client expect from their non-retirement assets, which will not be reinvested? </label>
-				<input id="netIncome_sum" type="number" min="0" max="100" value="10000">
-				<label>Should we assume this income will appreciate proportionately with the asset, or another percentage? </label>
+				<label for="nonRetireFinanAssets_sum">What is the total value of the client’s non-retirement financial assets such as banking, brokerage, or other financial account? </label>
+				<input required id="nonRetireFinanAssets_sum" type="number" min="0">
+
+				<label for="nonRetireFinanAssets_perc">What is the average yearly appreciation we should expect for these assets? </label>
+				<input required id="nonRetireFinanAssets_perc" type="number" min="0" max="100">
+
+				<label for="netIncome_sum">What net income (post-tax), if any, will the client expect from their non-retirement assets, which will not be reinvested? </label>
+				<input id="netIncome_sum" type="number" min="0" max="100">
+
+				<label for="nonRetire_netIncome_yesNo">Should we assume this income will appreciate proportionately with the asset, or another percentage? </label>
 				<select id="nonRetire_netIncome_yesNo">
-					<option value="No">No</option>
 					<option value="Yes">Yes</option>
+					<option value="No">No</option>
 				</select>
-				<label>By which percentage will it increase (if at all)?</label>
-				<input id="nonRetire_netIncome_perc" type="number" min="0" max="100" value="8">
-			</section>
 
-			<section id="section_8" class="mainSections">
+				<div id="nonRetireDifferentPercWrapper">
+					<label for="nonRetire_netIncome_perc">By which percentage will it increase (if at all)?</label>
+					<input id="nonRetire_netIncome_perc" type="number" min="0" max="100">
+				</div>
+
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_10" class="mainSections">
 				<h2>NON-FINANCIAL ASSETS</h2>
 
-				<label>What is the total value of the client’s non-financial assets? (i.e.: real estate, mineral interests, etc.)</label>
-				<input id="nonFinanAssets_sum" type="number" min="0" step="100" value="20000">
-				<label>What is the average expected increase per year in value?</label>
-				<input id="nonFinanAssets_perc" type="number" min="0" max="100" value="5">
-				<label>What is the client’s expected monthly income from these assets?  </label>
-				<input id="nonFinanIncome_sum" type="number" min="0" value="1000">
-				<label>Should we assume this income will increase proportionately to the asset or do you wish to enter a figure?  </label>
+				<label for="nonFinanAssets_sum">What is the total value of the client’s non-financial assets? (i.e.: real estate, mineral interests, etc.)</label>
+				<input required id="nonFinanAssets_sum" type="number" min="0">
+
+				<label for="nonFinanAssets_perc">What is the average yearly appreciation we should expect for these assets?</label>
+				<input required id="nonFinanAssets_perc" type="number" min="0" max="100">
+
+				<label for="nonFinanIncome_sum">What is the client’s expected monthly income from these assets (such as rent, royalties, etc.), if any? </label>
+				<input required id="nonFinanIncome_sum" type="number" min="0">
+
+				<label for="nonFinanIncome_netIncome_yesNo">Should we assume this income will increase proportionately to the asset or do you wish to enter a figure? </label>
 				<select id="nonFinanIncome_netIncome_yesNo">
 					<option value="Yes">Yes</option>
 					<option value="No">No</option>
 				</select>
-				<label>By what average percentage with this income increase per year? </label>
-				<input id="nonFinanIncome_netIncome_perc" type="number" min="0" max="100" value="10">
-			</section>
 
-			<section id="section_9" class="mainSections">
+				<div id="nonfinanDifferentPercWrapper">
+					<label for="nonFinanIncome_netIncome_perc">By what average percentage with this income increase per year? </label>
+					<input id="nonFinanIncome_netIncome_perc" type="number" min="0" max="100">
+				</div>
+
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_11" class="mainSections">
 				<h2>SOCIAL SECURITY</h2>
 
-				<label>What is the amount the client expects from Social Security?</label>
-				<input id="socialSecurity_sum" type="number" min="0" step="100" value="6000">
-				<label>On what date will the client begin drawing Social Security? </label>
-				<input id="socialSecurity_startDate" type="date" value="2019-10-04">
-				<label>Do you want to include an average cost of living increase for SS?</label>
+				<label for="socialSecurity_sum">What is the amount the client expects from Social Security?</label>
+				<input required id="socialSecurity_sum" type="number" min="0">
+
+				<label for="socialSecurity_startDate">On what date will the client begin drawing Social Security? </label>
+				<input required id="socialSecurity_startDate" type="date">
+
+				<label for="socialSecurity_increasePerc_yesNo">Do you want to include an average cost of living increase for SS?</label>
 				<select id="socialSecurity_increasePerc_yesNo">
 					<option value="Yes">Yes</option>
 					<option value="No">No</option>
 				</select>
-				<label>Expected percentage?</label>
-				<input id="socialSecurity_costOfLivingIncrease_perc" type="number" min="0" max="100" value="3">
-			</section>
 
-			<section id="section_10" class="mainSections">
+				<div id="socSecDifferentPercWrapper">	
+					<label for="socialSecurity_costOfLivingIncrease_perc">Expected percentage?</label>
+					<input required id="socialSecurity_costOfLivingIncrease_perc" type="number" min="0" max="100">
+				</div>
+
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_12" class="mainSections">
 				<h2>PENSION</h2>
 
-				<label>Does the client expect a stream of income from a pension, annuity or other such asset at any point in the future? </label>
+				<label for="pension1_yesNo">Does the client expect a stream of income from a pension, annuity or other such asset at any point in the future? </label>
 				<select id="pension1_yesNo">
 					<option value="Yes">Yes</option>
 					<option value="No">No</option>
 				</select>
-				<label>When do they expect to begin receiving such benefits? </label>
-				<input id="pension1_startDate" type="date" value="2020-06-04" >
-				<label>How much do they expect to receive in net after-tax dollars from such income stream?</label>
-				<input id="pension1_sum" type="number" min="0" value="3000">
-				<label>Will there be any cost of living increase in such benefits, and if so how much? </label>
-				<input id="pension1_CostOfLivingIncrease" type="number" min="0" max="100" value="2">
-				<label>Will they receive any other stream of income at any point?</label>
+
+				<div id="pensionDifferentPercWrapper">
+					<label for="pension1_startDate">When do they expect to begin receiving such benefits? </label>
+					<input required id="pension1_startDate" type="date">
+
+					<label for="pension1_sum">How much do they expect to receive in net after-tax dollars from such income stream?</label>
+					<input required id="pension1_sum" type="number" min="0">
+
+					<label for="pension1_CostOfLivingIncrease">Will there be any cost of living increase in such benefits, and if so how much? </label>
+					<input required id="pension1_CostOfLivingIncrease" type="number" min="0" max="100">
+				</div>
+
+				<!-- <label>Will they receive any other stream of income at any point?</label>
 				<select id="pension2_yesNo">
 					<option value="No">No</option>
 					<option value="Yes">Yes</option>
-				</select>
-			</section>
+				</select> -->
 
-			<section id="section_11" class="mainSections">
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	
+			</form>
+
+			<form id="section_13" class="mainSections">
 				<h2>Projected Expenses</h2>
 
-				<label>What is the total amount of client’s total monthly expenses?</label>
-				<input id="expenses_sum" type="number" min="0" value="21000">
-				<label>What is the expected average increase in these expenses per year (not to include lump sum increases/decreases)?</label>
-				<input id="expenses_perc" type="number" min="0" max="100" value="3">
-				<label>How many lump sum increases or decreases should we expect? This would include a child leaving the home, the payoff of a mortgage, or other one-time events.</label>
+				<label for="expenses_sum">What is the total amount of client’s total monthly expenses?</label>
+				<input id="expenses_sum" type="number" min="0">
+
+				<label for="expenses_perc">What is the expected average increase in these expenses per year (not to include lump sum increases/decreases)?</label>
+				<input id="expenses_perc" type="number" min="0" max="100">
+
+				<label for="expenses_timesChange">How many lump sum increases or decreases should we expect? This would include a child leaving the home, the payoff of a mortgage, or other one-time events.</label>
 				<select id="expenses_timesChange">
-					<option value="5"> 5 </option>
 					<option value="0"> 0 </option>
 					<option value="1"> 1 </option>
 					<option value="2"> 2 </option>
 					<option value="3"> 3 </option>
 					<option value="4"> 4 </option>
+					<option value="5"> 5 </option>
 				</select>
 
 				<div id="expenses_lump1_wrapper">
 					<label>Change #1</label>
-					<input id="expenses_changeDate1" type="date" value="2019-03-01">
-					<input id="expenses_changeSum1" type="number" step="100" value="3000">
-					<label>Change #1 note: </label>
-					<input id="expenses_lump_note1" type="text" value="Some occasion1">
+					<input id="expenses_changeDate1" type="date">
+					<input id="expenses_changeSum1" type="number">
+					<!-- <label>Change #1 note: </label>
+					<input id="expenses_lump_note1" type="text" value="Some occasion1"> -->
 				</div>
 				<div id="expenses_lump2_wrapper">
 					<label>Change #2</label>
-					<input id="expenses_changeDate2" type="date" value="2019-05-01">
-					<input id="expenses_changeSum2" type="number" step="100" value="-1000">
-					<label>Change #2 note: </label>
-					<input id="expenses_lump_note2" type="text" value="Some occasion2">
+					<input id="expenses_changeDate2" type="date">
+					<input id="expenses_changeSum2" type="number">
+					<!-- <label>Change #2 note: </label>
+					<input id="expenses_lump_note2" type="text" value="Some occasion2"> -->
 				</div>
 				<div id="expenses_lump3_wrapper">
 					<label>Change #3</label>
-					<input id="expenses_changeDate3" type="date" value="2019-07-01">
-					<input id="expenses_changeSum3" type="number" step="100" value="-1000">
-					<label>Change #3 note: </label>
-					<input id="expenses_lump_note3" type="text" value="Some occasion3">
+					<input id="expenses_changeDate3" type="date">
+					<input id="expenses_changeSum3" type="number">
+					<!-- <label>Change #3 note: </label>
+					<input id="expenses_lump_note3" type="text" value="Some occasion3"> -->
 				</div>
 				<div id="expenses_lump4_wrapper">
 					<label>Change #4</label>
-					<input id="expenses_changeDate4" type="date" value="2019-09-01">
-					<input id="expenses_changeSum4" type="number" step="100" value="2000">
-					<label>Change #4 note: </label>
-					<input id="expenses_lump_note4" type="text" value="Some occasion4">
+					<input id="expenses_changeDate4" type="date">
+					<input id="expenses_changeSum4" type="number">
+					<!-- <label>Change #4 note: </label>
+					<input id="expenses_lump_note4" type="text" value="Some occasion4"> -->
 				</div>
 				<div id="expenses_lump5_wrapper">
 					<label>Change #5</label>
-					<input id="expenses_changeDate5" type="date" value="2019-11-01">
-					<input id="expenses_changeSum5" type="number" step="100" value="3000">
-					<label>Change #5 note: </label>
-					<input id="expenses_lump_note5" type="text" value="Some occasion5">
+					<input id="expenses_changeDate5" type="date">
+					<input id="expenses_changeSum5" type="number">
+					<!-- <label>Change #5 note: </label>
+					<input id="expenses_lump_note5" type="text" value="Some occasion5"> -->
 				</div>
 
-			</section>
+				<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>
+			</form>
 
-			<section id="section_12" class="mainSections">
+			<form id="section_14" class="mainSections">
 				<h2>POST-TAX RETIREMENT</h2>
 
 				<label>What is the total value of the client’s post-tax (i.e.: Roth) retirement assets? </label>
@@ -432,10 +570,13 @@
 				<label>What is the average expected increase per year in value prior to retirement?</label>
 				<input id="postTax_beforeRetirement_perc" type="number" min="0" max="100" value="5">
 				<label>What is the average expected increase per year in value after retirement? </label>
-				<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="10">				
-			</section>
+							<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="10">				
+			</form>
 
-			<section id="section_13" class="mainSections">
+			<form id="section_15" class="mainSections">
 				<h2>PRE-TAX RETIREMENT</h2>
 
 				<label>What is the total value of the client’s pre-tax (i.e. 401(k), Traditional IRA, etc.) retirement assets? </label>
@@ -451,21 +592,27 @@
 				<label>What is the average expected increase per year in value after retirement? </label>
 				<input id="preTax_afterRetirement_perc" type="number" min="0" max="100" value="10">	
 				<label>What % of withdrawals should we assume will go to income tax (usually estimated effective tax rate at retirement)? </label>
-				<input id="preTax_withdrawal_perc" type="number" min="0" max="100" value="3">				
-			</section>
+							<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	<input id="preTax_withdrawal_perc" type="number" min="0" max="100" value="3">				
+			</form>
 
-			<section id="section_14" class="mainSections">
-				<button id="showHideTable"> Show/Hide Table</button>				
-			</section>
+			<form id="section_16" class="mainSections">
+							<div class="next_back_wrapper">
+					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
+					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
+				</div>	<button id="showHideTable"> Show/Hide Table</button>				
+			</form>
 
 
 
 
 
-			<div id="next_back_wrapper">
+			<!-- <div id="next_back_wrapper">
 				<div id="back_wrapper"><button id="back_button"> BACK </button></div>
 				<div id="next_wrapper"><button id="next_button"> NEXT </button></div>
-			</div>
+			</div> -->
 
 
 

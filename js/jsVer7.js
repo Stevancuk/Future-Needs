@@ -757,14 +757,6 @@ function calcSurplusShortfall() {
         allResults[currentYear][i]['nonRetireAssetsValue'] -= nonRetireFondsUsedThisMonth * ( 1 + (i - index2) * userInputs['nonRetireFinanAssets_perc'] / 100 / 12 );
       }
 
-
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // THIS DOESN'T WORK AS IT SHOULD
-      // IT'S REDUCING THE VALUE OF FOLLOWING MONTHS MORE THEN IT SHOULD
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
       //I GUESS WE CAN STOP HERE AND LET THESE FONDS GO TO NEGATIVE IF NEEDED (THAT WOULD REPRESENT SOME KIND OF LOANS...)
       //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
     }
@@ -894,7 +886,6 @@ function drawResultsTable() {
   });
 }
 
-
 let currentYear, currentMonth;
 function calculateMain() {
   // add years
@@ -945,6 +936,13 @@ function calculateMain() {
       drawResultsTable();
   console.log(allResults);
 }
+//#####################################
+//### END OF CALCULATIONS FUNCTIONS ###
+//#####################################
+
+// ###################
+// ### User Inputs ###
+// ###################
 
 //Income lump sums
 const allLumpSums = {
@@ -964,8 +962,6 @@ function addAllYearsAndMonthsForLumpSums() {
     }
   })
 }
-
-// ### User Inputs ###
 
 let startingDate;
 function readAllUserInputs() {
@@ -1012,82 +1008,127 @@ function readAllUserInputs() {
 // ### Event Handlers ###
 // ######################
 
-//Temp Table Results
-$('#showHideTable').on("click", function(){
-  $('#absResults').toggle("display");
-})
-
-//Show hide Lump Sum wrappers for Employment
-
-// ****************************************!!!!!!!!!!!!!
-// ********* Make function for these drop downs*********
-// ****************************************!!!!!!!!!!!!!
-
-
-
-$('#income_lump_number').on("change", function(){
-  switch ( $(this).val() ) {
+//Show hide Lump Sum wrappers
+function showAndHideLumpSums(numOfLumpSums, wrapperLabel) {
+  switch ( numOfLumpSums ) {
     case '0':
-        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
         break;
     case '1':
-        $('#income_lump2_wrapper, #income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
-        $('#income_lump1_wrapper').css("display", "block");
+        $(`#${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
+        $(`#${wrapperLabel}_lump1_wrapper`).css("display", "block");
         break;
     case '2':
-        $('#income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
-        $('#income_lump1_wrapper, #income_lump2_wrapper').css("display", "block");
+        $(`#${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper`).css("display", "block");
         break;
     case '3':
-        $('#income_lump4_wrapper, #income_lump5_wrapper').css("display", "none");
-        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper').css("display", "block");
+        $(`#${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper`).css("display", "block");
         break;
     case '4':
-        $('#income_lump5_wrapper').css("display", "none");
-        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper#, income_lump4_wrapper').css("display", "block");
+        $(`#${wrapperLabel}_lump5_wrapper`).css("display", "none");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper`).css("display", "block");
         break;
     case '5':
-        $('#income_lump1_wrapper, #income_lump2_wrapper, #income_lump3_wrapper, #income_lump4_wrapper, #income_lump5_wrapper').css("display", "block");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "block");
         break;        
   }
+}
+
+//Income From Employment
+$('#incomePercHover').hover(function(){
+  $('#incomePercLegend').toggle("display");
+})
+$('#incomeLumpHover').hover(function(){
+  $('#incomeLumpLegend').toggle("display");
+})
+$('#income_lump_number').on("change", function(){
+  let wrapperLabel = `income`;
+  let numOfLumps = $(this).val();
+  showAndHideLumpSums( numOfLumps , wrapperLabel)
+})
+
+//Income From Self Employment
+$('#selfIncomePercHover').hover(function(){
+  $('#selfIncomePercLegend').toggle("display");
+})
+$('#selfIncomeLumpHover').hover(function(){
+  $('#selfIncomeLumpLegend').toggle("display");
 })
 //Show hide Lump Sum wrappers for Self-Employment
 $('#selfEmployIncome_lump_number').on("change", function(){
-  switch ( $(this).val() ) {
-    case '0':
-        $('#selfEmploy_lump1_wrapper, #selfEmploy_lump2_wrapper, #selfEmploy_lump3_wrapper').css("display", "none");
-        break;
-    case '1':
-        $('#selfEmploy_lump2_wrapper, #selfEmploy_lump3_wrapper').css("display", "none");
-        $('#selfEmploy_lump1_wrapper').css("display", "block");
-        break;
-    case '2':
-        $('#selfEmploy_lump3_wrapper').css("display", "none");
-        $('#selfEmploy_lump1_wrapper, #selfEmploy_lump2_wrapper').css("display", "block");
-        break;
-    case '3':
-        $('#selfEmploy_lump1_wrapper, #selfEmploy_lump2_wrapper, #selfEmploy_lump3_wrapper').css("display", "block");
-        break;
-  }
+  let wrapperLabel = `selfEmploy`;
+  let numOfLumps = $(this).val();
+  showAndHideLumpSums( numOfLumps , wrapperLabel)
 })
+
 //Show hide Lump Sum wrappers for Alimony
 $('#alimony_timesChange').on("change", function(){
-  switch ( $(this).val() ) {
-    case '0':
-        $('#alimony_lump1_wrapper, #alimony_lump2_wrapper, #alimony_lump3_wrapper').css("display", "none");
-        break;
-    case '1':
-        $('#alimony_lump2_wrapper, #alimony_lump3_wrapper').css("display", "none");
-        $('#alimony_lump1_wrapper').css("display", "block");
-        break;
-    case '2':
-        $('#alimony_lump3_wrapper').css("display", "none");
-        $('#alimony_lump1_wrapper, #alimony_lump2_wrapper').css("display", "block");
-        break;
-    case '3':
-        $('#alimony_lump1_wrapper, #alimony_lump2_wrapper, #alimony_lump3_wrapper').css("display", "block");
-        break;
+  let wrapperLabel = `alimony`;
+  let numOfLumps = $(this).val();
+  showAndHideLumpSums( numOfLumps , wrapperLabel)
+})
+
+//Show hide Lump Sum wrappers for Child Support
+$('#childSupp_timesChange').on("change", function(){
+  let wrapperLabel = `childSupp`;
+  let numOfLumps = $(this).val();
+  showAndHideLumpSums( numOfLumps , wrapperLabel)
+})
+$('#childSuppLumpHover').hover(function(){
+  $('#childSuppLumpLegend').toggle("display");
+})
+
+//Financial Assets
+$('#nonRetire_netIncome_yesNo').on("change", function(){
+  if( $(this).val() == 'Yes' ){
+    $('#nonRetireDifferentPercWrapper').css("display", "none");
+    $('#nonRetire_netIncome_perc').removeAttr( "required" );
+  }else{
+    $('#nonRetireDifferentPercWrapper').css("display", "block");
+    $('#nonRetire_netIncome_perc').attr('required', 'required');
   }
+})
+
+//Non-Financial Assets
+$('#nonFinanIncome_netIncome_yesNo').on("change", function(){
+  if( $(this).val() == 'Yes' ){
+    $('#nonfinanDifferentPercWrapper').css("display", "none");
+    $('#nonFinanIncome_netIncome_perc').removeAttr( "required" );
+  }else{
+    $('#nonfinanDifferentPercWrapper').css("display", "block");
+    $('#nonFinanIncome_netIncome_perc').attr('required', 'required');
+  }
+})
+
+//Social Security
+$('#socialSecurity_increasePerc_yesNo').on("change", function(){
+  if( $(this).val() == 'No' ){
+    $('#socSecDifferentPercWrapper').css("display", "none");
+    $('#socialSecurity_costOfLivingIncrease_perc').removeAttr( "required" );
+  }else{
+    $('#socSecDifferentPercWrapper').css("display", "block");
+    $('#socialSecurity_costOfLivingIncrease_perc').attr('required', 'required');
+  }
+})
+
+//pension
+$('#pension1_yesNo').on("change", function(){
+  if( $(this).val() == 'No' ){
+    $('#pensionDifferentPercWrapper').css("display", "none");
+    $('#pension1_startDate, #pension1_sum, #pension1_CostOfLivingIncrease').removeAttr( "required" );
+  }else{
+    $('#pensionDifferentPercWrapper').css("display", "block");
+    $('#pension1_startDate, #pension1_sum, #pension1_CostOfLivingIncrease').attr('required', 'required');
+  }
+})
+
+
+
+//Temp Table Results
+$('#showHideTable').on("click", function(){
+  $('#absResults').toggle("display");
 })
 
 // scroll right for first column of table
@@ -1132,50 +1173,60 @@ $(document).scroll(function(){
 //### NEXT AND BACK###
 //####################
 
-let currentSection = 1;
-const numberOfSections = 14;
+let currentSection = 9;
+const numberOfSections = 16;
+let buttonClicked = 'nextButton';
 
-$('#next_button').on("click", function(){
-  $('.mainSections').css("display", "none");
-  if(currentSection == 1) {
-    $('#back_button').css("display", "block");
-  }
-  if(currentSection == numberOfSections-1) {
-    $('#next_button').css("display", "none");
-  }
-  if(currentSection < numberOfSections) {
-    $(`#section_${currentSection+1}`).css("display", "block");
-    currentSection++;
-  }else{
-    
-  }
+$('.next_button').on("click", function(){
+  buttonClicked = 'nextButton';
 })
 //back button
-$('#back_button').on("click", function(){
-  $('.mainSections').css("display", "none");
-  if(currentSection == numberOfSections) {
-    $('#next_button').css("display", "block");
-  }
-  if(currentSection == 2) {
-    $('#back_button').css("display", "none");
-  }
-  if(currentSection > 1) {
-    $(`#section_${currentSection-1}`).css("display", "block");
-    currentSection--;
-  }else{
-    
-  }
+$('.back_button').on("click", function(){
+  buttonClicked = 'backButton';
 })
 
+$( "form" ).submit(function( event ) {
+  event.preventDefault();
+  if(buttonClicked == 'nextButton') {
+    $('.mainSections').css("display", "none");
+    if(currentSection == 1) {
+      $('#back_button').css("display", "block");
+    }
+    if(currentSection == numberOfSections-1) {
+      $('#next_button').css("display", "none");
+    }
+    if(currentSection < numberOfSections) {
+      $(`#section_${currentSection+1}`).css("display", "block");
+      currentSection++;
+    }else{
+      
+    }    
+  }
+  if(buttonClicked == 'backButton') {
+    $('.mainSections').css("display", "none");
+    if(currentSection == numberOfSections) {
+      $('#next_button').css("display", "block");
+    }
+    if(currentSection == 2) {
+      $('#back_button').css("display", "none");
+    }
+    if(currentSection > 1) {
+      $(`#section_${currentSection-1}`).css("display", "block");
+      currentSection--;
+    }else{
+      
+    }    
+  }
+});
 
 $('input:not([type="checkbox"]), select').on("change", function(){
-  readAllUserInputs();
-  calculateMain();
+  // readAllUserInputs();
+  // calculateMain();
 })
 
 $(function(){
-  readAllUserInputs();
-  calculateMain();
+  // readAllUserInputs();
+  // calculateMain();
 
   // Warning Duplicate IDs
   $('[id]').each(function(){
