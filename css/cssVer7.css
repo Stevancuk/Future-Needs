@@ -37,7 +37,7 @@ input:not([type='checkbox']), select {
 	padding: 10px;
 	margin-bottom: 20px;
 }
-#section_13 {
+#section_1 {
 	display: block;
 }
 .next_back_wrapper {
@@ -45,11 +45,11 @@ input:not([type='checkbox']), select {
 	justify-content: space-between;
 }
 .back_button {
-	/*display: none;*/
+	display: none;
 }
 
 /* Income From Employment */
-.income_lumps, .selfIncome_lumps, .alimony_lumps, .childSupp_lumps, #nonRetireDifferentPercWrapper, #nonfinanDifferentPercWrapper {
+.income_lumps, .selfIncome_lumps, .alimony_lumps, .childSupp_lumps, #nonRetireDifferentPercWrapper, #nonfinanDifferentPercWrapper, .expenses_lumps {
 	display: none;
 }
 

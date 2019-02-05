@@ -22,7 +22,7 @@
 					This calculator is best used to argue a client’s case for alimony, spousal maintenance, child support, or a disproportionate share of marital or community property. It is effective and appropriate for that purpose. Although it is possible in the absence of professional financial advice to use it to help a client understand the approximated potential long-term effects of certain current or future financial choices, this should be done carefully. Careful consideration should be given as to whether and how to present certain results to clients, as a pessimistic or bleak financial outlook may unnecessarily alarm some clients, making even legally advantageous settlements more difficult for the client to accept. 
 				</p>
 				<p>
-					THIS CALCULATOR AND THE RESULTS IT PROVIDES ARE NOT LEGAL, TAX, OR FINANCIAL PLANNING ADVICE. IMAJINE LEGAL SERVICES, LLC MAKES NO REPRESENTATIONS AS TO THE ACCURACY OF THE CALCULATOR OF ANY OF THE RESULTS IT DISPLAYS AS A RESULT OF ITS USE.  
+					THIS CALCULATOR AND THE RESULTS IT PROVIDES ARE NOT LEGAL, TAX, OR FINANCIAL PLANNING ADVICE. IMAGINE LEGAL SERVICES, LLC MAKES NO REPRESENTATIONS AS TO THE ACCURACY OF THE CALCULATOR OF ANY OF THE RESULTS IT DISPLAYS AS A RESULT OF ITS USE.  
 				</p>
 				<p>
 					By initialing the box below, you warrant that you have read the above and agree that by using this future needs calculator, you hold Imagine Legal Solutions, LLC harmless from any and all liability, losses or damages arising directly or indirectly from its use, and agree to defend and indemnify Imagine Legal Solutions, LLC for any liability arising from your use of this calculator. </p>
@@ -37,13 +37,15 @@
 
 			<form id="section_2" class="mainSections">
 				<h2> INITIAL </h2>
-				<label for="birth">Date of birth:</label> <input id="birth" type="date" value="1982-12-14">
+
+				<label for="birth">Date of birth:</label> <input required id="birth" type="date">
+
 				<label for="filling_status">Filing status:</label>
 				<select id="filling_status">
-					<option value="MFJ"> MFJ </option>
 					<option value="single"> single </option>
-					<option value="HOH"> HOH </option>
+					<option value="MFJ"> MFJ </option>
 					<option value="MFS"> MFS </option>
+					<option value="HOH"> HOH </option>
 				</select>
 
 				<div class="next_back_wrapper">
@@ -100,8 +102,9 @@
 				<h2> INCOME FROM EMPLOYMENT </h2>
 
 				<label for="income"> What is the total monthly income from the client’s employment (all sources): </label>
-				<input id="income" type="number" min="0">
-				<label for="incomePercLegend"> By what average percentage should we assume this income will increase each year: <i id="incomePercHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
+				<input required id="income" type="number" min="0">
+
+				<label for="income_increase"> By what average percentage should we assume this income will increase each year: <i id="incomePercHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
 
 				<div id="incomePercLegend" class="popUps">
 					<legend>
@@ -109,8 +112,9 @@
 					</legend>
 				</div>
 
-				<input id="income_increase" type="number" min="0" max="100">
-				<label> Does the client expect any sudden lump sum increases or decreases in the future (not to include retirement) <i id="incomeLumpHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
+				<input required id="income_increase" type="number" min="0" max="100">
+
+				<label for="income_lump_number"> Does the client expect any sudden lump sum increases or decreases in the future (not to include retirement) <i id="incomeLumpHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
 
 				<div id="incomeLumpLegend" class="popUps">
 					<legend>
@@ -168,8 +172,8 @@
 					<input id="income_lump_note5" type="text"> -->
 				</div>
 
-				<label>When shoud we assume client will retire? </label>
-				<input id="retire_date" type="date">
+				<label for="retire_date">When shoud we assume client will retire? </label>
+				<input required id="retire_date" type="date">
 
 				<div class="next_back_wrapper">
 					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
@@ -182,7 +186,7 @@
 				<h2>INCOME FROM SELF-EMPLOYMENT</h2>
 
 				<label for="selfEmployIncome">What is the total monthly income from the client’s self employment (all sources):  </label>
-				<input id="selfEmployIncome" type="number" min="0">
+				<input required id="selfEmployIncome" type="number" min="0">
 
 				<label for="selfEmployIncome_increase">By what average percentage should we assume this income will increase each year: <i id="selfIncomePercHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
 				<div id="selfIncomePercLegend" class="popUps">
@@ -190,7 +194,7 @@
 						Income can be expected to increase over time due to a host of different factors, which are of course different fo each individual case. These factors may include inflationary, cost of living, or performance raises, job promotions, company success, etc. This is of course speculative, and for most situations, it is likely best to estimate increases in income conservatively. However to provide some context, according to the Congressional Budget Office, the real median average family income in the United States increased by an average of approximately 1.45% per year from 1979-2011, although the percentage changed widely when accounting for different lifestyle factors such as level of education, age, race, etc. 
 					</legend>
 				</div>
-				<input id="selfEmployIncome_increase" type="number" min="0" max="100">
+				<input required id="selfEmployIncome_increase" type="number" min="0" max="100">
 
 				<label for="selfEmployIncome_lump_number">Does the client expect any sudden lump sum increases or decreases in the future (not to include retirement)? <i id="selfIncomeLumpHover" class="fa fa-question-circle" aria-hidden="true"></i> </label>
 				<div id="selfIncomeLumpLegend" class="popUps">
@@ -248,8 +252,8 @@
 					<input id="selfEmployIncome_lump_note5" type="text" > -->
 				</div>
 
-				<label>When shoud we assume client will retire? </label>
-				<input id="retire_self_date" type="date">
+				<label for="retire_self_date">When shoud we assume client will retire? </label>
+				<input required id="retire_self_date" type="date">
 
 				<div class="next_back_wrapper">
 					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
@@ -262,7 +266,7 @@
 				<h2>SPOUSAL MAINTENANCE/ALIMONY</h2>
 
 				<label for="alimony">What will client receive at the outset from Spousal Maintenance or Alimony?</label>
-				<input id="alimony" type="number" min="0">
+				<input required id="alimony" type="number" min="0">
 
 				<label for="alimony_timesChange">On how many occasions will this number change (including termation/end)?</label>
 				<select id="alimony_timesChange">
@@ -387,7 +391,7 @@
 				<input required id="nonRetireFinanAssets_perc" type="number" min="0" max="100">
 
 				<label for="netIncome_sum">What net income (post-tax), if any, will the client expect from their non-retirement assets, which will not be reinvested? </label>
-				<input id="netIncome_sum" type="number" min="0" max="100">
+				<input required id="netIncome_sum" type="number" min="0" max="100">
 
 				<label for="nonRetire_netIncome_yesNo">Should we assume this income will appreciate proportionately with the asset, or another percentage? </label>
 				<select id="nonRetire_netIncome_yesNo">
@@ -497,10 +501,10 @@
 				<h2>Projected Expenses</h2>
 
 				<label for="expenses_sum">What is the total amount of client’s total monthly expenses?</label>
-				<input id="expenses_sum" type="number" min="0">
+				<input required id="expenses_sum" type="number" min="0">
 
 				<label for="expenses_perc">What is the expected average increase in these expenses per year (not to include lump sum increases/decreases)?</label>
-				<input id="expenses_perc" type="number" min="0" max="100">
+				<input required id="expenses_perc" type="number" min="0" max="100">
 
 				<label for="expenses_timesChange">How many lump sum increases or decreases should we expect? This would include a child leaving the home, the payoff of a mortgage, or other one-time events.</label>
 				<select id="expenses_timesChange">
@@ -512,35 +516,35 @@
 					<option value="5"> 5 </option>
 				</select>
 
-				<div id="expenses_lump1_wrapper">
+				<div id="expenses_lump1_wrapper" class="expenses_lumps">
 					<label>Change #1</label>
 					<input id="expenses_changeDate1" type="date">
 					<input id="expenses_changeSum1" type="number">
 					<!-- <label>Change #1 note: </label>
 					<input id="expenses_lump_note1" type="text" value="Some occasion1"> -->
 				</div>
-				<div id="expenses_lump2_wrapper">
+				<div id="expenses_lump2_wrapper" class="expenses_lumps">
 					<label>Change #2</label>
 					<input id="expenses_changeDate2" type="date">
 					<input id="expenses_changeSum2" type="number">
 					<!-- <label>Change #2 note: </label>
 					<input id="expenses_lump_note2" type="text" value="Some occasion2"> -->
 				</div>
-				<div id="expenses_lump3_wrapper">
+				<div id="expenses_lump3_wrapper" class="expenses_lumps">
 					<label>Change #3</label>
 					<input id="expenses_changeDate3" type="date">
 					<input id="expenses_changeSum3" type="number">
 					<!-- <label>Change #3 note: </label>
 					<input id="expenses_lump_note3" type="text" value="Some occasion3"> -->
 				</div>
-				<div id="expenses_lump4_wrapper">
+				<div id="expenses_lump4_wrapper" class="expenses_lumps">
 					<label>Change #4</label>
 					<input id="expenses_changeDate4" type="date">
 					<input id="expenses_changeSum4" type="number">
 					<!-- <label>Change #4 note: </label>
 					<input id="expenses_lump_note4" type="text" value="Some occasion4"> -->
 				</div>
-				<div id="expenses_lump5_wrapper">
+				<div id="expenses_lump5_wrapper" class="expenses_lumps">
 					<label>Change #5</label>
 					<input id="expenses_changeDate5" type="date">
 					<input id="expenses_changeSum5" type="number">
@@ -555,91 +559,65 @@
 			</form>
 
 			<form id="section_14" class="mainSections">
-				<h2>POST-TAX RETIREMENT</h2>
+				<h2>RETIREMENT (Post-Tax)</h2>
 
-				<label>What is the total value of the client’s post-tax (i.e.: Roth) retirement assets? </label>
-				<input id="postTax_sum" type="number" min="0" value="30000">
+				<label for="postTax_sum">What is the total value of the client’s post-tax (i.e. Roth) retirement assets? </label>
+				<input required id="postTax_sum" type="number" min="0">
 
+				<label for="postTax_income_perc">What percentage of the client’s income (if any) from employment and self employment will they be contributing to a post-tax retirement plan?</label>
+				<input required id="postTax_income_perc" type="number" min="0" max="100">
 
-				<label>What percentage of your income (if any) will you be contibuting to a (pre-/post) retirement plan?</label>
-				<input id="postTax_income_perc" type="number" min="0" max="100" value="5">
-				<label>what percentage of your contibutions (if any) will your employer match?</label>
-				<input id="postTax_employMatch_perc" type="number" min="0" max="1000" value="100">
+				<label for="postTax_employMatch_perc">What percentage of contributions (if any) will their employer match? </label>
+				<input required id="postTax_employMatch_perc" type="number" min="0" max="1000">
 
+				<label for="postTax_beforeRetirement_perc">What is the average expected increase per year in value prior to retirement?</label>
+				<input required id="postTax_beforeRetirement_perc" type="number" min="0" max="100">
 
-				<label>What is the average expected increase per year in value prior to retirement?</label>
-				<input id="postTax_beforeRetirement_perc" type="number" min="0" max="100" value="5">
-				<label>What is the average expected increase per year in value after retirement? </label>
-							<div class="next_back_wrapper">
+				<label for="postTax_afterRetirement_perc">What is the average expected increase per year in value after retirement? </label>
+				<input required id="postTax_afterRetirement_perc" type="number" min="0" max="100">
+
+				<div class="next_back_wrapper">
 					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
 					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
-				</div>	<input id="postTax_afterRetirement_perc" type="number" min="0" max="100" value="10">				
+				</div>					
 			</form>
 
 			<form id="section_15" class="mainSections">
-				<h2>PRE-TAX RETIREMENT</h2>
+				<h2>RETIREMENT (Pre-Tax)</h2>
 
-				<label>What is the total value of the client’s pre-tax (i.e. 401(k), Traditional IRA, etc.) retirement assets? </label>
-				<input id="preTax_sum" type="number" min="0" value="50000">
+				<label for="preTax_sum">What is the total value of the client’s pre-tax (i.e. 401k) retirement assets? </label>
+				<input required id="preTax_sum" type="number" min="0">
 
-				<label>What percentage of your income (if any) will you be contibuting to a (pre-/post) retirement plan?</label>
-				<input id="preTax_income_perc" type="number" min="0" max="100" value="5">
-				<label>what percentage of your contibutions (if any) will your employer match?</label>
-				<input id="preTax_employMatch_perc" type="number" min="0" max="1000" value="20">
+				<label for="preTax_income_perc">What percentage of the client’s income (if any) from employment and self employment will they be contributing to a pre-tax retirement plan?</label>
+				<input required id="preTax_income_perc" type="number" min="0" max="100">
 
-				<label>What is the average expected increase per year in value prior to retirement? </label>
-				<input id="preTax_beforeRetirement_perc" type="number" min="0" max="100" value="5">
-				<label>What is the average expected increase per year in value after retirement? </label>
-				<input id="preTax_afterRetirement_perc" type="number" min="0" max="100" value="10">	
-				<label>What % of withdrawals should we assume will go to income tax (usually estimated effective tax rate at retirement)? </label>
-							<div class="next_back_wrapper">
+				<label for="preTax_employMatch_perc">What percentage of contributions (if any) will their employer match? </label>
+				<input required id="preTax_employMatch_perc" type="number" min="0" max="1000">
+
+				<label for="preTax_beforeRetirement_perc">What is the average expected increase per year in value prior to retirement? </label>
+				<input required id="preTax_beforeRetirement_perc" type="number" min="0" max="100">
+
+				<label for="preTax_afterRetirement_perc">What is the average expected increase per year in value after retirement? </label>
+				<input required id="preTax_afterRetirement_perc" type="number" min="0" max="100">	
+
+				<div class="next_back_wrapper">
 					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
 					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
-				</div>	<input id="preTax_withdrawal_perc" type="number" min="0" max="100" value="3">				
+				</div>					
 			</form>
 
 			<form id="section_16" class="mainSections">
-							<div class="next_back_wrapper">
+
+				<button id="showHideTable"> Show/Hide Table</button>	
+
+				<div class="next_back_wrapper">
 					<div class="back_wrapper"><button class="back_button"> BACK </button></div>
 					<div class="next_wrapper"><button class="next_button"> NEXT </button></div>
-				</div>	<button id="showHideTable"> Show/Hide Table</button>				
+				</div>				
 			</form>
-
-
-
-
-
-			<!-- <div id="next_back_wrapper">
-				<div id="back_wrapper"><button id="back_button"> BACK </button></div>
-				<div id="next_wrapper"><button id="next_button"> NEXT </button></div>
-			</div> -->
-
-
-
-
-
-
-
-
-
 			<div class="clear"></div>
-
 		</div>
-
-		
-
-
-
-
-
-
-
 	</div>
-    
-
-
-
-
 <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

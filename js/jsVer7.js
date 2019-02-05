@@ -1012,26 +1012,36 @@ function readAllUserInputs() {
 function showAndHideLumpSums(numOfLumpSums, wrapperLabel) {
   switch ( numOfLumpSums ) {
     case '0':
-        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none")
+            .find('input').removeAttr("required");        
         break;
     case '1':
-        $(`#${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
-        $(`#${wrapperLabel}_lump1_wrapper`).css("display", "block");
+        $(`#${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none")
+            .find('input').removeAttr("required");
+        $(`#${wrapperLabel}_lump1_wrapper`).css("display", "block")
+            .find('input').attr('required', 'required');
         break;
     case '2':
-        $(`#${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
-        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper`).css("display", "block");
+        $(`#${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none")
+            .find('input').removeAttr("required");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper`).css("display", "block")
+            .find('input').attr('required', 'required');
         break;
     case '3':
-        $(`#${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none");
-        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper`).css("display", "block");
+        $(`#${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "none")
+            .find('input').removeAttr("required");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper`).css("display", "block")
+            .find('input').attr('required', 'required');
         break;
     case '4':
-        $(`#${wrapperLabel}_lump5_wrapper`).css("display", "none");
-        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper`).css("display", "block");
+        $(`#${wrapperLabel}_lump5_wrapper`).css("display", "none")
+            .find('input').removeAttr("required");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper`).css("display", "block")
+            .find('input').attr('required', 'required');
         break;
     case '5':
-        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "block");
+        $(`#${wrapperLabel}_lump1_wrapper, #${wrapperLabel}_lump2_wrapper, #${wrapperLabel}_lump3_wrapper, #${wrapperLabel}_lump4_wrapper, #${wrapperLabel}_lump5_wrapper`).css("display", "block")
+            .find('input').attr('required', 'required');
         break;        
   }
 }
@@ -1124,6 +1134,18 @@ $('#pension1_yesNo').on("change", function(){
   }
 })
 
+//Show hide Lump Sum wrappers for Projected Expenses
+$('#expenses_timesChange').on("change", function(){
+  let wrapperLabel = `expenses`;
+  let numOfLumps = $(this).val();
+  showAndHideLumpSums( numOfLumps , wrapperLabel);
+})
+
+
+
+
+
+
 
 
 //Temp Table Results
@@ -1173,7 +1195,15 @@ $(document).scroll(function(){
 //### NEXT AND BACK###
 //####################
 
-let currentSection = 9;
+function pickTypesOfIncome() {
+
+}
+
+function pickTypesOfAssets() {
+
+}
+
+let currentSection = 1;
 const numberOfSections = 16;
 let buttonClicked = 'nextButton';
 
@@ -1183,39 +1213,41 @@ $('.next_button').on("click", function(){
 //back button
 $('.back_button').on("click", function(){
   buttonClicked = 'backButton';
+  $('.mainSections').css("display", "none");
+  if(currentSection == numberOfSections) {
+    $('.next_button').css("display", "block");
+  }
+  if(currentSection == 2) {
+    $('.back_button').css("display", "none");
+  }
+  if(currentSection > 1) {
+    $(`#section_${currentSection-1}`).css("display", "block");
+    currentSection--;
+  }   
 })
 
 $( "form" ).submit(function( event ) {
   event.preventDefault();
   if(buttonClicked == 'nextButton') {
+    //Section 3 - Pick Types of Income
+    if (currentSection == 3) {
+      pickTypesOfIncome();
+    }
+    //Section 3 - Pick Types of Assets
+    if (currentSection == 4) {
+      pickTypesOfAssets();
+    }
     $('.mainSections').css("display", "none");
     if(currentSection == 1) {
-      $('#back_button').css("display", "block");
+      $('.back_button').css("display", "block");
     }
     if(currentSection == numberOfSections-1) {
-      $('#next_button').css("display", "none");
+      $('.next_button').css("display", "none");
     }
     if(currentSection < numberOfSections) {
       $(`#section_${currentSection+1}`).css("display", "block");
       currentSection++;
-    }else{
-      
-    }    
-  }
-  if(buttonClicked == 'backButton') {
-    $('.mainSections').css("display", "none");
-    if(currentSection == numberOfSections) {
-      $('#next_button').css("display", "block");
-    }
-    if(currentSection == 2) {
-      $('#back_button').css("display", "none");
-    }
-    if(currentSection > 1) {
-      $(`#section_${currentSection-1}`).css("display", "block");
-      currentSection--;
-    }else{
-      
-    }    
+    }   
   }
 });
 
