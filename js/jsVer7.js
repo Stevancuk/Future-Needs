@@ -1194,16 +1194,121 @@ $(document).scroll(function(){
 //####################
 //### NEXT AND BACK###
 //####################
-
+let expectedTypesIncome = {};
 function pickTypesOfIncome() {
-
+  //Read all checkbox values
+  $.each( $('#section_3 input'), function(index, value) {
+    console.log( value.id );
+    if( $(value).is(':checked') ) {
+      expectedTypesIncome[ value.id ] = true;
+    }else{
+      expectedTypesIncome[ value.id ] = false;
+    }
+  });
+  console.log(expectedTypesIncome);
+  //Skip unchecked sections and assign values in those sections to 0
+  if(!expectedTypesIncome.incomeFrom_employment){
+    skipSection["5"] = true;
+    $('#income, #income_increase, #income_lump_number').val(0);
+  }else{
+    skipSection["5"] = false;
+  }
+  if(!expectedTypesIncome.incomeFrom_employment){
+    skipSection["6"] = true;
+    $('#selfEmployIncome, #selfEmployIncome_increase, #selfEmployIncome_lump_number').val(0);
+  }else{
+    skipSection["6"] = false;
+  }
+  if(!expectedTypesIncome.incomeFrom_spousalMaintenance){
+    skipSection["7"] = true;
+    $('#alimony, #alimony_timesChange').val(0);
+  }else{
+    skipSection["7"] = false;
+  }
+  if(!expectedTypesIncome.incomeFrom_childSupport){
+    skipSection["8"] = true;
+    $('#childSupp_value, #childSupp_timesChange').val(0);
+  }else{
+    skipSection["8"] = false;
+  }
+  if(!expectedTypesIncome.incomeFrom_socialSec){
+    skipSection["11"] = true;
+    $('#socialSecurity_sum, #socialSecurity_costOfLivingIncrease_perc').val(0);
+    $('#socialSecurity_increasePerc_yesNo').val('No');
+  }else{
+    skipSection["11"] = false;
+  }
 }
 
+
+
+let typesOfAssets = {};
 function pickTypesOfAssets() {
-
+  //Read all checkbox values
+  $.each( $('#section_4 input'), function(index, value) {
+    console.log( value.id );
+    if( $(value).is(':checked') ) {
+      typesOfAssets[ value.id ] = true;
+    }else{
+      typesOfAssets[ value.id ] = false;
+    }
+  });
+  console.log(typesOfAssets);
+  if ( (!typesOfAssets.typesAsset_bankAccounts) && (!typesOfAssets.typesAsset_brokerageAcc) && (!typesOfAssets.typesAsset_nonRetire) ){
+    skipSection["9"] = true;
+    $('#nonRetireFinanAssets_sum, #nonRetireFinanAssets_perc, #netIncome_sum').val(0);
+    $('#nonRetire_netIncome_yesNo').val('Yes');
+  }else{
+    skipSection["9"] = false;
+  }
+  if ( (!expectedTypesIncome.incomeFrom_nonFinanAssets) && (!typesOfAssets.typesAsset_realEstate) && (!typesOfAssets.typesAsset_mineralInterests) && (!typesOfAssets.typesAsset_significant) && (!typesOfAssets.typesAsset_anyOther) ){
+    skipSection["10"] = true;
+    $('#nonFinanAssets_sum, #nonFinanAssets_perc, #nonFinanIncome_sum').val(0);
+  }else{
+    skipSection["10"] = false;
+  }
+  if (!typesOfAssets.typesAsset_retirement){
+    skipSection["12"] = true;
+    $('#pension1_sum, #pension1_CostOfLivingIncrease').val(0);
+    $('#pension1_yesNo').val('No');
+  }else{
+    skipSection["12"] = false;
+  }
+  if (!typesOfAssets.typesAsset_postTax){
+    skipSection["14"] = true;
+    $('#postTax_sum, #postTax_income_perc, #postTax_employMatch_perc, #postTax_beforeRetirement_perc, #postTax_afterRetirement_perc').val(0);
+  }else{
+    skipSection["14"] = false;
+  }
+  if (!typesOfAssets.typesAsset_preTax){
+    skipSection["15"] = true;
+    $('#preTax_sum, #preTax_income_perc, #preTax_employMatch_perc, #preTax_beforeRetirement_perc, #preTax_afterRetirement_perc').val(0);
+  }else{
+    skipSection["15"] = false;
+  }
 }
 
-let currentSection = 1;
+let skipSection = {
+  "1": false,
+  "2": false,
+  "3": false,
+  "4": false,
+  "5": false,
+  "6": false,
+  "7": false,
+  "8": false,
+  "9": false,
+  "10": false,
+  "11": false,
+  "12": false,
+  "13": false,
+  "14": false,
+  "15": false,
+  "16": false
+}
+
+
+let currentSection = 3;
 const numberOfSections = 16;
 let buttonClicked = 'nextButton';
 
@@ -1245,6 +1350,21 @@ $( "form" ).submit(function( event ) {
       $('.next_button').css("display", "none");
     }
     if(currentSection < numberOfSections) {
+      //Check what next section should be shown
+      let skipHowManySections = 0;
+      let i = 1;
+      while (skipSection[currentSection+i]) {
+        console.log('skiped: ', currentSection+i);
+        i++;
+      }
+
+      //###################################################################
+      //### CONTINUE HERE, MAKE LOGIC FOR WHICH SECTION TO JUMP TO NEXT ###
+      //###################################################################
+
+
+
+
       $(`#section_${currentSection+1}`).css("display", "block");
       currentSection++;
     }   
