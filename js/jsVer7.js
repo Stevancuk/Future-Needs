@@ -714,10 +714,10 @@ function calcSurplusShortfall() {
               tempTrackPostTaxUsed *= 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12;
             }
             allResults[currentYear][i]['postTaxSum'] -= tempTrackPostTaxUsed;
-            //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
-            if(i == 11) {
-              currentPostTaxSum = allResults[currentYear][i]['postTaxSum'];
-            }
+          }
+          //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
+          if(index2 == 11) {
+            currentPostTaxSum = allResults[currentYear][index2]['postTaxSum'];
           }
         }
 
@@ -747,10 +747,10 @@ function calcSurplusShortfall() {
               tempTrackPreTaxUsed *= 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12;
             }
             allResults[currentYear][i]['preTaxSum'] -= tempTrackPreTaxUsed;
-            //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
-            if(i == 11) {
-              currentPreTaxSum = allResults[currentYear][i]['preTaxSum'];
-            }
+          }
+          //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
+          if(index2 == 11) {
+            currentPreTaxSum = allResults[currentYear][index2]['preTaxSum'];
           }
         }
       }
