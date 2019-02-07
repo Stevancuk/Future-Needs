@@ -714,6 +714,10 @@ function calcSurplusShortfall() {
               tempTrackPostTaxUsed *= 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12;
             }
             allResults[currentYear][i]['postTaxSum'] -= tempTrackPostTaxUsed;
+            //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
+            if(i == 11) {
+              currentPostTaxSum = allResults[currentYear][i]['postTaxSum'];
+            }
           }
         }
 
@@ -743,6 +747,10 @@ function calcSurplusShortfall() {
               tempTrackPreTaxUsed *= 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12;
             }
             allResults[currentYear][i]['preTaxSum'] -= tempTrackPreTaxUsed;
+            //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
+            if(i == 11) {
+              currentPreTaxSum = allResults[currentYear][i]['preTaxSum'];
+            }
           }
         }
       }
@@ -1213,7 +1221,7 @@ function pickTypesOfIncome() {
   }else{
     skipSection["5"] = false;
   }
-  if(!expectedTypesIncome.incomeFrom_employment){
+  if(!expectedTypesIncome.incomeFrom_selfEmployment){
     skipSection["6"] = true;
     $('#selfEmployIncome, #selfEmployIncome_increase, #selfEmployIncome_lump_number').val(0);
   }else{
@@ -1308,7 +1316,7 @@ let skipSection = {
 }
 
 
-let currentSection = 3;
+let currentSection = 1;
 const numberOfSections = 16;
 let buttonClicked = 'nextButton';
 
@@ -1349,25 +1357,25 @@ $( "form" ).submit(function( event ) {
     if(currentSection == numberOfSections-1) {
       $('.next_button').css("display", "none");
     }
+    let skipHowManySections = 0;
     if(currentSection < numberOfSections) {
       //Check what next section should be shown
-      let skipHowManySections = 0;
       let i = 1;
       while (skipSection[currentSection+i]) {
         console.log('skiped: ', currentSection+i);
         i++;
+        skipHowManySections++;
       }
 
-      //###################################################################
-      //### CONTINUE HERE, MAKE LOGIC FOR WHICH SECTION TO JUMP TO NEXT ###
-      //###################################################################
 
 
-
-
-      $(`#section_${currentSection+1}`).css("display", "block");
-      currentSection++;
+      $(`#section_${currentSection + 1 + skipHowManySections}`).css("display", "block");
+      currentSection = currentSection + 1 + skipHowManySections;
     }   
+    if(currentSection == numberOfSections) {
+      readAllUserInputs();
+      calculateMain();      
+    }
   }
 });
 
