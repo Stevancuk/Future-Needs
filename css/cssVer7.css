@@ -24,32 +24,17 @@ input:not([type='checkbox']), select {
 	background-color: #e3e3e3;
 	padding: 10px;
 }
-#main_wrapper {
-	width: 90%;
-	max-width: 1800px;
-	margin: 0 auto;
-	padding: 20px;
-	background-color: white;
-}
 .max800 {
 	width: 90%;
 	max-width: 800px;
 	margin: 0 auto;
 	padding: 20px;
 }
-#section_16 {
-	width: 90%;
-	max-width: 1600px;
-	margin: 0 auto;
-}
 .mainSections {
 	display: none;
 	border: 1px solid black;
 	padding: 10px;
 	margin-bottom: 20px;
-}
-#section_1 {
-	display: block;
 }
 .next_back_wrapper {
 	display: flex;
@@ -58,22 +43,40 @@ input:not([type='checkbox']), select {
 .back_button {
 	display: none;
 }
-
-/* Income From Employment */
 .income_lumps, .selfIncome_lumps, .alimony_lumps, .childSupp_lumps, #nonRetireDifferentPercWrapper, #nonfinanDifferentPercWrapper, .expenses_lumps {
 	display: none;
 }
 
 
+#main_wrapper {
+	width: 90%;
+	max-width: 1800px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: white;
+}
+#section_1 {
+	display: block;
+}
 
-/*Temp results*/
+/*LAST SECTION*/
+#section_16 {
+	width: 90%;
+	max-width: 1600px;
+	margin: 0 auto;
+}
+#showHideTable, #showHideChart {
+	margin-bottom: 20px;
+}
 
+/*CHART*/
 #chartdiv {
   width: 1200px;
   height: 500px;
   margin: 20px;
 }
 
+/*TABLE*/
 #absTable {
 	display: none;
 	position: absolute;

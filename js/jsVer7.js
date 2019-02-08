@@ -790,7 +790,7 @@ function provideDate() {
         // "assets" : `${(value2.nonFinanAssetsValue + value2.nonRetireAssetsValue + value2.postTaxSum + value2.preTaxSum).toFixed(0)}`,
         // "income" : `${(value2.thisMonthPlusSide).toFixed(0)}`,
         // "expenses" : `${(value2.thisMonthMinusSide).toFixed(0)}`
-        "assets" : Math.round(value2.nonFinanAssetsValue + value2.nonRetireAssetsValue + value2.postTaxSum + value2.preTaxSum),
+        "assets" : Math.round(value2.nonFinanAssetsValue + value2.nonRetireAssetsValue + value2.postTaxSum + value2.preTaxSum + value2.thisYearTempSurpluses),
         "income" : Math.round(value2.thisMonthPlusSide),
         "expenses" : Math.round(value2.thisMonthMinusSide)
       }
@@ -1081,12 +1081,12 @@ function drawResultsTable() {
     //   $this.html('-');
     // }
     let trimmedVal = parseInt( ($this.html()).trim() );
-    // if(  (trimmedVal == 0) || (trimmedVal == -0) ) {
-    //   $this.html('-');
-    // }
-    if(!trimmedVal){
+    if(  (trimmedVal == 0) || (trimmedVal == -0) ) {
       $this.html('-');
     }
+    // if(!trimmedVal){
+    //   $this.html('-');
+    // }
   });
 }
 
@@ -1348,14 +1348,12 @@ $('#expenses_timesChange').on("change", function(){
   showAndHideLumpSums( numOfLumps , wrapperLabel);
 })
 
+//Show/Hide Chart
+$('#showHideChart').on("click", function(){
+  $('#chartdiv').toggle("display");
+})
 
-
-
-
-
-
-
-//Temp Table Results
+//Show/Hide Table
 $('#showHideTable').on("click", function(){
   $('#absTable').toggle("display");
 })
@@ -1532,9 +1530,17 @@ $('.back_button').on("click", function(){
   if(currentSection == 2) {
     $('.back_button').css("display", "none");
   }
+  let skipHowManySections = 0;
   if(currentSection > 1) {
-    $(`#section_${currentSection-1}`).css("display", "block");
-    currentSection--;
+    //Check what next section should be shown
+    let i = 1;
+    while (skipSection[currentSection-i]) {
+      console.log('skiped: ', currentSection-i);
+      i++;
+      skipHowManySections++;
+    }
+    $(`#section_${currentSection - 1 - skipHowManySections}`).css("display", "block");
+    currentSection = currentSection - 1 - skipHowManySections;
   }   
 })
 
@@ -1565,9 +1571,6 @@ $( "form" ).submit(function( event ) {
         i++;
         skipHowManySections++;
       }
-
-
-
       $(`#section_${currentSection + 1 + skipHowManySections}`).css("display", "block");
       currentSection = currentSection + 1 + skipHowManySections;
     }   
