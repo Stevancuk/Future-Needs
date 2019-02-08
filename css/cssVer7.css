@@ -26,10 +26,21 @@ input:not([type='checkbox']), select {
 }
 #main_wrapper {
 	width: 90%;
-	max-width: 800px;
+	max-width: 1800px;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: white;
+}
+.max800 {
+	width: 90%;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+#section_16 {
+	width: 90%;
+	max-width: 1600px;
+	margin: 0 auto;
 }
 .mainSections {
 	display: none;
@@ -57,7 +68,13 @@ input:not([type='checkbox']), select {
 
 /*Temp results*/
 
-#absResults {
+#chartdiv {
+  width: 1200px;
+  height: 500px;
+  margin: 20px;
+}
+
+#absTable {
 	display: none;
 	position: absolute;
 	top: 100px;

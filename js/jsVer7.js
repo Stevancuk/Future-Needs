@@ -496,6 +496,8 @@ let currentPostTaxSum;
 function calcPostTax() {
 
   //for first year and first month take the user input for Value of clients Post-tax
+  console.log(currentYear, currentMonth);
+  console.log('pre CalcPost je: ', currentPostTaxSum);
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['postTaxSum'] = userInputs['postTax_sum'];
   }else{
@@ -519,6 +521,7 @@ function calcPostTax() {
     allResults[currentYear][currentMonth]['postTaxMonthly'] = 0;
   }
   currentPostTaxSum = allResults[currentYear][currentMonth]['postTaxSum'];
+  console.log('posle CalcPost je: ', currentPostTaxSum);
 }
 
 
@@ -714,11 +717,7 @@ function calcSurplusShortfall() {
               tempTrackPostTaxUsed *= 1 + userInputs['postTax_afterRetirement_perc'] / 100 / 12;
             }
             allResults[currentYear][i]['postTaxSum'] -= tempTrackPostTaxUsed;
-          }
-          //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
-          if(index2 == 11) {
-            currentPostTaxSum = allResults[currentYear][index2]['postTaxSum'];
-          }
+          }          
         }
 
         //Try to take rest fonds out of pre-tax
@@ -747,11 +746,7 @@ function calcSurplusShortfall() {
               tempTrackPreTaxUsed *= 1 + userInputs['preTax_afterRetirement_perc'] / 100 / 12;
             }
             allResults[currentYear][i]['preTaxSum'] -= tempTrackPreTaxUsed;
-          }
-          //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
-          if(index2 == 11) {
-            currentPreTaxSum = allResults[currentYear][index2]['preTaxSum'];
-          }
+          }          
         }
       }
 
@@ -769,12 +764,206 @@ function calcSurplusShortfall() {
       //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
     }
     value2['thisYearTempSurpluses'] = currentSurpluses;
-
+    //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
+    if(index2 == 11) {
+      currentPostTaxSum = allResults[currentYear][index2]['postTaxSum'];
+    }
+    //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
+    if(index2 == 11) {
+      currentPreTaxSum = allResults[currentYear][index2]['preTaxSum'];
+    }
   })
   //at the end of the last month add currentSurpluses to Non-retirement financial assets
   // currentNonRetireAssetsValue += currentSurpluses;    NOT GOOD
   currentNonRetireAssetsValue = allResults[currentYear][currentMonth]['nonRetireAssetsValue'] + currentSurpluses;  //this looks better
-  // console.log(allResults);
+  console.log(allResults);
+}
+
+function provideDate() {
+  let data = [];
+  $.each(allResults, function(index, value) {
+    // console.log(value);
+    $.each(value, function(index2, value2) {
+      // console.log(value2);
+      let element = {
+        "date" : `${index}-${index2}`,
+        // "assets" : `${(value2.nonFinanAssetsValue + value2.nonRetireAssetsValue + value2.postTaxSum + value2.preTaxSum).toFixed(0)}`,
+        // "income" : `${(value2.thisMonthPlusSide).toFixed(0)}`,
+        // "expenses" : `${(value2.thisMonthMinusSide).toFixed(0)}`
+        "assets" : Math.round(value2.nonFinanAssetsValue + value2.nonRetireAssetsValue + value2.postTaxSum + value2.preTaxSum),
+        "income" : Math.round(value2.thisMonthPlusSide),
+        "expenses" : Math.round(value2.thisMonthMinusSide)
+      }
+      data.push(element);
+    })
+  })
+  console.log(data);
+  return data;
+}
+
+function zoomChart(){
+    chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
+}
+
+var chart;
+function drawGraph() {
+
+  chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "marginTop":0,
+    "marginRight": 80,
+    "dataProvider": provideDate(),
+    // "dataProvider": [{
+    //     "year": "1950-1",
+    //     "value": -0.307,
+    //     "value2": -0.5,
+    // }, {
+    //     "year": "1950-2",
+    //     "value": -0.168,
+    //     "value2": -0.2,
+    // }, {
+    //     "year": "1950-3",
+    //     "value": -0.073,
+    //     "value2": -0.2,
+    // },{
+    //     "year": "1950-4",
+    //     "value": -0.307,
+    //     "value2": -0.5,
+    // }, {
+    //     "year": "1950-5",
+    //     "value": -0.168,
+    //     "value2": -0.2,
+    // }, {
+    //     "year": "1950-6",
+    //     "value": -0.073,
+    //     "value2": -0.2,
+    // },{
+    //     "year": "1950-7",
+    //     "value": -0.307,
+    //     "value2": -0.5,
+    // }, {
+    //     "year": "1950-8",
+    //     "value": -0.168,
+    //     "value2": -0.2,
+    // }, {
+    //     "year": "1950-9",
+    //     "value": -0.073,
+    //     "value2": -0.2,
+    // },{
+    //     "year": "1950-10",
+    //     "value": -0.307,
+    //     "value2": -0.5,
+    // }, {
+    //     "year": "1950-11",
+    //     "value": -0.168,
+    //     "value2": -0.2,
+    // }, {
+    //     "year": "1950-12",
+    //     "value": -0.073,
+    //     "value2": -0.2,
+    // },{
+    //     "year": "1951-1",
+    //     "value": -0.307,
+    //     "value2": -0.5,
+    // }, {
+    //     "year": "1951-2",
+    //     "value": -0.168,
+    //     "value2": -0.2,
+    // }, {
+    //     "year": "1951-3",
+    //     "value": -0.073,
+    //     "value2": -0.2,
+    // }],
+    "valueAxes": [{
+        "axisAlpha": 0,
+        "position": "left"
+    },],
+    "graphs": [{
+        "id":"g1",
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+        // "bullet": "round",
+        // "bulletSize": 8,         
+        "lineColor": "#6699ff",
+        "lineThickness": 2,
+        "negativeLineColor": "#6699ff",
+        "type": "smoothedLine",
+        "valueField": "assets"
+    },{
+        "id":"g2",
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+        // "bullet": "round",
+        // "bulletSize": 8,         
+        "lineColor": "#7fffd4",
+        "lineThickness": 2,
+        "negativeLineColor": "#7fffd4",
+        "type": "smoothedLine",
+        "valueField": "income"
+    },{
+        "id":"g3",
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+        // "bullet": "round",
+        // "bulletSize": 8,         
+        "lineColor": "#ff0000",
+        "lineThickness": 2,
+        "negativeLineColor": "#ff0000",
+        "type": "smoothedLine",
+        "valueField": "expenses"
+    }],    
+    "chartScrollbar": {
+        "graph":"g1",
+        "gridAlpha":0,
+        "color":"#888888",
+        "scrollbarHeight":55,
+        "backgroundAlpha":0,
+        "selectedBackgroundAlpha":0.1,
+        "selectedBackgroundColor":"#888888",
+        "graphFillAlpha":0,
+        "autoGridCount":true,
+        "selectedGraphFillAlpha":0,
+        "graphLineAlpha":0.2,
+        "graphLineColor":"#c2c2c2",
+        "selectedGraphLineColor":"#888888",
+        "selectedGraphLineAlpha":1
+
+    },
+    "chartCursor": {
+        "categoryBalloonDateFormat": "YYYY-MM",
+        "cursorAlpha": 0,
+        "valueLineEnabled":true,
+        "valueLineBalloonEnabled":true,
+        "valueLineAlpha":0.5,
+        "fullWidth":true
+    },
+    "dataDateFormat": "YYYY-MM",
+    "categoryField": "date",
+    "categoryAxis": {
+        "minPeriod": "MM",
+        "parseDates": true,
+        "minorGridAlpha": 0.1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    }
+});
+
+chart.addListener("rendered", zoomChart);
+if(chart.zoomChart){
+  chart.zoomChart();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 function drawResultsTable() {
@@ -881,14 +1070,21 @@ function drawResultsTable() {
     })
   htmlForOutput += `</div>`;
 
-  $('#absResults').html(htmlForOutput);
+  $('#absTable').html(htmlForOutput);
 
   $('#resultsWrapper').css('width', ($('#resultsWrapper > div').length + 5) * 106);
 
   $.each( $('.tableElement'), function() {
     var $this = $(this);
-    if(  ($this.html() == '0.00') || ($this.html() == ' 0 ') || ($this.html() == ' 0  ') || ($this.html() == '0') || ($this.html() == ' 0.00 ') ||
-       ($this.html() == '-0.00') || ($this.html() == ' -0 ') || ($this.html() == '-0') || ($this.html() == ' -0.00 ') ) {
+    // if(  ($this.html() == '0.00') || ($this.html() == ' 0 ') || ($this.html() == ' 0  ') || ($this.html() == '0') || ($this.html() == ' 0.00 ') ||
+    //    ($this.html() == '-0.00') || ($this.html() == ' -0 ') || ($this.html() == '-0') || ($this.html() == ' -0.00 ') ) {
+    //   $this.html('-');
+    // }
+    let trimmedVal = parseInt( ($this.html()).trim() );
+    // if(  (trimmedVal == 0) || (trimmedVal == -0) ) {
+    //   $this.html('-');
+    // }
+    if(!trimmedVal){
       $this.html('-');
     }
   });
@@ -941,7 +1137,10 @@ function calculateMain() {
       }
     }
   }
-      drawResultsTable();
+
+  drawGraph();
+  drawResultsTable();
+
   console.log(allResults);
 }
 //#####################################
@@ -1158,7 +1357,7 @@ $('#expenses_timesChange').on("change", function(){
 
 //Temp Table Results
 $('#showHideTable').on("click", function(){
-  $('#absResults').toggle("display");
+  $('#absTable').toggle("display");
 })
 
 // scroll right for first column of table
@@ -1215,12 +1414,12 @@ function pickTypesOfIncome() {
   });
   console.log(expectedTypesIncome);
   //Skip unchecked sections and assign values in those sections to 0
-  if(!expectedTypesIncome.incomeFrom_employment){
-    skipSection["5"] = true;
-    $('#income, #income_increase, #income_lump_number').val(0);
-  }else{
-    skipSection["5"] = false;
-  }
+  // if(!expectedTypesIncome.incomeFrom_employment){
+  //   skipSection["5"] = true;
+  //   $('#income, #income_increase, #income_lump_number').val(0);
+  // }else{
+  //   skipSection["5"] = false;
+  // }
   if(!expectedTypesIncome.incomeFrom_selfEmployment){
     skipSection["6"] = true;
     $('#selfEmployIncome, #selfEmployIncome_increase, #selfEmployIncome_lump_number').val(0);
