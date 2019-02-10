@@ -58,6 +58,9 @@ input:not([type='checkbox']), select {
 #section_1 {
 	display: block;
 }
+#section_13 .itemizedExpense {
+	display: none;
+}
 
 /*LAST SECTION*/
 #section_16 {

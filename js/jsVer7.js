@@ -496,8 +496,8 @@ let currentPostTaxSum;
 function calcPostTax() {
 
   //for first year and first month take the user input for Value of clients Post-tax
-  console.log(currentYear, currentMonth);
-  console.log('pre CalcPost je: ', currentPostTaxSum);
+  // console.log(currentYear, currentMonth);
+  // console.log('pre CalcPost je: ', currentPostTaxSum);
   if (currentYear == userInputs['startingYear'] && currentMonth == userInputs['startingMonth']) {
     allResults[currentYear][currentMonth]['postTaxSum'] = userInputs['postTax_sum'];
   }else{
@@ -521,7 +521,7 @@ function calcPostTax() {
     allResults[currentYear][currentMonth]['postTaxMonthly'] = 0;
   }
   currentPostTaxSum = allResults[currentYear][currentMonth]['postTaxSum'];
-  console.log('posle CalcPost je: ', currentPostTaxSum);
+  // console.log('posle CalcPost je: ', currentPostTaxSum);
 }
 
 
@@ -814,67 +814,9 @@ function drawGraph() {
     "marginTop":0,
     "marginRight": 80,
     "dataProvider": provideDate(),
-    // "dataProvider": [{
-    //     "year": "1950-1",
-    //     "value": -0.307,
-    //     "value2": -0.5,
-    // }, {
-    //     "year": "1950-2",
-    //     "value": -0.168,
-    //     "value2": -0.2,
-    // }, {
-    //     "year": "1950-3",
-    //     "value": -0.073,
-    //     "value2": -0.2,
-    // },{
-    //     "year": "1950-4",
-    //     "value": -0.307,
-    //     "value2": -0.5,
-    // }, {
-    //     "year": "1950-5",
-    //     "value": -0.168,
-    //     "value2": -0.2,
-    // }, {
-    //     "year": "1950-6",
-    //     "value": -0.073,
-    //     "value2": -0.2,
-    // },{
-    //     "year": "1950-7",
-    //     "value": -0.307,
-    //     "value2": -0.5,
-    // }, {
-    //     "year": "1950-8",
-    //     "value": -0.168,
-    //     "value2": -0.2,
-    // }, {
-    //     "year": "1950-9",
-    //     "value": -0.073,
-    //     "value2": -0.2,
-    // },{
-    //     "year": "1950-10",
-    //     "value": -0.307,
-    //     "value2": -0.5,
-    // }, {
-    //     "year": "1950-11",
-    //     "value": -0.168,
-    //     "value2": -0.2,
-    // }, {
-    //     "year": "1950-12",
-    //     "value": -0.073,
-    //     "value2": -0.2,
-    // },{
-    //     "year": "1951-1",
-    //     "value": -0.307,
-    //     "value2": -0.5,
-    // }, {
-    //     "year": "1951-2",
-    //     "value": -0.168,
-    //     "value2": -0.2,
-    // }, {
-    //     "year": "1951-3",
-    //     "value": -0.073,
-    //     "value2": -0.2,
-    // }],
+    "legend": {
+      "useGraphSettings": true
+    },
     "valueAxes": [{
         "axisAlpha": 0,
         "position": "left"
@@ -888,7 +830,8 @@ function drawGraph() {
         "lineThickness": 2,
         "negativeLineColor": "#6699ff",
         "type": "smoothedLine",
-        "valueField": "assets"
+        "valueField": "assets",
+        "title": "Assets"
     },{
         "id":"g2",
         "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
@@ -898,7 +841,8 @@ function drawGraph() {
         "lineThickness": 2,
         "negativeLineColor": "#7fffd4",
         "type": "smoothedLine",
-        "valueField": "income"
+        "valueField": "income",
+        "title": "Income"
     },{
         "id":"g3",
         "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
@@ -908,7 +852,8 @@ function drawGraph() {
         "lineThickness": 2,
         "negativeLineColor": "#ff0000",
         "type": "smoothedLine",
-        "valueField": "expenses"
+        "valueField": "expenses",
+        "title": "Expenses"
     }],    
     "chartScrollbar": {
         "graph":"g1",
@@ -1173,12 +1118,17 @@ function addAllYearsAndMonthsForLumpSums() {
 let startingDate;
 function readAllUserInputs() {
   //read all inputs
-  $.each($('input[type="number"]'), function(index, value){
+  $.each($('input[type="number"]:not([class="itemizedExpense"])'), function(index, value){
     userInputs[ $(this)[0]['id'] ] = parseFloat( $(this).val() );
   })  
   $.each($('input:not([type="number"]), select'), function(index, value){
     userInputs[ $(this)[0]['id'] ] = $(this).val();
   })   
+
+  //Itemized Expenses
+  // if( $(#pickItemizedExpenses).is(':checked') ) {
+  //   calcItemizedExpenses();
+  // }    
 
   //Current Date
   userInputs['startingDate'] = new Date();
@@ -1559,9 +1509,6 @@ $( "form" ).submit(function( event ) {
     if(currentSection == 1) {
       $('.back_button').css("display", "block");
     }
-    if(currentSection == numberOfSections-1) {
-      $('.next_button').css("display", "none");
-    }
     let skipHowManySections = 0;
     if(currentSection < numberOfSections) {
       //Check what next section should be shown
@@ -1574,12 +1521,44 @@ $( "form" ).submit(function( event ) {
       $(`#section_${currentSection + 1 + skipHowManySections}`).css("display", "block");
       currentSection = currentSection + 1 + skipHowManySections;
     }   
+    // if(currentSection == numberOfSections-1) {
+    // }
     if(currentSection == numberOfSections) {
+      $('.next_button').css("display", "none");
       readAllUserInputs();
       calculateMain();      
     }
   }
 });
+
+//Checkbox for Itemized Expenses
+$('#pickItemizedExpenses').on("change", function(){
+  if($(this).is(':checked')) {
+    $('.itemizedExpense').css("display", "block");
+    $('#expenses_sum, #for_expenses_sum').css("display", "none");
+  }else{
+    $('.itemizedExpense').css("display", "none");
+    $('#expenses_sum, #for_expenses_sum').css("display", "block");
+  }
+})
+
+let allItemizedExpenses = {};
+$('input.itemizedExpense').on("change", function(){
+  allItemizedExpenses[ $(this)[0].id ] = parseInt( $(`#${$(this)[0].id}`).val() ) || 0;
+  console.log( allItemizedExpenses );
+  let sum = 0;
+  $.each(allItemizedExpenses, function(index, value) {
+    sum += value;
+  })
+  $('#expensesItemized_total').text(`$${sum}`);
+  $('#expenses_sum').val(sum);
+})
+
+// function calcItemizedExpenses() {
+//   $.each( $('input.itemizedExpense'), function(index, value) {
+//     allItemizedExpenses
+//   })
+// }
 
 $('input:not([type="checkbox"]), select').on("change", function(){
   // readAllUserInputs();
@@ -1587,8 +1566,10 @@ $('input:not([type="checkbox"]), select').on("change", function(){
 })
 
 $(function(){
-  // readAllUserInputs();
-  // calculateMain();
+  //Restrict future dates in HTML 5 date input
+  var now = new Date(),
+  maxDate = now.toISOString().substring(0,10);
+  $('#birth').prop('max', maxDate);
 
   // Warning Duplicate IDs
   $('[id]').each(function(){
