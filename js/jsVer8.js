@@ -761,7 +761,7 @@ function calcSurplusShortfall() {
       }
 
       //I GUESS WE CAN STOP HERE AND LET THESE FONDS GO TO NEGATIVE IF NEEDED (THAT WOULD REPRESENT SOME KIND OF LOANS...)
-      //NEGATIVE VALUE WILL EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
+      //NEGATIVE VALUE COULD EVEN BE INCREASED BY THE SAME PERC USER ENTERED.
     }
     value2['thisYearTempSurpluses'] = currentSurpluses;
     //make varible ..... equal to new value of december Post tax gross value to prepare it for next year
@@ -891,24 +891,11 @@ function drawGraph() {
     "export": {
         "enabled": true
     }
-});
-
-chart.addListener("rendered", zoomChart);
-if(chart.zoomChart){
-  chart.zoomChart();
-}
-
-
-
-
-
-
-
-
-
-
-
-
+  });
+  chart.addListener("rendered", zoomChart);
+  if(chart.zoomChart){
+    chart.zoomChart();
+  }
 }
 
 function drawResultsTable() {
@@ -1021,17 +1008,10 @@ function drawResultsTable() {
 
   $.each( $('.tableElement'), function() {
     var $this = $(this);
-    // if(  ($this.html() == '0.00') || ($this.html() == ' 0 ') || ($this.html() == ' 0  ') || ($this.html() == '0') || ($this.html() == ' 0.00 ') ||
-    //    ($this.html() == '-0.00') || ($this.html() == ' -0 ') || ($this.html() == '-0') || ($this.html() == ' -0.00 ') ) {
-    //   $this.html('-');
-    // }
     let trimmedVal = parseInt( ($this.html()).trim() );
     if(  (trimmedVal == 0) || (trimmedVal == -0) ) {
       $this.html('-');
     }
-    // if(!trimmedVal){
-    //   $this.html('-');
-    // }
   });
 }
 
@@ -1123,12 +1103,7 @@ function readAllUserInputs() {
   })  
   $.each($('input:not([type="number"]), select'), function(index, value){
     userInputs[ $(this)[0]['id'] ] = $(this).val();
-  })   
-
-  //Itemized Expenses
-  // if( $(#pickItemizedExpenses).is(':checked') ) {
-  //   calcItemizedExpenses();
-  // }    
+  })     
 
   //Current Date
   userInputs['startingDate'] = new Date();
@@ -1361,13 +1336,6 @@ function pickTypesOfIncome() {
     }
   });
   console.log(expectedTypesIncome);
-  //Skip unchecked sections and assign values in those sections to 0
-  // if(!expectedTypesIncome.incomeFrom_employment){
-  //   skipSection["5"] = true;
-  //   $('#income, #income_increase, #income_lump_number').val(0);
-  // }else{
-  //   skipSection["5"] = false;
-  // }
   if(!expectedTypesIncome.incomeFrom_selfEmployment){
     skipSection["6"] = true;
     $('#selfEmployIncome, #selfEmployIncome_increase, #selfEmployIncome_lump_number').val(0);
@@ -1394,8 +1362,6 @@ function pickTypesOfIncome() {
     skipSection["11"] = false;
   }
 }
-
-
 
 let typesOfAssets = {};
 function pickTypesOfAssets() {
@@ -1554,16 +1520,10 @@ $('input.itemizedExpense').on("change", function(){
   $('#expenses_sum').val(sum);
 })
 
-// function calcItemizedExpenses() {
-//   $.each( $('input.itemizedExpense'), function(index, value) {
-//     allItemizedExpenses
-//   })
-// }
-
-$('input:not([type="checkbox"]), select').on("change", function(){
-  // readAllUserInputs();
-  // calculateMain();
-})
+// $('input:not([type="checkbox"]), select').on("change", function(){
+//   // readAllUserInputs();
+//   // calculateMain();
+// })
 
 $(function(){
   //Restrict future dates in HTML 5 date input
@@ -1571,17 +1531,16 @@ $(function(){
   maxDate = now.toISOString().substring(0,10);
   $('#birth').prop('max', maxDate);
 
-  // Warning Duplicate IDs
-  $('[id]').each(function(){
-    var ids = $('[id="'+this.id+'"]');
-    if(ids.length>1 && ids[0]==this)
-      console.warn('Multiple IDs #'+this.id);
-  });
+  // // Warning Duplicate IDs
+  // $('[id]').each(function(){
+  //   var ids = $('[id="'+this.id+'"]');
+  //   if(ids.length>1 && ids[0]==this)
+  //     console.warn('Multiple IDs #'+this.id);
+  // });
 
-  $('[name]').each(function(){
-    var names = $('[name="'+this.name+'"]');
-    if(names.length>1 && names[0]==this)
-      console.warn('Multiple names #'+this.name);
-  });
-
+  // $('[name]').each(function(){
+  //   var names = $('[name="'+this.name+'"]');
+  //   if(names.length>1 && names[0]==this)
+  //     console.warn('Multiple names #'+this.name);
+  // });
 })
